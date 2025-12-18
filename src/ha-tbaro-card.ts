@@ -450,7 +450,7 @@ render() {
       @keydown=${this._onKeyDown}
     >
     
-      <div style="overflow:hidden;height:${clipHeight};"></div>
+     
 
       ${svg`<svg viewBox="0 0 300 ${viewHeight}" style="max-width:${size}px;height:auto">
    
