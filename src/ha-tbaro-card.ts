@@ -35,11 +35,13 @@ interface Segment {
 
 interface BaroCardConfig {
   entity: string;
+  title?: string;
   language?: string;
   unit?: 'hpa' | 'mm' | 'in';
   needle_color?: string;
   tick_color?: string;
   show_icon?: boolean;
+  show_pressure?: boolean;
   stroke_width?: number;
   size?: number;
   angle?: 180 | 270;
@@ -88,6 +90,7 @@ export class HaTbaroCard extends LitElement {
       needle_color:   'var(--primary-color)',        // aiguille
       tick_color:     'var(--primary-text-color)',   // graduations & point
       show_icon: true,
+      show_pressure: true,
       stroke_width: 20,
       border: 'outer',   // valeur par défaut
       size: 300,
@@ -384,6 +387,19 @@ render() {
   //  <image href="${this.getIconDataUrl(weather.icon)}" x="${iconX}" y="${iconY}" width="50" height="50" />
   const svgIcon = svg`<image href="${this.getIconDataUrl(weather.icon)}" x="${iconX}" y="${iconY}" width="50" height="50" />`;
 
+  const svgText = svg`<text x="${cx}" y="${labelY}" font-size="14" class="label">
+            ${label}
+        </text>
+        <text x="${cx}" y="${pressureY}" font-size="22" font-weight="bold" class="label">
+            ${this.config.unit === 'mm'
+                ? pressure.toFixed(1) + ' mm'
+                : this.config.unit === 'in'
+                  ? pressure.toFixed(2) + ' inHg'
+                  : pressure.toFixed(1) + ' hPa'
+            }
+        </text>
+  `;
+
   // 1) Bloc icône stocké dans une variable
   const iconNode = html`
   <ha-icon
@@ -417,17 +433,8 @@ render() {
         ${labels}
         ${needle}
         ${svgIcon}
-        <text x="${cx}" y="${labelY}" font-size="14" class="label">
-            ${label}
-        </text>
-        <text x="${cx}" y="${pressureY}" font-size="22" font-weight="bold" class="label">
-            ${this.config.unit === 'mm'
-                ? pressure.toFixed(1) + ' mm'
-                : this.config.unit === 'in'
-                  ? pressure.toFixed(2) + ' inHg'
-                  : pressure.toFixed(1) + ' hPa'
-            }
-        </text>
+        ${svgText}
+
       </svg>`}
       <!-- 2 On injecte la variable ici, hors du <svg> -->
       <!-- ${iconNode} --> 
