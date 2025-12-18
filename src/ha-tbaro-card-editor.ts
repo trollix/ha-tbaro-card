@@ -10,7 +10,7 @@ type Config = {
   title?: string;
   angle?: 180 | 270;
   unit?: 'hpa' | 'mm' | 'in';
-  show_border?: boolean | 'inner' | 'outer' | 'both' | 'none';
+  show_border?: 'inner' | 'outer' | 'both' | 'none';
   stroke_width?: number;
   needle_color?: string;
   tick_color?: string;
@@ -52,6 +52,7 @@ export class HaTbaroCardEditor extends LitElement {
       { value: 'fr', label: 'fr' },
       { value: 'ru', label: 'ru' },
       { value: 'es', label: 'es' },
+      { value: 'de', label: 'de' },
     ] } } },
   ];
 
