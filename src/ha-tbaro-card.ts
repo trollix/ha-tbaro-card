@@ -387,18 +387,19 @@ render() {
   //  <image href="${this.getIconDataUrl(weather.icon)}" x="${iconX}" y="${iconY}" width="50" height="50" />
   const svgIcon = svg`<image href="${this.getIconDataUrl(weather.icon)}" x="${iconX}" y="${iconY}" width="50" height="50" />`;
 
-  const svgText = svg`<text x="${cx}" y="${labelY}" font-size="14" class="label">
-            ${label}
-        </text>
-        <text x="${cx}" y="${pressureY}" font-size="22" font-weight="bold" class="label">
-            ${this.config.unit === 'mm'
-                ? pressure.toFixed(1) + ' mm'
-                : this.config.unit === 'in'
-                  ? pressure.toFixed(2) + ' inHg'
-                  : pressure.toFixed(1) + ' hPa'
-            }
-        </text>
-  `;
+  const svgText = (this.config.show_pressure 
+        ? svg`<text x="${cx}" y="${labelY}" font-size="14" class="label">
+                  ${label}
+              </text>
+              <text x="${cx}" y="${pressureY}" font-size="22" font-weight="bold" class="label">
+                  ${this.config.unit === 'mm'
+                      ? pressure.toFixed(1) + ' mm'
+                      : this.config.unit === 'in'
+                        ? pressure.toFixed(2) + ' inHg'
+                        : pressure.toFixed(1) + ' hPa'
+                  }
+              </text>` 
+        : '');
 
   // 1) Bloc icône stocké dans une variable
   const iconNode = html`
