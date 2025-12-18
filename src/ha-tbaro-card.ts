@@ -3,7 +3,7 @@
 import { LitElement, html, css, svg, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
-import { fireEvent } from 'custom-card-helpers';
+
 
 // Import des icônes SVG comme chaînes via rollup-plugin-string
 // @ts-ignore
@@ -241,6 +241,17 @@ export class HaTbaroCard extends LitElement {
     );
   }
 
+private _onClick = () => {
+  if (this.config?.entity) this._showMoreInfo(this.config.entity);
+};
+
+private _onKeyDown = (e: KeyboardEvent) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    if (this.config?.entity) this._showMoreInfo(this.config.entity);
+  }
+};
+
 
 render() {
 
@@ -429,8 +440,16 @@ render() {
   const clipHeight = gaugeAngle === 180 ? (size! / 300) * 180 : 'auto';
 
   return html`
-    <ha-card style="box-shadow:none;background:transparent;border:none;">
-    <div style="overflow:hidden;height:${clipHeight};"></div>
+    <ha-card 
+      role="button"
+      tabindex="0"
+      aria-label="Show details"
+      style="box-shadow:none;background:transparent;border:none;border:none;border-radius:0; cursor:pointer;"
+      @click=${this._onClick}
+      @keydown=${this._onKeyDown}
+    >
+    
+      <div style="overflow:hidden;height:${clipHeight};"></div>
 
       ${svg`<svg viewBox="0 0 300 ${viewHeight}" style="max-width:${size}px;height:auto">
    
