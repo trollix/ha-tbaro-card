@@ -1,6 +1,6 @@
 {
     "name": "ha-tbaro-card",
-    "version": "0.7.7",
+    "version": "0.8.0-a1",
     "description": "Barometric gauge card for Home Assistant",
     "main": "dist/ha-tbaro-card.js",
     "files": [

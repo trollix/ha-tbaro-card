@@ -4,6 +4,7 @@ import { LitElement, html, css, svg, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
+import './ha-tbaro-card-editor';
 
 // Import des icônes SVG comme chaînes via rollup-plugin-string
 // @ts-ignore
@@ -106,6 +107,25 @@ export class HaTbaroCard extends LitElement {
       ...config
     };
   }
+
+
+  // Makes the "Edit in visual editor" button appear
+static async getConfigElement() {
+  // The element is defined in ha-tbaro-card-editor.ts
+  return document.createElement('ha-tbaro-card-editor');
+}
+
+// Optional: default config when user adds the card from the UI
+static getStubConfig() {
+  return {
+    type: 'custom:ha-tbaro-card',
+    entity: 'sensor.pressure',
+    angle: 270,
+    unit: 'hpa',
+    show_border: false,
+  };
+}
+
 
   private static readonly HPA_TO_MM  = 0.75006156;
   private static readonly HPA_TO_IN  = 0.02953;        // 1 hPa = 0.02953 inHg
@@ -479,3 +499,13 @@ render() {
     // mais il faut le faire hors du svg...
   }
 }
+
+
+// Card Picker registration (name/description shown in “Ajouter une carte”)
+(window as any).customCards = (window as any).customCards || [];
+(window as any).customCards.push({
+  type: 'ha-tbaro-card',
+  name: 'Barometer Gauge (ha-tbaro-card)',
+  description: 'SVG barometer gauge with 180°/270°, hPa/mm/inHg, i18n, tick sizing, borders.',
+  preview: true,
+});
