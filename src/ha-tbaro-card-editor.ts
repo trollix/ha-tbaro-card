@@ -38,7 +38,6 @@ export class HaTbaroCardEditor extends LitElement {
     { name: 'angle', selector: { select: { options: [ {value: 180, label: '180°'}, {value: 270, label: '270°'} ] } } },
     { name: 'unit', selector: { select: { options: [ {value: 'hpa', label: 'hPa'}, {value: 'mm', label: 'mmHg'}, {value: 'in', label: 'inHg'} ] } } },
     { name: 'show_border', selector: { select: { options: [
-      { value: false, label: 'auto (false)' },
       { value: 'none', label: 'none' },
       { value: 'inner', label: 'inner' },
       { value: 'outer', label: 'outer' },
