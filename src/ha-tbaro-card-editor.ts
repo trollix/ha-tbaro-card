@@ -15,6 +15,8 @@ type Config = {
   unit?: 'hpa' | 'mm' | 'in';
   border?: 'inner' | 'outer' | 'both' | 'none';
   icon_size?: number;
+  icon_offset_x?: number;
+  icon_offset_y?: number;
   stroke_width?: number;
   needle_color?: string;
   tick_color?: string;
@@ -50,7 +52,9 @@ export class HaTbaroCardEditor extends LitElement {
       { value: 'outer', label: 'outer' },
       { value: 'both', label: 'both' },
     ] } } },
-    { name: 'icon_size', selector: { number: { min: 5, max: 100, step: 1 } } },
+    { name: 'icon_size', selector: { number: { min: 10, max: 150, step: 1 } } },
+    { name: 'icon_offset_x', selector: { number: { min: -150, max: 150, step: 1 } } },
+    { name: 'icon_offset_y', selector: { number: { min: -150, max: 150, step: 1 } } },
     { name: 'stroke_width', selector: { number: { min: 6, max: 40, step: 1 } } },
     { name: 'needle_color', selector: { text: {} } },
     { name: 'tick_color', selector: { text: {} } },

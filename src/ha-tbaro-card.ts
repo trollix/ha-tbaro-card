@@ -49,6 +49,8 @@ interface BaroCardConfig {
   stroke_width?: number;
   size?: number;
   icon_size?: number;
+  icon_offset_x?: number;
+  icon_offset_y?: number;
   angle?: 180 | 270;
   border?: 'none' | 'outer' | 'inner' | 'both';
   segments?: Segment[];
@@ -60,7 +62,7 @@ export class HaTbaroCard extends LitElement {
   @property({ type: Object }) config!: BaroCardConfig;
 
   private _translations: Record<string, string> = {};
-  private static _localeMap: Record<string, Record<string, string>> = { fr, en, ru, es, de };
+  private static _localeMap: Record<string, Record<string, string>> = { fr, en, ru, es, de, it };
 
   static styles = [
     css`
@@ -99,6 +101,8 @@ export class HaTbaroCard extends LitElement {
       show_pressure: true,
       stroke_width: 20,
       icon_size: 50,
+      icon_offset_x: 0,
+      icon_offset_y: 0,
       border: 'outer',   // valeur par défaut
       size: 300,
       angle: 270,
@@ -288,7 +292,9 @@ render() {
     needle_color,
     tick_color,
     size,
-    icon_size=50,
+    icon_size = 50,
+    icon_offset_x = 0,
+    icon_offset_y = 0,
     segments,
     angle: gaugeAngle = 270,  // ← ici l’angle
     border = 'outer',
@@ -310,9 +316,9 @@ render() {
   // Position dynamique des éléments verticaux
   // const weatherYOffset = gaugeAngle === 180 ? -90 : 0;
   
-  let iconX = cx - 25;
+  let iconX = cx - 25 + icon_offset_x;
   const iconYOffset = gaugeAngle === 180 ? -90 : 0;
-  const iconY = (gaugeAngle === 180 ? cy+12 : cy+5 ) + iconYOffset;
+  let iconY = (gaugeAngle === 180 ? cy+12 : cy+5 ) + iconYOffset + icon_offset_y;
   const labelY = (gaugeAngle === 180 ? cy - 25 : cy + 60);
   const pressureY = (gaugeAngle === 180 ? cy + 0 : cy + 85);
 
