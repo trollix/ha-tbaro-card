@@ -14,6 +14,7 @@ type Config = {
   angle?: 180 | 270;
   unit?: 'hpa' | 'mm' | 'in';
   border?: 'inner' | 'outer' | 'both' | 'none';
+  icon_size?: number;
   stroke_width?: number;
   needle_color?: string;
   tick_color?: string;
@@ -49,6 +50,7 @@ export class HaTbaroCardEditor extends LitElement {
       { value: 'outer', label: 'outer' },
       { value: 'both', label: 'both' },
     ] } } },
+    { name: 'icon_size', selector: { number: { min: 5, max: 100, step: 1 } } },
     { name: 'stroke_width', selector: { number: { min: 6, max: 40, step: 1 } } },
     { name: 'needle_color', selector: { text: {} } },
     { name: 'tick_color', selector: { text: {} } },
@@ -58,6 +60,7 @@ export class HaTbaroCardEditor extends LitElement {
       { value: 'ru', label: 'ru' },
       { value: 'es', label: 'es' },
       { value: 'de', label: 'de' },
+      { value: 'it', label: 'it' },
     ] } } },
   ];
 

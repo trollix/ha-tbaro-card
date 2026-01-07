@@ -191,6 +191,7 @@ npm run build      # rollup – generates /dist/ha-tbaro-card.js
 
 - ru: [Psytoshgen](https://github.com/Psytoshgen "Psytoshgen")
 - de: [hendrik001973](https://github.com/hendrik001973 "hendrik001973")
+- it: [LeonardoGandini](https://github.com/LeonardoGandini "LeonardoGandini")
 
 ---
 

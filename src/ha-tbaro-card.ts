@@ -19,6 +19,7 @@ import en from '../locales/en.json';
 import ru from '../locales/ru.json';
 import es from '../locales/es.json';
 import de from '../locales/de.json';
+import it from '../locales/it.json';
 
 // Print Version to Console
 import { version, name } from '../package.json'
@@ -47,6 +48,7 @@ interface BaroCardConfig {
   show_pressure?: boolean;
   stroke_width?: number;
   size?: number;
+  icon_size?: number;
   angle?: 180 | 270;
   border?: 'none' | 'outer' | 'inner' | 'both';
   segments?: Segment[];
@@ -96,6 +98,7 @@ export class HaTbaroCard extends LitElement {
       show_weather_text: true,
       show_pressure: true,
       stroke_width: 20,
+      icon_size: 50,
       border: 'outer',   // valeur par défaut
       size: 300,
       angle: 270,
@@ -285,6 +288,7 @@ render() {
     needle_color,
     tick_color,
     size,
+    icon_size=50,
     segments,
     angle: gaugeAngle = 270,  // ← ici l’angle
     border = 'outer',
@@ -306,7 +310,7 @@ render() {
   // Position dynamique des éléments verticaux
   // const weatherYOffset = gaugeAngle === 180 ? -90 : 0;
   
-  const iconX = cx - 25;
+  let iconX = cx - 25;
   const iconYOffset = gaugeAngle === 180 ? -90 : 0;
   const iconY = (gaugeAngle === 180 ? cy+12 : cy+5 ) + iconYOffset;
   const labelY = (gaugeAngle === 180 ? cy - 25 : cy + 60);
@@ -430,7 +434,7 @@ render() {
 
   //  <image href="${this.getIconDataUrl(weather.icon)}" x="${iconX}" y="${iconY}" width="50" height="50" />
   const svgIcon = (this.config.show_weather_icon 
-        ? svg`<image href="${this.getIconDataUrl(weather.icon)}" x="${iconX}" y="${iconY}" width="50" height="50" />`
+        ? svg`<image href="${this.getIconDataUrl(weather.icon)}" x="${iconX}" y="${iconY}" width="${icon_size}" height="${icon_size}" />`
         : '');
 
   const weatherLabel = (this.config.show_weather_text
