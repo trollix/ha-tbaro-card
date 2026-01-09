@@ -19,7 +19,7 @@ Barometric gauge card for Home Assistant — clean, customizable, SVG-based.
 ## Features
 
 | Feature | Details |
-|---------|---------|
+| --------- | --------- |
 | Gauge types | 270° (fer à cheval) **or** 180° (demi‑cercle) via `angle:` |
 | Units | `hpa` *(default)* or `mm` or `in` — auto‑detects the sensor’s unit and converts if needed |
 | Segments | Colour ranges fully customisable |
