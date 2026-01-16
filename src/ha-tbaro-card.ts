@@ -64,7 +64,7 @@ export class HaTbaroCard extends LitElement {
   @property({ type: Object }) config!: BaroCardConfig;
 
   private _translations: Record<string, string> = {};
-  private static _localeMap: Record<string, Record<string, string>> = { de, en, es, fr, it, nl, ru };
+  private static _localeMap: Record<string, Record<string, string>> = { en, de, es, fr, it, nl, ru };
 
   static styles = [
     css`
