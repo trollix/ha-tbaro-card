@@ -12,7 +12,7 @@ type Config = {
   show_weather_text?: boolean;
   show_pressure?: boolean;
   angle?: 180 | 270;
-  unit?: 'hpa' | 'mm' | 'in';
+  unit?: 'hpa' | 'mm' | 'in' | 'pa';
   border?: 'inner' | 'outer' | 'both' | 'none';
   icon_size?: number;
   icon_offset_x?: number;
@@ -45,7 +45,7 @@ export class HaTbaroCardEditor extends LitElement {
     { name: 'show_weather_text', selector: { boolean: [] } },
     { name: 'show_pressure', selector: { boolean: [] } },
     { name: 'angle', selector: { select: { options: [ {value: 180, label: '180°'}, {value: 270, label: '270°'} ] } } },
-    { name: 'unit', selector: { select: { options: [ {value: 'hpa', label: 'hPa'}, {value: 'mm', label: 'mmHg'}, {value: 'in', label: 'inHg'} ] } } },
+    { name: 'unit', selector: { select: { options: [ {value: 'hpa', label: 'hPa'}, {value: 'mm', label: 'mmHg'}, {value: 'in', label: 'inHg'}, {value: 'pa', label: 'Pa'} ] } } },
     { name: 'border', selector: { select: { options: [
       { value: 'none', label: 'none' },
       { value: 'inner', label: 'inner' },
