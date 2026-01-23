@@ -42,7 +42,7 @@ interface BaroCardConfig {
   entity: string;
   title?: string;
   language?: string;
-  unit?: 'hpa' | 'mm' | 'in';
+  unit?: 'hpa' | 'mm' | 'in' | 'pa';
   needle_color?: string;
   tick_color?: string;
   show_weather_icon?: boolean;
@@ -140,8 +140,10 @@ static getStubConfig() {
 
   private static readonly HPA_TO_MM  = 0.75006156;
   private static readonly HPA_TO_IN  = 0.02953;        // 1 hPa = 0.02953 inHg
+  private static readonly HPA_TO_PA  = 100;            // 1 hPa = 100 Pa
   private static readonly MM_TO_HPA  = 1 / HaTbaroCard.HPA_TO_MM;
   private static readonly IN_TO_HPA  = 1 / HaTbaroCard.HPA_TO_IN;
+  private static readonly PA_TO_HPA  = 1 / HaTbaroCard.HPA_TO_PA;
 
 
   /** multiplicateur pour aller DE la valeur brute VERS hPa */
@@ -152,6 +154,7 @@ static getStubConfig() {
     mmhg:  HaTbaroCard.MM_TO_HPA,   // accepte « mmHg »
     in:   HaTbaroCard.IN_TO_HPA,       // ← alias court
     inhg: HaTbaroCard.IN_TO_HPA,       // ← alias complet
+    pa:    HaTbaroCard.PA_TO_HPA,      // 1 Pa = 0.01 hPa
   };
 
 
@@ -172,6 +175,8 @@ static getStubConfig() {
       return this.rawHpa * HaTbaroCard.HPA_TO_MM; // hPa → mm
     if (this.config.unit === 'in')                // hPa → in
       return this.rawHpa * HaTbaroCard.HPA_TO_IN;
+    if (this.config.unit === 'pa')                // hPa → Pa
+      return this.rawHpa * HaTbaroCard.HPA_TO_PA;
     return this.rawHpa;                           // hPa direct
   }
 

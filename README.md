@@ -21,7 +21,7 @@ Barometric gauge card for Home Assistant — clean, customizable, SVG-based.
 | Feature | Details |
 | --------- | --------- |
 | Gauge types | 270° (fer à cheval) **or** 180° (demi‑cercle) via `angle:` |
-| Units | `hpa` *(default)* or `mm` or `in` — auto‑detects the sensor’s unit and converts if needed |
+| Units | `hpa` *(default)* or `mm` or `in` or `pa` — auto‑detects the sensor's unit and converts if needed |
 | Segments | Colour ranges fully customisable |
 | Needle | SVG, width adaptable, optional hub in 180° mode |
 | Icons | Sun / Partly / Rain / Storm (inline SVG, no external calls) |
@@ -76,6 +76,7 @@ L’option `angle: 180` adapte dynamiquement :
 - `hpa` (par défaut) : Affichage en hectoPascal (hpa)
 - `mm` : Affichage en mmHg (mm)
 - `in` : Affichage en inHg (in)
+- `pa` : Affichage en Pascal (pa)
 
 ---
 
@@ -88,7 +89,7 @@ show_weather_icon: true
 show_weather_text: true
 show_pressure: true
 angle: 180          # 180 or 270 (optional, default 270)
-unit: mm            # hpa or mm (optional, default hpa)
+unit: mm            # hpa or mm or in or pa (optional, default hpa)
 show_border: true
 stroke_width: 20
 size: 300
