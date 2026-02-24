@@ -152,8 +152,8 @@ static getStubConfig() {
     mbar:  1,
     mm:    HaTbaroCard.MM_TO_HPA,   // ≈ 1.333223684
     mmhg:  HaTbaroCard.MM_TO_HPA,   // accepte « mmHg »
-    in:   HaTbaroCard.IN_TO_HPA,       // ← alias court
-    inhg: HaTbaroCard.IN_TO_HPA,       // ← alias complet
+    in:    HaTbaroCard.IN_TO_HPA,       // ← alias court
+    inhg:  HaTbaroCard.IN_TO_HPA,       // ← alias complet
     pa:    HaTbaroCard.PA_TO_HPA,      // 1 Pa = 0.01 hPa
   };
 
@@ -460,7 +460,9 @@ render() {
                       ? pressure.toFixed(1) + ' mm'
                       : this.config.unit === 'in'
                         ? pressure.toFixed(2) + ' inHg'
-                        : pressure.toFixed(1) + ' hPa'
+                          : this.config.unit == 'hpa'
+                          ? pressure.toFixed(1) + ' hPa'
+                          : pressure.toFixed(1) + ' Pa'
                   }
               </text>` 
         : '');
