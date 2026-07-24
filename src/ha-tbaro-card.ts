@@ -127,24 +127,24 @@ export class HaTbaroCard extends LitElement {
         position: relative;
         box-sizing: border-box;
         width: 100%;
-        max-width: 420px;
+        max-width: 360px;
         min-width: 0;
         margin: 0 auto;
         padding:
-          clamp(18px, 8cqw, 34px)
-          clamp(14px, 7cqw, 30px)
-          clamp(18px, 6cqw, 26px);
+          clamp(14px, 5cqw, 20px)
+          clamp(14px, 5cqw, 18px)
+          clamp(12px, 4cqw, 16px);
         color: var(--baro-text);
         font-family: var(--paper-font-body1_-_font-family, sans-serif);
       }
 
       .modern-kicker {
-        margin: 0 0 clamp(16px, 6cqw, 26px);
+        margin: 0 0 clamp(8px, 2.8cqw, 12px);
         overflow: hidden;
         color: var(--baro-muted);
-        font-size: clamp(9px, 3.1cqw, 13px);
+        font-size: clamp(8px, 2.4cqw, 10px);
         font-weight: 600;
-        letter-spacing: clamp(0.06em, 0.4cqw, 0.10em);
+        letter-spacing: 0.10em;
         text-align: center;
         text-overflow: ellipsis;
         text-transform: uppercase;
@@ -155,15 +155,15 @@ export class HaTbaroCard extends LitElement {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: clamp(4px, 1.8cqw, 8px);
+        gap: clamp(2px, 1cqw, 4px);
       }
 
       .modern-value {
         max-width: 100%;
         overflow: hidden;
-        font-size: clamp(42px, 22cqw, 88px);
+        font-size: clamp(34px, 15cqw, 52px);
         font-weight: 300;
-        letter-spacing: -0.065em;
+        letter-spacing: -0.055em;
         line-height: 0.92;
         text-overflow: clip;
         white-space: nowrap;
@@ -171,7 +171,7 @@ export class HaTbaroCard extends LitElement {
 
       .modern-unit {
         color: var(--baro-muted);
-        font-size: clamp(13px, 4.8cqw, 19px);
+        font-size: clamp(9px, 3cqw, 12px);
         font-weight: 500;
       }
 
@@ -179,7 +179,7 @@ export class HaTbaroCard extends LitElement {
         display: block;
         width: 100%;
         height: auto;
-        margin: clamp(20px, 8cqw, 34px) auto 0;
+        margin: clamp(6px, 2.5cqw, 10px) auto 0;
         overflow: visible;
       }
 
@@ -193,19 +193,19 @@ export class HaTbaroCard extends LitElement {
 
       .modern-scale-value {
         fill: var(--baro-text);
-        font-size: 13px;
+        font-size: 10px;
         font-weight: 650;
       }
 
       .modern-scale-label,
       .modern-trend-period {
         fill: var(--baro-muted);
-        font-size: 11px;
+        font-size: 8px;
       }
 
       .modern-trend {
         fill: var(--baro-text);
-        font-size: 18px;
+        font-size: 11px;
         font-weight: 650;
       }
 
@@ -220,47 +220,47 @@ export class HaTbaroCard extends LitElement {
       .modern-marker {
         fill: #fff;
         stroke: var(--baro-marker-ring);
-        stroke-width: 4;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28));
+        stroke-width: 3;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.24));
       }
 
       .modern-footer {
         display: flex;
         justify-content: center;
-        margin-top: clamp(12px, 5cqw, 24px);
+        margin-top: clamp(6px, 2.2cqw, 9px);
       }
 
       .modern-status {
         display: inline-flex;
         align-items: center;
-        min-height: clamp(30px, 10cqw, 40px);
+        min-height: clamp(22px, 7cqw, 26px);
         max-width: 100%;
-        padding: 0 clamp(13px, 5cqw, 22px);
+        padding: 0 clamp(10px, 3.6cqw, 14px);
         overflow: hidden;
         border-radius: 999px;
         background: var(--baro-status-bg);
         color: var(--baro-status-text);
-        font-size: clamp(12px, 4cqw, 16px);
+        font-size: clamp(9px, 3cqw, 11px);
         font-weight: 650;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
-      @container (max-width: 230px) {
+      @container (max-width: 220px) {
         .modern-shell {
-          padding: 14px 12px 16px;
+          padding: 12px 10px 11px;
         }
 
         .modern-kicker {
-          margin-bottom: 12px;
+          margin-bottom: 7px;
+        }
+
+        .modern-value {
+          font-size: clamp(30px, 15cqw, 42px);
         }
 
         .modern-arc {
-          margin-top: 14px;
-        }
-
-        .modern-footer {
-          margin-top: 10px;
+          margin-top: 5px;
         }
       }
 
@@ -489,7 +489,7 @@ private _onKeyDown = (e: KeyboardEvent) => {
 
 
 public getCardSize(): number {
-  if (this.config?.design === 'modern-arc') return 7;
+  if (this.config?.design === 'modern-arc') return 4;
   if (
     this.config?.design === 'modern-history' ||
     this.config?.design === 'modern-summary'
@@ -502,10 +502,10 @@ public getCardSize(): number {
 public getGridOptions() {
   if (this.config?.design === 'modern-arc') {
     return {
-      rows: 7,
+      rows: 4,
       columns: 6,
-      min_rows: 6,
-      min_columns: 4,
+      min_rows: 4,
+      min_columns: 3,
     };
   }
 
@@ -563,8 +563,8 @@ private _renderModernArc() {
   const hpa = Math.min(maxP, Math.max(minP, this.rawHpa));
 
   const cx = 150;
-  const cy = 132;
-  const radius = 112;
+  const cy = 88;
+  const radius = 108;
   const startAngle = Math.PI;
   const endAngle = Math.PI * 2;
 
@@ -573,11 +573,13 @@ private _renderModernArc() {
     ((hpa - minP) / (maxP - minP)) * (endAngle - startAngle);
   const marker = this.polar(cx, cy, radius, markerAngle);
 
-  const trendArrow = trend == null ? '→' : trend > 0 ? '↑' : trend < 0 ? '↓' : '→';
-  const trendValue =
+  const trendArrow =
+    trend == null ? '→' : trend > 0 ? '↑' : trend < 0 ? '↓' : '→';
+
+  const trendNumber =
     trend == null
-      ? 'Tendance indisponible'
-      : `${trendArrow} ${trend > 0 ? '+' : ''}${trend.toFixed(1)} hPa`;
+      ? ''
+      : `${trend > 0 ? '+' : ''}${trend.toFixed(1)} hPa`;
 
   const trendClass =
     trend == null || trend === 0
@@ -607,11 +609,11 @@ private _renderModernArc() {
             `
           : nothing}
 
-        <svg class="modern-arc" viewBox="0 0 300 205" aria-hidden="true">
+        <svg class="modern-arc" viewBox="0 0 300 122" aria-hidden="true">
           <defs>
             <linearGradient id="baro-modern-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stop-color="#3468f4" />
-              <stop offset="30%" stop-color="#49b8e8" />
+              <stop offset="32%" stop-color="#49b8e8" />
               <stop offset="52%" stop-color="#5fd49a" />
               <stop offset="72%" stop-color="#d5e650" />
               <stop offset="88%" stop-color="#f3b33f" />
@@ -622,7 +624,7 @@ private _renderModernArc() {
           <path
             d="${this.describeArc(cx, cy, radius, startAngle, endAngle)}"
             stroke="url(#baro-modern-gradient)"
-            stroke-width="9"
+            stroke-width="7"
             stroke-linecap="round"
             fill="none"
           />
@@ -631,21 +633,29 @@ private _renderModernArc() {
             class="modern-marker"
             cx="${marker.x}"
             cy="${marker.y}"
-            r="7"
+            r="5.5"
           />
 
-          <text x="34" y="164" class="modern-scale-value">980</text>
-          <text x="34" y="183" class="modern-scale-label">basse</text>
+          <text x="32" y="102" class="modern-scale-value">980</text>
+          <text x="32" y="116" class="modern-scale-label">basse</text>
 
-          <text x="266" y="164" class="modern-scale-value">1040</text>
-          <text x="266" y="183" class="modern-scale-label">haute</text>
+          <text x="268" y="102" class="modern-scale-value">1040</text>
+          <text x="268" y="116" class="modern-scale-label">haute</text>
 
-          <text x="150" y="160" class="modern-trend ${trendClass}">
-            ${trendValue}
-          </text>
-          <text x="150" y="183" class="modern-trend-period">
-            ${trend == null ? '' : `${trendHours} h`}
-          </text>
+          ${trend == null
+            ? svg`
+                <text x="150" y="104" class="modern-trend">
+                  Tendance indisponible
+                </text>
+              `
+            : svg`
+                <text x="150" y="100" class="modern-trend ${trendClass}">
+                  ${trendArrow} ${trendNumber}
+                </text>
+                <text x="150" y="116" class="modern-trend-period">
+                  ${trendHours} h
+                </text>
+              `}
         </svg>
 
         ${this.config.show_weather_text !== false
