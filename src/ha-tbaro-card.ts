@@ -125,47 +125,51 @@ export class HaTbaroCard extends LitElement {
       .modern-shell {
         position: relative;
         box-sizing: border-box;
+        width: 100%;
         max-width: 420px;
+        aspect-ratio: 0.82;
         margin: 0 auto;
-        padding: 22px 22px 20px;
+        padding: 30px 28px 26px;
         color: var(--baro-text);
         font-family: var(--paper-font-body1_-_font-family, sans-serif);
       }
 
       .modern-kicker {
-        margin: 0 0 14px;
+        margin: 0 0 28px;
         color: var(--baro-muted);
         font-size: 12px;
         font-weight: 650;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.14em;
         text-align: center;
         text-transform: uppercase;
       }
 
       .modern-value-row {
         display: flex;
-        align-items: baseline;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
-        gap: 8px;
-        margin-bottom: -4px;
+        gap: 6px;
+        margin-bottom: 18px;
       }
 
       .modern-value {
-        font-size: clamp(52px, 18vw, 76px);
+        font-size: clamp(58px, 18vw, 82px);
         font-weight: 300;
-        letter-spacing: -0.055em;
-        line-height: 0.95;
+        letter-spacing: -0.06em;
+        line-height: 0.92;
       }
 
       .modern-unit {
         color: var(--baro-muted);
-        font-size: 17px;
+        font-size: 18px;
         font-weight: 500;
       }
 
       .modern-arc {
+        display: block;
         width: 100%;
-        margin-top: 4px;
+        margin-top: 0;
         overflow: visible;
       }
 
@@ -204,18 +208,18 @@ export class HaTbaroCard extends LitElement {
       .modern-footer {
         display: flex;
         justify-content: center;
-        margin-top: -2px;
+        margin-top: 18px;
       }
 
       .modern-status {
         display: inline-flex;
         align-items: center;
-        min-height: 30px;
-        padding: 0 14px;
+        min-height: 38px;
+        padding: 0 20px;
         border-radius: 999px;
         background: var(--baro-status-bg);
         color: var(--baro-status-text);
-        font-size: 13px;
+        font-size: 15px;
         font-weight: 650;
       }
 
@@ -467,7 +471,7 @@ private _renderModernArc() {
   const pressure = this.pressure;
   const decimals = Math.min(2, Math.max(0, this.config.decimals ?? 0));
   const theme = this.config.theme ?? 'auto';
-  const title = this.config.title || 'Pression atmosphérique';
+  const title = this.config.title || 'Pression';
   const trend = this.config.trend;
   const trendHours = this.config.trend_hours ?? 3;
   const weatherLabel = this.translatedWeatherLabel;
@@ -477,8 +481,8 @@ private _renderModernArc() {
   const hpa = Math.min(maxP, Math.max(minP, this.rawHpa));
 
   const cx = 150;
-  const cy = 150;
-  const radius = 108;
+  const cy = 158;
+  const radius = 112;
   const startAngle = Math.PI;
   const endAngle = Math.PI * 2;
 
@@ -499,7 +503,7 @@ private _renderModernArc() {
       <path
         d="${this.describeArc(cx, cy, radius, aStart, aEnd)}"
         stroke="${segment.color}"
-        stroke-width="12"
+        stroke-width="9"
         stroke-linecap="butt"
         fill="none"
       />
@@ -537,11 +541,11 @@ private _renderModernArc() {
             `
           : nothing}
 
-        <svg class="modern-arc" viewBox="0 0 300 194" aria-hidden="true">
+        <svg class="modern-arc" viewBox="0 0 300 225" aria-hidden="true">
           <path
             d="${this.describeArc(cx, cy, radius, startAngle, endAngle)}"
             stroke="var(--baro-line)"
-            stroke-width="12"
+            stroke-width="9"
             fill="none"
           />
           ${arcs}
@@ -552,14 +556,14 @@ private _renderModernArc() {
             r="7"
           />
 
-          <text x="42" y="174" class="modern-scale-value">950</text>
-          <text x="42" y="188" class="modern-scale-label">basse</text>
+          <text x="36" y="190" class="modern-scale-value">950</text>
+          <text x="36" y="207" class="modern-scale-label">basse</text>
 
-          <text x="258" y="174" class="modern-scale-value">1050</text>
-          <text x="258" y="188" class="modern-scale-label">haute</text>
+          <text x="264" y="190" class="modern-scale-value">1050</text>
+          <text x="264" y="207" class="modern-scale-label">haute</text>
 
-          <text x="150" y="164" class="modern-trend">${trendText}</text>
-          <text x="150" y="182" class="modern-trend-period">
+          <text x="150" y="184" class="modern-trend">${trendText}</text>
+          <text x="150" y="205" class="modern-trend-period">
             ${trend == null ? '' : `${trendHours} h`}
           </text>
         </svg>
