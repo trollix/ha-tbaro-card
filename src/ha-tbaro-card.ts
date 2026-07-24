@@ -595,11 +595,14 @@ private _renderModernArc() {
   const hpa = Math.min(maxP, Math.max(minP, this.rawHpa));
 
   const cx = 150;
-  const cy = 72;
-  const radiusX = 118;
-  const radiusY = 40;
-  const startAngle = Math.PI;
-  const endAngle = Math.PI * 2;
+  const cy = 78;
+  const radiusX = 126;
+  const radiusY = 42;
+
+  // Arc volontairement tronqué : on ne dessine pas une demi-ellipse complète.
+  // 200° → 340° donne la courbe tendue du mockup.
+  const startAngle = Math.PI * (200 / 180);
+  const endAngle = Math.PI * (340 / 180);
 
   const markerAngle =
     startAngle +
@@ -683,23 +686,23 @@ private _renderModernArc() {
             r="5.5"
           />
 
-          <text x="28" y="91" class="modern-scale-value">980</text>
-          <text x="28" y="108" class="modern-scale-label">basse</text>
+          <text x="28" y="96" class="modern-scale-value">980</text>
+          <text x="28" y="113" class="modern-scale-label">basse</text>
 
-          <text x="272" y="91" class="modern-scale-value">1040</text>
-          <text x="272" y="108" class="modern-scale-label">haute</text>
+          <text x="272" y="96" class="modern-scale-value">1040</text>
+          <text x="272" y="113" class="modern-scale-label">haute</text>
 
           ${trend == null
             ? svg`
-                <text x="150" y="96" class="modern-trend">
+                <text x="150" y="101" class="modern-trend">
                   Tendance indisponible
                 </text>
               `
             : svg`
-                <text x="150" y="91" class="modern-trend ${trendClass}">
+                <text x="150" y="96" class="modern-trend ${trendClass}">
                   ${trendArrow} ${trendNumber}
                 </text>
-                <text x="150" y="108" class="modern-trend-period">
+                <text x="150" y="113" class="modern-trend-period">
                   ${trendHours} h
                 </text>
               `}
