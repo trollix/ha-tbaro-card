@@ -190,10 +190,13 @@ npm run build      # rollup – generates /dist/ha-tbaro-card.js
 
 ### Thanks for Localization
 
-- ru: [Psytoshgen](https://github.com/Psytoshgen "Psytoshgen")
+- pl: [RH-Dreambox](https://github.com/RH-Dreambox "RH-Dreambox")
+- ru: [Kadziedz](https://github.com/Kadziedz "Kadziedz")
 - de: [hendrik001973](https://github.com/hendrik001973 "hendrik001973")
 - it: [LeonardoGandini](https://github.com/LeonardoGandini "LeonardoGandini")
 - nl: [rdwdm](https://github.com/rdwdm "rdwdm")
+- sv: [RH-Dreambox](https://github.com/RH-Dreambox "RH-Dreambox")
+
 
 ---
 

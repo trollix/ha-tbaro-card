@@ -20,7 +20,9 @@ import es from '../locales/es.json';
 import fr from '../locales/fr.json';
 import it from '../locales/it.json';
 import nl from '../locales/nl.json';
+import pl from '../locales/pl.json';
 import ru from '../locales/ru.json';
+import sv from '../locales/sv.json';
 
 
 // Print Version to Console
@@ -64,7 +66,7 @@ export class HaTbaroCard extends LitElement {
   @property({ type: Object }) config!: BaroCardConfig;
 
   private _translations: Record<string, string> = {};
-  private static _localeMap: Record<string, Record<string, string>> = { en, de, es, fr, it, nl, ru };
+  private static _localeMap: Record<string, Record<string, string>> = { en, de, es, fr, it, nl, pl, ru, sv };
 
   static styles = [
     css`

@@ -65,7 +65,9 @@ export class HaTbaroCardEditor extends LitElement {
       { value: 'fr', label: 'fr' },
       { value: 'it', label: 'it' },
       { value: 'nl', label: 'nl' },
+      { value: 'pl', label: 'pl' },
       { value: 'ru', label: 'ru' },
+      { value: 'sv', label: 'sv' },
     ] } } },
   ];
 
