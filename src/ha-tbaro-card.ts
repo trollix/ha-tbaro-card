@@ -84,6 +84,7 @@ export class HaTbaroCard extends LitElement {
       }
 
       .modern-card {
+        container-type: inline-size;
         cursor: pointer;
         overflow: hidden;
         --baro-bg: var(--ha-card-background, var(--card-background-color));
@@ -127,47 +128,58 @@ export class HaTbaroCard extends LitElement {
         box-sizing: border-box;
         width: 100%;
         max-width: 420px;
-        min-height: 470px;
+        min-width: 0;
         margin: 0 auto;
-        padding: 34px 30px 26px;
+        padding:
+          clamp(18px, 8cqw, 34px)
+          clamp(14px, 7cqw, 30px)
+          clamp(18px, 6cqw, 26px);
         color: var(--baro-text);
         font-family: var(--paper-font-body1_-_font-family, sans-serif);
       }
 
       .modern-kicker {
-        margin: 0 0 26px;
+        margin: 0 0 clamp(16px, 6cqw, 26px);
+        overflow: hidden;
         color: var(--baro-muted);
-        font-size: 13px;
+        font-size: clamp(9px, 3.1cqw, 13px);
         font-weight: 600;
-        letter-spacing: 0.10em;
+        letter-spacing: clamp(0.06em, 0.4cqw, 0.10em);
         text-align: center;
+        text-overflow: ellipsis;
         text-transform: uppercase;
+        white-space: nowrap;
       }
 
       .modern-value-row {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: clamp(4px, 1.8cqw, 8px);
       }
 
       .modern-value {
-        font-size: clamp(64px, 20vw, 88px);
+        max-width: 100%;
+        overflow: hidden;
+        font-size: clamp(42px, 22cqw, 88px);
         font-weight: 300;
         letter-spacing: -0.065em;
         line-height: 0.92;
+        text-overflow: clip;
+        white-space: nowrap;
       }
 
       .modern-unit {
         color: var(--baro-muted);
-        font-size: 19px;
+        font-size: clamp(13px, 4.8cqw, 19px);
         font-weight: 500;
       }
 
       .modern-arc {
         display: block;
         width: 100%;
-        margin: 34px auto 0;
+        height: auto;
+        margin: clamp(20px, 8cqw, 34px) auto 0;
         overflow: visible;
       }
 
@@ -215,19 +227,41 @@ export class HaTbaroCard extends LitElement {
       .modern-footer {
         display: flex;
         justify-content: center;
-        margin-top: 24px;
+        margin-top: clamp(12px, 5cqw, 24px);
       }
 
       .modern-status {
         display: inline-flex;
         align-items: center;
-        min-height: 40px;
-        padding: 0 22px;
+        min-height: clamp(30px, 10cqw, 40px);
+        max-width: 100%;
+        padding: 0 clamp(13px, 5cqw, 22px);
+        overflow: hidden;
         border-radius: 999px;
         background: var(--baro-status-bg);
         color: var(--baro-status-text);
-        font-size: 16px;
+        font-size: clamp(12px, 4cqw, 16px);
         font-weight: 650;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      @container (max-width: 230px) {
+        .modern-shell {
+          padding: 14px 12px 16px;
+        }
+
+        .modern-kicker {
+          margin-bottom: 12px;
+        }
+
+        .modern-arc {
+          margin-top: 14px;
+        }
+
+        .modern-footer {
+          margin-top: 10px;
+        }
       }
 
       .modern-coming-soon {
@@ -453,6 +487,47 @@ private _onKeyDown = (e: KeyboardEvent) => {
   }
 };
 
+
+public getCardSize(): number {
+  if (this.config?.design === 'modern-arc') return 7;
+  if (
+    this.config?.design === 'modern-history' ||
+    this.config?.design === 'modern-summary'
+  ) {
+    return 6;
+  }
+  return this.config?.angle === 180 ? 3 : 5;
+}
+
+public getGridOptions() {
+  if (this.config?.design === 'modern-arc') {
+    return {
+      rows: 7,
+      columns: 6,
+      min_rows: 6,
+      min_columns: 4,
+    };
+  }
+
+  if (
+    this.config?.design === 'modern-history' ||
+    this.config?.design === 'modern-summary'
+  ) {
+    return {
+      rows: 6,
+      columns: 6,
+      min_rows: 5,
+      min_columns: 4,
+    };
+  }
+
+  return {
+    rows: this.config?.angle === 180 ? 3 : 5,
+    columns: 6,
+    min_rows: this.config?.angle === 180 ? 2 : 4,
+    min_columns: 3,
+  };
+}
 
 private get pressureUnit(): string {
   if (this.config.unit === 'mm') return 'mm';
