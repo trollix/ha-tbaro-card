@@ -13,6 +13,7 @@ type Config = {
   show_pressure?: boolean;
   angle?: 180 | 270;
   unit?: 'hpa' | 'mm' | 'in' | 'pa';
+  decimals?: number;
   border?: 'inner' | 'outer' | 'both' | 'none';
   icon_size?: number;
   icon_offset_x?: number;
@@ -46,6 +47,7 @@ export class HaTbaroCardEditor extends LitElement {
     { name: 'show_pressure', selector: { boolean: [] } },
     { name: 'angle', selector: { select: { options: [ {value: 180, label: '180°'}, {value: 270, label: '270°'} ] } } },
     { name: 'unit', selector: { select: { options: [ {value: 'hpa', label: 'hPa'}, {value: 'mm', label: 'mmHg'}, {value: 'in', label: 'inHg'}, {value: 'pa', label: 'Pa'} ] } } },
+    { name: 'decimals', selector: { number: { min: 0, max: 2, step: 1 } } },
     { name: 'border', selector: { select: { options: [
       { value: 'none', label: 'none' },
       { value: 'inner', label: 'inner' },

@@ -45,6 +45,7 @@ interface BaroCardConfig {
   title?: string;
   language?: string;
   unit?: 'hpa' | 'mm' | 'in' | 'pa';
+  decimals?: number;
   needle_color?: string;
   tick_color?: string;
   show_weather_icon?: boolean;
@@ -301,6 +302,7 @@ render() {
     needle_color,
     tick_color,
     size,
+    decimals = 0,
     icon_size = 50,
     icon_offset_x = 0,
     icon_offset_y = 0,
@@ -456,18 +458,46 @@ render() {
         ? svg`<text x="${cx}" y="${labelY}" font-size="14" class="label">${label}</text>`
         : '');
 
-  const svgPressText = (this.config.show_pressure 
-        ? svg`<text x="${cx}" y="${pressureY}" font-size="22" font-weight="bold" class="label">
-                  ${this.config.unit === 'mm'
-                      ? pressure.toFixed(1) + ' mm'
-                      : this.config.unit === 'in'
-                        ? pressure.toFixed(2) + ' inHg'
-                          : this.config.unit == 'hpa'
-                          ? pressure.toFixed(1) + ' hPa'
-                          : pressure.toFixed(1) + ' Pa'
-                  }
-              </text>` 
-        : '');
+// Sécurise la précision entre 0 et 2 décimales
+const pressureDecimals = Math.min(2, Math.max(0, decimals));
+
+const pressureUnit =
+  this.config.unit === 'mm'
+    ? 'mm'
+    : this.config.unit === 'in'
+      ? 'inHg'
+      : this.config.unit === 'pa'
+        ? 'Pa'
+        : 'hPa';
+
+
+const svgPressText = this.config.show_pressure
+  ? svg`
+      <text
+        x="${cx}"
+        y="${pressureY}"
+        font-size="22"
+        font-weight="bold"
+        class="label"
+      >
+        ${pressure.toFixed(pressureDecimals)} ${pressureUnit}
+      </text>
+    `
+  : nothing;
+
+  // const svgPressText = (this.config.show_pressure 
+  //      ? svg`<text x="${cx}" y="${pressureY}" font-size="22" font-weight="bold" class="label">
+  //                ${this.config.unit === 'mm'
+  //                    ? pressure.toFixed(1) + ' mm'
+  //                    : this.config.unit === 'in'
+  //                      ? pressure.toFixed(2) + ' inHg'
+  //                        : this.config.unit == 'hpa'
+  //                        ? pressure.toFixed(1) + ' hPa'
+  //                        : pressure.toFixed(1) + ' Pa'
+  //                }
+  //            </text>` 
+  //      : '');
+
 
   // 1) Bloc icône stocké dans une variable
   const iconNode = html`
