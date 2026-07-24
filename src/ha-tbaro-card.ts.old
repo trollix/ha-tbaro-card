@@ -58,10 +58,6 @@ interface BaroCardConfig {
   icon_offset_y?: number;
   angle?: 180 | 270;
   border?: 'none' | 'outer' | 'inner' | 'both';
-  design?: 'classic' | 'modern-arc' | 'modern-history' | 'modern-summary';
-  theme?: 'auto' | 'light' | 'dark';
-  trend?: number;
-  trend_hours?: number;
   segments?: Segment[];
 }
 
@@ -79,150 +75,8 @@ export class HaTbaroCard extends LitElement {
       svg { display: block; margin: auto; }
       .label {
         text-anchor: middle;
-        fill: var(--primary-text-color);
+        fill: #000;
         font-family: sans-serif;
-      }
-
-      .modern-card {
-        cursor: pointer;
-        overflow: hidden;
-        --baro-bg: var(--ha-card-background, var(--card-background-color));
-        --baro-text: var(--primary-text-color);
-        --baro-muted: var(--secondary-text-color);
-        --baro-line: color-mix(in srgb, var(--baro-text) 14%, transparent);
-        --baro-marker: var(--baro-text);
-        --baro-marker-ring: var(--baro-bg);
-        --baro-status-bg: color-mix(in srgb, var(--success-color, #4caf50) 13%, transparent);
-        --baro-status-text: var(--success-color, #4caf50);
-      }
-
-      .modern-card.theme-light {
-        --baro-bg: #f7f8fb;
-        --baro-text: #172033;
-        --baro-muted: #6e7687;
-        --baro-line: rgba(23, 32, 51, 0.13);
-        --baro-marker: #172033;
-        --baro-marker-ring: #f7f8fb;
-        --baro-status-bg: rgba(54, 163, 104, 0.13);
-        --baro-status-text: #278558;
-        background: var(--baro-bg);
-        color: var(--baro-text);
-      }
-
-      .modern-card.theme-dark {
-        --baro-bg: #131722;
-        --baro-text: #f4f6fb;
-        --baro-muted: #929bad;
-        --baro-line: rgba(244, 246, 251, 0.14);
-        --baro-marker: #ffffff;
-        --baro-marker-ring: #131722;
-        --baro-status-bg: rgba(88, 210, 144, 0.15);
-        --baro-status-text: #69dda0;
-        background: var(--baro-bg);
-        color: var(--baro-text);
-      }
-
-      .modern-shell {
-        position: relative;
-        box-sizing: border-box;
-        max-width: 420px;
-        margin: 0 auto;
-        padding: 22px 22px 20px;
-        color: var(--baro-text);
-        font-family: var(--paper-font-body1_-_font-family, sans-serif);
-      }
-
-      .modern-kicker {
-        margin: 0 0 14px;
-        color: var(--baro-muted);
-        font-size: 12px;
-        font-weight: 650;
-        letter-spacing: 0.16em;
-        text-align: center;
-        text-transform: uppercase;
-      }
-
-      .modern-value-row {
-        display: flex;
-        align-items: baseline;
-        justify-content: center;
-        gap: 8px;
-        margin-bottom: -4px;
-      }
-
-      .modern-value {
-        font-size: clamp(52px, 18vw, 76px);
-        font-weight: 300;
-        letter-spacing: -0.055em;
-        line-height: 0.95;
-      }
-
-      .modern-unit {
-        color: var(--baro-muted);
-        font-size: 17px;
-        font-weight: 500;
-      }
-
-      .modern-arc {
-        width: 100%;
-        margin-top: 4px;
-        overflow: visible;
-      }
-
-      .modern-scale-value,
-      .modern-scale-label,
-      .modern-trend,
-      .modern-trend-period {
-        text-anchor: middle;
-        font-family: inherit;
-      }
-
-      .modern-scale-value {
-        fill: var(--baro-text);
-        font-size: 12px;
-        font-weight: 650;
-      }
-
-      .modern-scale-label,
-      .modern-trend-period {
-        fill: var(--baro-muted);
-        font-size: 10px;
-      }
-
-      .modern-trend {
-        fill: var(--baro-text);
-        font-size: 15px;
-        font-weight: 650;
-      }
-
-      .modern-marker {
-        fill: var(--baro-marker);
-        stroke: var(--baro-marker-ring);
-        stroke-width: 4;
-      }
-
-      .modern-footer {
-        display: flex;
-        justify-content: center;
-        margin-top: -2px;
-      }
-
-      .modern-status {
-        display: inline-flex;
-        align-items: center;
-        min-height: 30px;
-        padding: 0 14px;
-        border-radius: 999px;
-        background: var(--baro-status-bg);
-        color: var(--baro-status-text);
-        font-size: 13px;
-        font-weight: 650;
-      }
-
-      .modern-coming-soon {
-        padding: 28px 22px;
-        color: var(--baro-muted);
-        text-align: center;
       }
     `,
     weatherStyles
@@ -255,9 +109,6 @@ export class HaTbaroCard extends LitElement {
       icon_offset_x: 0,
       icon_offset_y: 0,
       border: 'outer',   // valeur par défaut
-      design: 'classic',
-      theme: 'auto',
-      trend_hours: 3,
       size: 300,
       angle: 270,
       unit: 'hpa',
@@ -285,9 +136,7 @@ static getStubConfig() {
     entity: 'sensor.pressure',
     angle: 270,
     unit: 'hpa',
-    border: 'outer',
-    design: 'classic',
-    theme: 'auto',
+    show_border: false,
   };
 }
 
@@ -443,178 +292,9 @@ private _onKeyDown = (e: KeyboardEvent) => {
 };
 
 
-private get pressureUnit(): string {
-  if (this.config.unit === 'mm') return 'mm';
-  if (this.config.unit === 'in') return 'inHg';
-  if (this.config.unit === 'pa') return 'Pa';
-  return 'hPa';
-}
-
-private get normalizedLanguage(): string {
-  return (this.config?.language || this.hass?.locale?.language || 'en')
-    .toLowerCase()
-    .split('-')[0];
-}
-
-private get translatedWeatherLabel(): string {
-  const lang = this.normalizedLanguage;
-  const translations =
-    HaTbaroCard._localeMap[lang] ?? HaTbaroCard._localeMap.en;
-  return translations[this.getWeatherInfo().key] ?? this.getWeatherInfo().key;
-}
-
-private _renderModernArc() {
-  const pressure = this.pressure;
-  const decimals = Math.min(2, Math.max(0, this.config.decimals ?? 0));
-  const theme = this.config.theme ?? 'auto';
-  const title = this.config.title || 'Pression atmosphérique';
-  const trend = this.config.trend;
-  const trendHours = this.config.trend_hours ?? 3;
-  const weatherLabel = this.translatedWeatherLabel;
-
-  const minP = 950;
-  const maxP = 1050;
-  const hpa = Math.min(maxP, Math.max(minP, this.rawHpa));
-
-  const cx = 150;
-  const cy = 150;
-  const radius = 108;
-  const startAngle = Math.PI;
-  const endAngle = Math.PI * 2;
-
-  const segments = this.config.segments ?? [];
-  const arcs = segments.map((segment) => {
-    const from = Math.max(minP, segment.from);
-    const to = Math.min(maxP, segment.to);
-    if (to <= from) return nothing;
-
-    const aStart =
-      startAngle +
-      ((from - minP) / (maxP - minP)) * (endAngle - startAngle);
-    const aEnd =
-      startAngle +
-      ((to - minP) / (maxP - minP)) * (endAngle - startAngle);
-
-    return svg`
-      <path
-        d="${this.describeArc(cx, cy, radius, aStart, aEnd)}"
-        stroke="${segment.color}"
-        stroke-width="12"
-        stroke-linecap="butt"
-        fill="none"
-      />
-    `;
-  });
-
-  const markerAngle =
-    startAngle +
-    ((hpa - minP) / (maxP - minP)) * (endAngle - startAngle);
-  const marker = this.polar(cx, cy, radius, markerAngle);
-
-  const trendText =
-    trend == null
-      ? 'Tendance indisponible'
-      : `${trend > 0 ? '↑ +' : trend < 0 ? '↓ ' : '→ '}${trend.toFixed(1)} hPa`;
-
-  return html`
-    <ha-card
-      class="modern-card ${theme === 'auto' ? '' : `theme-${theme}`}"
-      role="button"
-      tabindex="0"
-      aria-label="Show details"
-      @click=${this._onClick}
-      @keydown=${this._onKeyDown}
-    >
-      <div class="modern-shell">
-        <div class="modern-kicker">${title}</div>
-
-        ${this.config.show_pressure !== false
-          ? html`
-              <div class="modern-value-row">
-                <span class="modern-value">${pressure.toFixed(decimals)}</span>
-                <span class="modern-unit">${this.pressureUnit}</span>
-              </div>
-            `
-          : nothing}
-
-        <svg class="modern-arc" viewBox="0 0 300 194" aria-hidden="true">
-          <path
-            d="${this.describeArc(cx, cy, radius, startAngle, endAngle)}"
-            stroke="var(--baro-line)"
-            stroke-width="12"
-            fill="none"
-          />
-          ${arcs}
-          <circle
-            class="modern-marker"
-            cx="${marker.x}"
-            cy="${marker.y}"
-            r="7"
-          />
-
-          <text x="42" y="174" class="modern-scale-value">950</text>
-          <text x="42" y="188" class="modern-scale-label">basse</text>
-
-          <text x="258" y="174" class="modern-scale-value">1050</text>
-          <text x="258" y="188" class="modern-scale-label">haute</text>
-
-          <text x="150" y="164" class="modern-trend">${trendText}</text>
-          <text x="150" y="182" class="modern-trend-period">
-            ${trend == null ? '' : `${trendHours} h`}
-          </text>
-        </svg>
-
-        ${this.config.show_weather_text !== false
-          ? html`
-              <div class="modern-footer">
-                <span class="modern-status">${weatherLabel}</span>
-              </div>
-            `
-          : nothing}
-      </div>
-    </ha-card>
-  `;
-}
-
-private _renderModernPlaceholder(design: 'modern-history' | 'modern-summary') {
-  const theme = this.config.theme ?? 'auto';
-  const label =
-    design === 'modern-history'
-      ? 'Modern history'
-      : 'Modern summary';
-
-  return html`
-    <ha-card
-      class="modern-card ${theme === 'auto' ? '' : `theme-${theme}`}"
-      role="button"
-      tabindex="0"
-      aria-label="Show details"
-      @click=${this._onClick}
-      @keydown=${this._onKeyDown}
-    >
-      <div class="modern-coming-soon">
-        <strong>${label}</strong><br />
-        Le squelette est prêt. Le rendu arrive après validation de Modern arc.
-      </div>
-    </ha-card>
-  `;
-}
-
-
 render() {
 
   if (!this.config) return html``;
-
-  if (this.config.design === 'modern-arc') {
-    return this._renderModernArc();
-  }
-
-  if (
-    this.config.design === 'modern-history' ||
-    this.config.design === 'modern-summary'
-  ) {
-    return this._renderModernPlaceholder(this.config.design);
-  }
 
   const pressure = this.pressure;
   const {

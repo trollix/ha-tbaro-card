@@ -15,10 +15,6 @@ type Config = {
   unit?: 'hpa' | 'mm' | 'in' | 'pa';
   decimals?: number;
   border?: 'inner' | 'outer' | 'both' | 'none';
-  design?: 'classic' | 'modern-arc' | 'modern-history' | 'modern-summary';
-  theme?: 'auto' | 'light' | 'dark';
-  trend?: number;
-  trend_hours?: number;
   icon_size?: number;
   icon_offset_x?: number;
   icon_offset_y?: number;
@@ -46,19 +42,6 @@ export class HaTbaroCardEditor extends LitElement {
   private _schema = [
     { name: 'entity', selector: { entity: { domain: 'sensor' } } },
     { name: 'title', selector: { text: {} } },
-    { name: 'design', selector: { select: { options: [
-      { value: 'classic', label: 'Classic' },
-      { value: 'modern-arc', label: 'Modern arc' },
-      { value: 'modern-history', label: 'Modern history' },
-      { value: 'modern-summary', label: 'Modern summary' },
-    ] } } },
-    { name: 'theme', selector: { select: { options: [
-      { value: 'auto', label: 'Auto' },
-      { value: 'light', label: 'Light' },
-      { value: 'dark', label: 'Dark' },
-    ] } } },
-    { name: 'trend', selector: { number: { min: -30, max: 30, step: 0.1, mode: 'box' } } },
-    { name: 'trend_hours', selector: { number: { min: 1, max: 24, step: 1 } } },
     { name: 'show_weather_icon', selector: { boolean: {} } },
     { name: 'show_weather_text', selector: { boolean: [] } },
     { name: 'show_pressure', selector: { boolean: [] } },
@@ -103,9 +86,6 @@ export class HaTbaroCardEditor extends LitElement {
     const next: any = { ...value };
     if (next.angle != null) next.angle = Number(next.angle);
     if (next.stroke_width != null) next.stroke_width = Number(next.stroke_width);
-    if (next.decimals != null) next.decimals = Number(next.decimals);
-    if (next.trend != null) next.trend = Number(next.trend);
-    if (next.trend_hours != null) next.trend_hours = Number(next.trend_hours);
     fireEvent(this, 'config-changed', { config: next });
   }
 
