@@ -90,7 +90,7 @@ show_weather_text: true
 show_pressure: true
 angle: 180          # 180 or 270 (optional, default 270)
 unit: mm            # hpa or mm or in or pa (optional, default hpa)
-decimals: 0         # number of decimals for pressure
+decimals: 0         # number of decimals for press
 show_border: true
 stroke_width: 20
 size: 300
