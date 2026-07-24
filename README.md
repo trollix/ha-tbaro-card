@@ -120,6 +120,11 @@ Translations are stored in `locales/`:
 - `locales/fr.json`
 - `locales/ru.json`
 - `locales/es.json`
+- `locales/pl.json`
+- `locales/sv.json`
+- `locales/de.json`
+- `locales/it.json`
+- `locales/nl.json`
 
 By default, the card uses the current Home Assistant UI language.
 You can override it explicitly using the `language` option:
@@ -196,7 +201,6 @@ npm run build      # rollup – generates /dist/ha-tbaro-card.js
 - it: [LeonardoGandini](https://github.com/LeonardoGandini "LeonardoGandini")
 - nl: [rdwdm](https://github.com/rdwdm "rdwdm")
 - sv: [RH-Dreambox](https://github.com/RH-Dreambox "RH-Dreambox")
-
 
 ---
 
