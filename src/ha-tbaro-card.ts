@@ -127,19 +127,19 @@ export class HaTbaroCard extends LitElement {
         box-sizing: border-box;
         width: 100%;
         max-width: 420px;
-        aspect-ratio: 0.82;
+        min-height: 470px;
         margin: 0 auto;
-        padding: 30px 28px 26px;
+        padding: 34px 30px 26px;
         color: var(--baro-text);
         font-family: var(--paper-font-body1_-_font-family, sans-serif);
       }
 
       .modern-kicker {
-        margin: 0 0 28px;
+        margin: 0 0 26px;
         color: var(--baro-muted);
-        font-size: 12px;
-        font-weight: 650;
-        letter-spacing: 0.14em;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.10em;
         text-align: center;
         text-transform: uppercase;
       }
@@ -148,28 +148,26 @@ export class HaTbaroCard extends LitElement {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 6px;
-        margin-bottom: 18px;
+        gap: 8px;
       }
 
       .modern-value {
-        font-size: clamp(58px, 18vw, 82px);
+        font-size: clamp(64px, 20vw, 88px);
         font-weight: 300;
-        letter-spacing: -0.06em;
+        letter-spacing: -0.065em;
         line-height: 0.92;
       }
 
       .modern-unit {
         color: var(--baro-muted);
-        font-size: 18px;
+        font-size: 19px;
         font-weight: 500;
       }
 
       .modern-arc {
         display: block;
         width: 100%;
-        margin-top: 0;
+        margin: 34px auto 0;
         overflow: visible;
       }
 
@@ -183,43 +181,52 @@ export class HaTbaroCard extends LitElement {
 
       .modern-scale-value {
         fill: var(--baro-text);
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 650;
       }
 
       .modern-scale-label,
       .modern-trend-period {
         fill: var(--baro-muted);
-        font-size: 10px;
+        font-size: 11px;
       }
 
       .modern-trend {
         fill: var(--baro-text);
-        font-size: 15px;
+        font-size: 18px;
         font-weight: 650;
       }
 
+      .modern-trend-up {
+        fill: var(--success-color, #4caf50);
+      }
+
+      .modern-trend-down {
+        fill: var(--error-color, #db4437);
+      }
+
       .modern-marker {
-        fill: var(--baro-marker);
+        fill: #fff;
         stroke: var(--baro-marker-ring);
         stroke-width: 4;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.28));
       }
 
       .modern-footer {
         display: flex;
         justify-content: center;
-        margin-top: 18px;
+        margin-top: 24px;
       }
 
       .modern-status {
         display: inline-flex;
         align-items: center;
-        min-height: 38px;
-        padding: 0 20px;
+        min-height: 40px;
+        padding: 0 22px;
         border-radius: 999px;
         background: var(--baro-status-bg);
         color: var(--baro-status-text);
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 650;
       }
 
@@ -476,49 +483,33 @@ private _renderModernArc() {
   const trendHours = this.config.trend_hours ?? 3;
   const weatherLabel = this.translatedWeatherLabel;
 
-  const minP = 950;
-  const maxP = 1050;
+  const minP = 980;
+  const maxP = 1040;
   const hpa = Math.min(maxP, Math.max(minP, this.rawHpa));
 
   const cx = 150;
-  const cy = 158;
+  const cy = 132;
   const radius = 112;
   const startAngle = Math.PI;
   const endAngle = Math.PI * 2;
-
-  const segments = this.config.segments ?? [];
-  const arcs = segments.map((segment) => {
-    const from = Math.max(minP, segment.from);
-    const to = Math.min(maxP, segment.to);
-    if (to <= from) return nothing;
-
-    const aStart =
-      startAngle +
-      ((from - minP) / (maxP - minP)) * (endAngle - startAngle);
-    const aEnd =
-      startAngle +
-      ((to - minP) / (maxP - minP)) * (endAngle - startAngle);
-
-    return svg`
-      <path
-        d="${this.describeArc(cx, cy, radius, aStart, aEnd)}"
-        stroke="${segment.color}"
-        stroke-width="9"
-        stroke-linecap="butt"
-        fill="none"
-      />
-    `;
-  });
 
   const markerAngle =
     startAngle +
     ((hpa - minP) / (maxP - minP)) * (endAngle - startAngle);
   const marker = this.polar(cx, cy, radius, markerAngle);
 
-  const trendText =
+  const trendArrow = trend == null ? '→' : trend > 0 ? '↑' : trend < 0 ? '↓' : '→';
+  const trendValue =
     trend == null
       ? 'Tendance indisponible'
-      : `${trend > 0 ? '↑ +' : trend < 0 ? '↓ ' : '→ '}${trend.toFixed(1)} hPa`;
+      : `${trendArrow} ${trend > 0 ? '+' : ''}${trend.toFixed(1)} hPa`;
+
+  const trendClass =
+    trend == null || trend === 0
+      ? ''
+      : trend > 0
+        ? 'modern-trend-up'
+        : 'modern-trend-down';
 
   return html`
     <ha-card
@@ -541,14 +532,26 @@ private _renderModernArc() {
             `
           : nothing}
 
-        <svg class="modern-arc" viewBox="0 0 300 225" aria-hidden="true">
+        <svg class="modern-arc" viewBox="0 0 300 205" aria-hidden="true">
+          <defs>
+            <linearGradient id="baro-modern-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#3468f4" />
+              <stop offset="30%" stop-color="#49b8e8" />
+              <stop offset="52%" stop-color="#5fd49a" />
+              <stop offset="72%" stop-color="#d5e650" />
+              <stop offset="88%" stop-color="#f3b33f" />
+              <stop offset="100%" stop-color="#f36b3f" />
+            </linearGradient>
+          </defs>
+
           <path
             d="${this.describeArc(cx, cy, radius, startAngle, endAngle)}"
-            stroke="var(--baro-line)"
+            stroke="url(#baro-modern-gradient)"
             stroke-width="9"
+            stroke-linecap="round"
             fill="none"
           />
-          ${arcs}
+
           <circle
             class="modern-marker"
             cx="${marker.x}"
@@ -556,14 +559,16 @@ private _renderModernArc() {
             r="7"
           />
 
-          <text x="36" y="190" class="modern-scale-value">950</text>
-          <text x="36" y="207" class="modern-scale-label">basse</text>
+          <text x="34" y="164" class="modern-scale-value">980</text>
+          <text x="34" y="183" class="modern-scale-label">basse</text>
 
-          <text x="264" y="190" class="modern-scale-value">1050</text>
-          <text x="264" y="207" class="modern-scale-label">haute</text>
+          <text x="266" y="164" class="modern-scale-value">1040</text>
+          <text x="266" y="183" class="modern-scale-label">haute</text>
 
-          <text x="150" y="184" class="modern-trend">${trendText}</text>
-          <text x="150" y="205" class="modern-trend-period">
+          <text x="150" y="160" class="modern-trend ${trendClass}">
+            ${trendValue}
+          </text>
+          <text x="150" y="183" class="modern-trend-period">
             ${trend == null ? '' : `${trendHours} h`}
           </text>
         </svg>
