@@ -768,30 +768,45 @@ private _renderModernArc() {
   const progress = (hpa - minP) / (maxP - minP);
 
   /*
-   * Grande arche du mockup.
-   * Les extrémités restent proches des bords de la carte,
-   * tandis que les points de contrôle remontent franchement
-   * pour obtenir une courbe ample, et non un petit pont central.
+   * Parabole réelle :
+   *
+   *   y = vertexY + a × (x - centerX)²
+   *
+   * Le tracé déborde légèrement sous y = baseY, puis un clip horizontal
+   * coupe proprement ses deux extrémités. On obtient donc à la fois :
+   * - une vraie parabole ;
+   * - deux coupes horizontales nettes.
    */
-  const p0 = { x: 30, y: 214 };
-  const p1 = { x: 30, y: 148 };
-  const p2 = { x: 270, y: 148 };
-  const p3 = { x: 270, y: 214 };
+  const centerX = 150;
+  const vertexY = 154;
+  const baseY = 214;
+  const visibleLeftX = 30;
+  const visibleRightX = 270;
+
+  const parabolaA =
+    (baseY - vertexY) /
+    Math.pow(visibleRightX - centerX, 2);
+
+  const curveStartX = 20;
+  const curveEndX = 280;
+
+  const parabolaY = (x: number) =>
+    vertexY + parabolaA * Math.pow(x - centerX, 2);
 
   const curvePath = `
-    M ${p0.x} ${p0.y}
-    C ${p1.x} ${p1.y},
-      ${p2.x} ${p2.y},
-      ${p3.x} ${p3.y}
+    M ${curveStartX} ${parabolaY(curveStartX)}
+    Q ${centerX} ${2 * vertexY - baseY}
+      ${curveEndX} ${parabolaY(curveEndX)}
   `;
 
-  const marker = this.cubicBezierPoint(
-    p0,
-    p1,
-    p2,
-    p3,
-    progress,
-  );
+  const markerX =
+    visibleLeftX +
+    progress * (visibleRightX - visibleLeftX);
+
+  const marker = {
+    x: markerX,
+    y: parabolaY(markerX),
+  };
 
   const trendArrow =
     trend == null ? '→' : trend > 0 ? '↑' : trend < 0 ? '↓' : '→';
@@ -825,6 +840,10 @@ private _renderModernArc() {
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
+            <clipPath id="baro-parabola-clip">
+              <rect x="0" y="0" width="300" height="${baseY}" />
+            </clipPath>
+
             <linearGradient
               id="baro-modern-gradient"
               x1="0%"
@@ -864,9 +883,10 @@ private _renderModernArc() {
 
           <path
             d="${curvePath}"
+            clip-path="url(#baro-parabola-clip)"
             stroke="url(#baro-modern-gradient)"
             stroke-width="5"
-            stroke-linecap="butt"
+            stroke-linecap="round"
             fill="none"
           />
 
