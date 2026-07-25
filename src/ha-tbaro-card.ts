@@ -211,7 +211,7 @@ export class HaTbaroCard extends LitElement {
       .modern-marker {
         fill: var(--baro-marker);
         stroke: var(--baro-marker-ring);
-        stroke-width: 3;
+        stroke-width: 3.5;
       }
 
       .modern-footer {
@@ -543,6 +543,37 @@ private describeEllipseArc(
           A ${rx} ${ry} 0 ${largeArc} 1 ${endPoint.x} ${endPoint.y}`;
 }
 
+private clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
+}
+
+private cubicBezierPoint(
+  p0: { x: number; y: number },
+  p1: { x: number; y: number },
+  p2: { x: number; y: number },
+  p3: { x: number; y: number },
+  t: number,
+) {
+  const mt = 1 - t;
+  const mt2 = mt * mt;
+  const mt3 = mt2 * mt;
+  const t2 = t * t;
+  const t3 = t2 * t;
+
+  return {
+    x:
+      mt3 * p0.x +
+      3 * mt2 * t * p1.x +
+      3 * mt * t2 * p2.x +
+      t3 * p3.x,
+    y:
+      mt3 * p0.y +
+      3 * mt2 * t * p1.y +
+      3 * mt * t2 * p2.y +
+      t3 * p3.y,
+  };
+}
+
 private get pressureUnit(): string {
   if (this.config.unit === 'mm') return 'mm';
   if (this.config.unit === 'in') return 'inHg';
@@ -574,29 +605,37 @@ private _renderModernArc() {
 
   const minP = 980;
   const maxP = 1040;
-  const hpa = Math.min(maxP, Math.max(minP, this.rawHpa));
+  const hpa = this.clamp(this.rawHpa, minP, maxP);
+  const progress = (hpa - minP) / (maxP - minP);
 
-  const cx = 150;
-  const cy = 72;
-  const radiusX = 136;
-  const radiusY = 58;
+  /*
+   * Courbe Bézier du design moderne.
+   *
+   * Les quatre points permettent de régler séparément :
+   * - la largeur visible de l'arc ;
+   * - la hauteur de l'arche ;
+   * - la troncature sur les côtés.
+   *
+   * Cela évite les compensations peu visibles de l'ellipse tronquée.
+   */
+  const p0 = { x: 56, y: 82 };
+  const p1 = { x: 90, y: 16 };
+  const p2 = { x: 210, y: 16 };
+  const p3 = { x: 244, y: 82 };
 
-  // Arc plus arqué et davantage tronqué sur les côtés.
-  // 208° → 332° conserve la courbe tendue du mockup
-  // sans dessiner une demi-ellipse complète.
-  const startAngle = Math.PI * (216 / 180);
-  const endAngle = Math.PI * (324 / 180);
+  const curvePath = `
+    M ${p0.x} ${p0.y}
+    C ${p1.x} ${p1.y},
+      ${p2.x} ${p2.y},
+      ${p3.x} ${p3.y}
+  `;
 
-  const markerAngle =
-    startAngle +
-    ((hpa - minP) / (maxP - minP)) * (endAngle - startAngle);
-
-  const marker = this.polarEllipse(
-    cx,
-    cy,
-    radiusX,
-    radiusY,
-    markerAngle,
+  const marker = this.cubicBezierPoint(
+    p0,
+    p1,
+    p2,
+    p3,
+    progress,
   );
 
   const trendArrow =
@@ -635,9 +674,15 @@ private _renderModernArc() {
             `
           : nothing}
 
-        <svg class="modern-arc" viewBox="0 0 300 138" aria-hidden="true">
+        <svg class="modern-arc" viewBox="0 0 300 142" aria-hidden="true">
           <defs>
-            <linearGradient id="baro-modern-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient
+              id="baro-modern-gradient"
+              x1="0%"
+              y1="0%"
+              x2="100%"
+              y2="0%"
+            >
               <stop offset="0%" stop-color="#3a73f4" />
               <stop offset="28%" stop-color="#43b7df" />
               <stop offset="52%" stop-color="#66cf91" />
@@ -648,14 +693,7 @@ private _renderModernArc() {
           </defs>
 
           <path
-            d="${this.describeEllipseArc(
-              cx,
-              cy,
-              radiusX,
-              radiusY,
-              startAngle,
-              endAngle,
-            )}"
+            d="${curvePath}"
             stroke="url(#baro-modern-gradient)"
             stroke-width="5"
             stroke-linecap="round"
@@ -666,14 +704,14 @@ private _renderModernArc() {
             class="modern-marker"
             cx="${marker.x}"
             cy="${marker.y}"
-            r="5.5"
+            r="7.5"
           />
 
-          <text x="42" y="108" class="modern-scale-value">980</text>
-          <text x="42" y="126" class="modern-scale-label">basse</text>
+          <text x="52" y="108" class="modern-scale-value">980</text>
+          <text x="52" y="128" class="modern-scale-label">basse</text>
 
-          <text x="258" y="108" class="modern-scale-value">1040</text>
-          <text x="258" y="126" class="modern-scale-label">haute</text>
+          <text x="248" y="108" class="modern-scale-value">1040</text>
+          <text x="248" y="128" class="modern-scale-label">haute</text>
 
           ${trend == null
             ? svg`
@@ -682,10 +720,10 @@ private _renderModernArc() {
                 </text>
               `
             : svg`
-                <text x="150" y="106" class="modern-trend ${trendClass}">
+                <text x="150" y="108" class="modern-trend ${trendClass}">
                   ${trendArrow} ${trendNumber}
                 </text>
-                <text x="150" y="126" class="modern-trend-period">
+                <text x="150" y="128" class="modern-trend-period">
                   ${trendHours} h
                 </text>
               `}
