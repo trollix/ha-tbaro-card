@@ -525,7 +525,6 @@ private _renderModernArc() {
   const decimals = Math.min(2, Math.max(0, this.config.decimals ?? 0));
   const theme = this.config.theme ?? 'auto';
   const title = this.config.title || 'Pression';
-  const trend = this._historyTrend;
   const trendHours = Math.max(1, this.config.trend_hours ?? 3);
   const weatherLabel = this.translatedWeatherLabel;
 
@@ -533,6 +532,19 @@ private _renderModernArc() {
   const maxP = 1050;
   const hpa = this.clamp(this.rawHpa, minP, maxP);
   const progress = (hpa - minP) / (maxP - minP);
+
+  // Traduction du trend en unité déclaré dans la configuration
+  const trendHpa = this._historyTrend;
+  const trend =
+    trendHpa == null
+      ? null
+      : this.config.unit === 'mm'
+        ? trendHpa * HaTbaroCard.HPA_TO_MM
+        : this.config.unit === 'in'
+          ? trendHpa * HaTbaroCard.HPA_TO_IN
+          : this.config.unit === 'pa'
+            ? trendHpa * HaTbaroCard.HPA_TO_PA
+            : trendHpa;
 
   /*
    * Parabole réelle :
@@ -580,10 +592,18 @@ private _renderModernArc() {
   const trendArrow =
     trend == null ? '→' : trend > 0 ? '↑' : trend < 0 ? '↓' : '→';
 
+  const trendDecimals =
+    this.config.unit === 'in'
+      ? 2
+      : this.config.unit === 'pa'
+        ? 0
+        : 1;
+
   const trendNumber =
     trend == null
       ? ''
-      : `${trend > 0 ? '+' : ''}${trend.toFixed(1)} hPa`;
+      : `${trend > 0 ? '+' : ''}${trend.toFixed(trendDecimals)} ${this.pressureUnit}`;
+
 
   const trendClass =
     trend == null || trend === 0
