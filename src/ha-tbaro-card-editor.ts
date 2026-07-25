@@ -20,7 +20,7 @@ type Config = {
   show_weather_text?: boolean;
   show_pressure?: boolean;
   angle?: 180 | 270;
-  unit?: 'hpa' | 'mm' | 'in' | 'pa';
+  unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
   decimals?: number;
   border?: 'inner' | 'outer' | 'both' | 'none';
   icon_size?: number;
@@ -81,6 +81,7 @@ export class HaTbaroCardEditor extends LitElement {
               { value: 'mm', label: 'mmHg' },
               { value: 'in', label: 'inHg' },
               { value: 'pa', label: 'Pa' },
+              { value: 'mbar', label: 'mbar' },
             ],
           },
         },

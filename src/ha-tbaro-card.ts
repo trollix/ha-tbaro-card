@@ -44,7 +44,7 @@ interface BaroCardConfig {
   entity: string;
   title?: string;
   language?: string;
-  unit?: 'hpa' | 'mm' | 'in' | 'pa';
+  unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
   decimals?: number;
   needle_color?: string;
   tick_color?: string;
@@ -433,7 +433,7 @@ static getStubConfig() {
       return this.rawHpa * HaTbaroCard.HPA_TO_IN;
     if (this.config.unit === 'pa')                // hPa → Pa
       return this.rawHpa * HaTbaroCard.HPA_TO_PA;
-    return this.rawHpa;                           // hPa direct
+    return this.rawHpa;                           // hPa direct and mbar
   }
 
 
@@ -737,6 +737,7 @@ private get pressureUnit(): string {
   if (this.config.unit === 'mm') return 'mm';
   if (this.config.unit === 'in') return 'inHg';
   if (this.config.unit === 'pa') return 'Pa';
+  if (this.config.unit === 'mbar') return 'mbar';
   return 'hPa';
 }
 
@@ -1156,6 +1157,8 @@ const pressureUnit =
       ? 'inHg'
       : this.config.unit === 'pa'
         ? 'Pa'
+        : this.config.unit === 'mbar'
+        ? 'mbar'
         : 'hPa';
 
 
