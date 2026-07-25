@@ -252,30 +252,30 @@ export class HaTbaroCard extends LitElement {
 
       .modern-svg-title {
         fill: var(--baro-muted);
-        font-size: 10px;
+        font-size: 13px;
         font-weight: 500;
-        letter-spacing: 2.2px;
+        letter-spacing: 2.1px;
         text-anchor: middle;
         text-transform: uppercase;
       }
 
       .modern-svg-value {
         fill: var(--baro-text);
-        font-size: 64px;
+        font-size: 62px;
         font-weight: 300;
         text-anchor: middle;
       }
 
       .modern-svg-unit {
         fill: var(--baro-muted);
-        font-size: 15px;
+        font-size: 17px;
         font-weight: 500;
         text-anchor: middle;
       }
 
       .modern-svg-scale-value {
         fill: var(--baro-text);
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 600;
         text-anchor: middle;
       }
@@ -283,13 +283,13 @@ export class HaTbaroCard extends LitElement {
       .modern-svg-scale-label,
       .modern-svg-trend-period {
         fill: var(--baro-muted);
-        font-size: 9px;
+        font-size: 11px;
         text-anchor: middle;
       }
 
       .modern-svg-trend {
         fill: var(--baro-text);
-        font-size: 16px;
+        font-size: 19px;
         font-weight: 500;
         text-anchor: middle;
       }
@@ -304,7 +304,7 @@ export class HaTbaroCard extends LitElement {
 
       .modern-svg-status {
         fill: var(--baro-status-text);
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 500;
         text-anchor: middle;
       }
@@ -670,8 +670,8 @@ private _renderModernArc() {
   const trendHours = this.config.trend_hours ?? 3;
   const weatherLabel = this.translatedWeatherLabel;
 
-  const minP = 980;
-  const maxP = 1040;
+  const minP = 950;
+  const maxP = 1050;
   const hpa = this.clamp(this.rawHpa, minP, maxP);
   const progress = (hpa - minP) / (maxP - minP);
 
@@ -779,10 +779,10 @@ private _renderModernArc() {
             r="8"
           />
 
-          <text x="38" y="239" class="modern-svg-scale-value">980</text>
+          <text x="38" y="239" class="modern-svg-scale-value">950</text>
           <text x="38" y="255" class="modern-svg-scale-label">basse</text>
 
-          <text x="262" y="239" class="modern-svg-scale-value">1040</text>
+          <text x="262" y="239" class="modern-svg-scale-value">1050</text>
           <text x="262" y="255" class="modern-svg-scale-label">haute</text>
 
           ${trend == null
