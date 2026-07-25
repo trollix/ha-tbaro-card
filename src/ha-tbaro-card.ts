@@ -740,11 +740,17 @@ private _renderModernArc() {
               x2="100%"
               y2="0%"
             >
+              <!-- 1/5 bleu, 1/5 vert, 1/5 jaune, 2/5 rouge -->
               <stop offset="0%" stop-color="#3a73f4" />
-              <stop offset="25%" stop-color="#43b7df" />
-              <stop offset="50%" stop-color="#66cf91" />
-              <stop offset="72%" stop-color="#d5df55" />
-              <stop offset="88%" stop-color="#f0b343" />
+              <stop offset="20%" stop-color="#43b7df" />
+
+              <stop offset="20%" stop-color="#66cf91" />
+              <stop offset="40%" stop-color="#66cf91" />
+
+              <stop offset="40%" stop-color="#d5df55" />
+              <stop offset="60%" stop-color="#f0b343" />
+
+              <stop offset="60%" stop-color="#f57a45" />
               <stop offset="100%" stop-color="#f57a45" />
             </linearGradient>
           </defs>
