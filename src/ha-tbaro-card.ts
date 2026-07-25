@@ -1,7 +1,7 @@
 // ha-tbaro-card.ts
 
 import { LitElement, html, css, svg, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 
 import './ha-tbaro-card-editor';
@@ -69,6 +69,11 @@ interface BaroCardConfig {
 export class HaTbaroCard extends LitElement {
   @property({ attribute: false }) hass: any;
   @property({ type: Object }) config!: BaroCardConfig;
+
+  @state() private _historyTrend: number | null = null;
+
+  private _trendRequestKey = '';
+  private _trendRequestInFlight = false;
 
   private _translations: Record<string, string> = {};
   private static _localeMap: Record<string, Record<string, string>> = { en, de, es, fr, it, nl, pl, ru, sv };
@@ -283,7 +288,7 @@ export class HaTbaroCard extends LitElement {
       .modern-svg-scale-label,
       .modern-svg-trend-period {
         fill: var(--baro-muted);
-        font-size: 11px;
+        font-size: 12px;
         text-anchor: middle;
       }
 
@@ -540,6 +545,93 @@ private _onKeyDown = (e: KeyboardEvent) => {
 };
 
 
+protected updated(changedProperties: Map<PropertyKey, unknown>) {
+  super.updated(changedProperties);
+
+  if (
+    changedProperties.has('hass') ||
+    changedProperties.has('config')
+  ) {
+    this._refreshPressureTrend();
+  }
+}
+
+private historicalStateToHpa(stateValue: string): number | null {
+  const value = Number.parseFloat(stateValue);
+  if (!Number.isFinite(value)) return null;
+
+  const entity = this.hass?.states?.[this.config.entity];
+  const key = (entity?.attributes?.unit_of_measurement || 'hPa')
+    .toLowerCase()
+    .replace(/[^a-z]/g, '');
+
+  const factor = HaTbaroCard.UNIT_TO_HPA[key] ?? 1;
+  return value * factor;
+}
+
+private async _refreshPressureTrend() {
+  if (
+    !this.hass ||
+    !this.config?.entity ||
+    this.config.design !== 'modern-arc'
+  ) {
+    return;
+  }
+
+  const hours = Math.max(1, this.config.trend_hours ?? 3);
+
+  // Une requête maximum toutes les cinq minutes pour cette entité/période.
+  const fiveMinuteBucket = Math.floor(Date.now() / (5 * 60 * 1000));
+  const requestKey =
+    `${this.config.entity}|${hours}|${fiveMinuteBucket}`;
+
+  if (
+    requestKey === this._trendRequestKey ||
+    this._trendRequestInFlight
+  ) {
+    return;
+  }
+
+  this._trendRequestKey = requestKey;
+  this._trendRequestInFlight = true;
+
+  const end = new Date();
+  const start = new Date(end.getTime() - hours * 60 * 60 * 1000);
+
+  const path =
+    `history/period/${encodeURIComponent(start.toISOString())}` +
+    `?filter_entity_id=${encodeURIComponent(this.config.entity)}` +
+    `&end_time=${encodeURIComponent(end.toISOString())}` +
+    `&minimal_response&no_attributes`;
+
+  try {
+    const response = await this.hass.callApi('GET', path);
+    const history = Array.isArray(response?.[0]) ? response[0] : [];
+
+    const oldestValidState = history.find(
+      (item: any) =>
+        this.historicalStateToHpa(String(item?.state)) !== null,
+    );
+
+    const previousHpa = oldestValidState
+      ? this.historicalStateToHpa(String(oldestValidState.state))
+      : null;
+
+    this._historyTrend =
+      previousHpa === null
+        ? null
+        : this.rawHpa - previousHpa;
+  } catch (error) {
+    console.warn(
+      '[ha-tbaro-card] Unable to load pressure history:',
+      error,
+    );
+    this._historyTrend = null;
+  } finally {
+    this._trendRequestInFlight = false;
+  }
+}
+
 public getCardSize(): number {
   if (this.config?.design === 'modern-arc') return 4;
   if (
@@ -666,8 +758,8 @@ private _renderModernArc() {
   const decimals = Math.min(2, Math.max(0, this.config.decimals ?? 0));
   const theme = this.config.theme ?? 'auto';
   const title = this.config.title || 'Pression';
-  const trend = this.config.trend;
-  const trendHours = this.config.trend_hours ?? 3;
+  const trend = this._historyTrend;
+  const trendHours = Math.max(1, this.config.trend_hours ?? 3);
   const weatherLabel = this.translatedWeatherLabel;
 
   const minP = 950;
@@ -682,8 +774,8 @@ private _renderModernArc() {
    * pour obtenir une courbe ample, et non un petit pont central.
    */
   const p0 = { x: 30, y: 214 };
-  const p1 = { x: 78, y: 148 };
-  const p2 = { x: 222, y: 148 };
+  const p1 = { x: 30, y: 148 };
+  const p2 = { x: 270, y: 148 };
   const p3 = { x: 270, y: 214 };
 
   const curvePath = `
@@ -740,7 +832,7 @@ private _renderModernArc() {
               x2="100%"
               y2="0%"
             >
-              <!-- 1/5 bleu, 1/5 vert, 1/5 jaune, 2/5 rouge -->
+              <!-- Seuil haute pression à 1013 hPa sur l'échelle 950–1050 -->
               <stop offset="0%" stop-color="#3a73f4" />
               <stop offset="20%" stop-color="#43b7df" />
 
@@ -748,9 +840,9 @@ private _renderModernArc() {
               <stop offset="40%" stop-color="#66cf91" />
 
               <stop offset="40%" stop-color="#d5df55" />
-              <stop offset="60%" stop-color="#f0b343" />
+              <stop offset="63%" stop-color="#f0b343" />
 
-              <stop offset="60%" stop-color="#f57a45" />
+              <stop offset="63%" stop-color="#f57a45" />
               <stop offset="100%" stop-color="#f57a45" />
             </linearGradient>
           </defs>
@@ -774,7 +866,7 @@ private _renderModernArc() {
             d="${curvePath}"
             stroke="url(#baro-modern-gradient)"
             stroke-width="5"
-            stroke-linecap="round"
+            stroke-linecap="butt"
             fill="none"
           />
 
