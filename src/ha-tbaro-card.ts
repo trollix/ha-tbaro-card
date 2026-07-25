@@ -84,7 +84,6 @@ export class HaTbaroCard extends LitElement {
       }
 
       .modern-card {
-        container-type: inline-size;
         cursor: pointer;
         overflow: hidden;
         --baro-bg: var(--ha-card-background, var(--card-background-color));
@@ -131,47 +130,39 @@ export class HaTbaroCard extends LitElement {
         min-width: 0;
         margin: 0 auto;
         padding:
-          clamp(22px, 6.5cqw, 28px)
-          clamp(18px, 5.5cqw, 24px)
-          clamp(18px, 5cqw, 22px);
+          clamp(22px, 6.5vw, 28px)
+          clamp(18px, 5.5vw, 24px)
+          clamp(18px, 5vw, 22px);
         color: var(--baro-text);
         font-family: var(--paper-font-body1_-_font-family, sans-serif);
       }
 
-      .modern-kicker {
-        margin: 0 0 clamp(14px, 4.2cqw, 18px);
-        overflow: hidden;
-        color: var(--baro-muted);
-        font-size: clamp(10px, 2.8cqw, 12px);
-        font-weight: 500;
-        letter-spacing: 0.12em;
-        text-align: center;
-        text-overflow: ellipsis;
-        text-transform: uppercase;
-        white-space: nowrap;
-      }
+.modern-kicker {
+  margin-bottom: 16px;
+  font-size: 11px;
+}
 
-      .modern-value-row {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: clamp(3px, 1.2cqw, 5px);
-      }
+.modern-value {
+  font-size: 58px;
+}
 
-      .modern-value {
-        max-width: 100%;
-        overflow: hidden;
-        font-size: clamp(48px, 18cqw, 66px);
-        font-weight: 300;
-        letter-spacing: -0.055em;
-        line-height: 0.92;
-        text-overflow: clip;
-        white-space: nowrap;
-      }
+.modern-unit {
+  font-size: 13px;
+}
+
+.modern-footer {
+  margin-top: 14px;
+}
+
+.modern-status {
+  min-height: 32px;
+  padding: 0 20px;
+  font-size: 13px;
+}
 
       .modern-unit {
         color: var(--baro-muted);
-        font-size: clamp(11px, 3.4cqw, 14px);
+        font-size: clamp(11px, 3.4vw, 14px);
         font-weight: 500;
       }
 
@@ -179,7 +170,7 @@ export class HaTbaroCard extends LitElement {
         display: block;
         width: 100%;
         height: auto;
-        margin: clamp(8px, 2.8cqw, 12px) auto 0;
+        margin: clamp(8px, 2.8vw, 12px) auto 0;
         overflow: visible;
       }
 
@@ -226,45 +217,23 @@ export class HaTbaroCard extends LitElement {
       .modern-footer {
         display: flex;
         justify-content: center;
-        margin-top: clamp(10px, 3cqw, 14px);
+        margin-top: clamp(10px, 3vw, 14px);
       }
 
       .modern-status {
         display: inline-flex;
         align-items: center;
-        min-height: clamp(30px, 9cqw, 34px);
+        min-height: clamp(30px, 9vw, 34px);
         max-width: 100%;
-        padding: 0 clamp(18px, 5.5cqw, 24px);
+        padding: 0 clamp(18px, 5.5vw, 24px);
         overflow: hidden;
         border-radius: 999px;
         background: var(--baro-status-bg);
         color: var(--baro-status-text);
-        font-size: clamp(12px, 3.8cqw, 14px);
+        font-size: clamp(12px, 3.8vw, 14px);
         font-weight: 500;
         text-overflow: ellipsis;
         white-space: nowrap;
-      }
-
-      @container (max-width: 220px) {
-        .modern-shell {
-          padding: 14px 12px 13px;
-        }
-
-        .modern-kicker {
-          margin-bottom: 9px;
-        }
-
-        .modern-value {
-          font-size: clamp(36px, 16cqw, 46px);
-        }
-
-        .modern-arc {
-          margin-top: 9px;
-        }
-
-        .modern-footer {
-          margin-top: 9px;
-        }
       }
 
       .modern-coming-soon {
@@ -272,6 +241,19 @@ export class HaTbaroCard extends LitElement {
         color: var(--baro-muted);
         text-align: center;
       }
+
+
+
+    @media (max-width: 500px) {
+  .modern-value {
+    font-size: 48px;
+  }
+
+  .modern-shell {
+    padding: 18px 14px 16px;
+  }
+}
+
     `,
     weatherStyles
   ];
