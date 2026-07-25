@@ -596,14 +596,14 @@ private _renderModernArc() {
 
   const cx = 150;
   const cy = 72;
-  const radiusX = 132;
-  const radiusY = 48;
+  const radiusX = 136;
+  const radiusY = 58;
 
   // Arc plus arqué et davantage tronqué sur les côtés.
   // 208° → 332° conserve la courbe tendue du mockup
   // sans dessiner une demi-ellipse complète.
-  const startAngle = Math.PI * (208 / 180);
-  const endAngle = Math.PI * (332 / 180);
+  const startAngle = Math.PI * (216 / 180);
+  const endAngle = Math.PI * (324 / 180);
 
   const markerAngle =
     startAngle +
