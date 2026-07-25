@@ -2,5 +2,7 @@
   "sun": "sonnig",
   "partly": "teilw. bewölkt",
   "rain": "Regen mögl.",
-  "storm": "stürmig"
+  "storm": "stürmig",
+  "low": "Niedrig",
+  "high": "Hoch"
 }

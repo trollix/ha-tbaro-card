@@ -2,5 +2,7 @@
   "sun": "Soleil radieux",
   "partly": "Ciel dégagé",
   "rain": "Pluie probable",
-  "storm": "Tempête"
+  "storm": "Tempête",
+  "low": "Basse",
+  "high": "Haute"
 }

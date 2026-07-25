@@ -2,5 +2,7 @@
   "sun": "Sole Splendente",
   "partly": "Cielo Limpido",
   "rain": "Possibilità di Pioggia",
-  "storm": "Tempesta"
+  "storm": "Tempesta",
+  "low": "Bassa",
+  "high": "Alta"
 }

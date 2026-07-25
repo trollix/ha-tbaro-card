@@ -2,5 +2,7 @@
   "sun":   "Sol radiante",
   "partly": "Cielo despejado",
   "rain":  "Probabilidad de lluvia",
-  "storm": "Tormenta"
+  "storm": "Tormenta",
+  "low": "Baja",
+  "high": "Alta"
 }

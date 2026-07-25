@@ -533,7 +533,7 @@ private _renderModernArc() {
   const hpa = this.clamp(this.rawHpa, minP, maxP);
   const progress = (hpa - minP) / (maxP - minP);
 
-  // Traduction du trend en unité déclaré dans la configuration
+  // Traduction du trend en unité déclarée dans la configuration
   const trendHpa = this._historyTrend;
   const trend =
     trendHpa == null
@@ -545,6 +545,19 @@ private _renderModernArc() {
           : this.config.unit === 'pa'
             ? trendHpa * HaTbaroCard.HPA_TO_PA
             : trendHpa;
+
+
+   
+
+  const lang = this.normalizedLanguage;
+
+  const translations =
+    HaTbaroCard._localeMap[lang] ??
+    HaTbaroCard._localeMap.en;
+
+  const lowLabel = translations.low ?? 'Low';
+  const highLabel = translations.high ?? 'High';
+
 
   /*
    * Parabole réelle :
@@ -681,11 +694,11 @@ private _renderModernArc() {
             r="8"
           />
 
-          <text x="38" y="239" class="modern-svg-scale-value">950</text>
-          <text x="38" y="255" class="modern-svg-scale-label">basse</text>
+        <text x="38" y="239" class="modern-svg-scale-value">950</text>
+        <text x="38" y="255" class="modern-svg-scale-label">${lowLabel}</text>
 
-          <text x="262" y="239" class="modern-svg-scale-value">1050</text>
-          <text x="262" y="255" class="modern-svg-scale-label">haute</text>
+        <text x="262" y="239" class="modern-svg-scale-value">1050</text>
+        <text x="262" y="255" class="modern-svg-scale-label">${highLabel}</text>
 
           ${trend == null
             ? svg`

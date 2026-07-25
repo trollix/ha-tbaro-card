@@ -1,6 +1,8 @@
 {
-"sun": "Soligt",
-"partly": "Växlande molnighet",
-"rain": "Risk för regn",
-"storm": "Storm"
+  "sun": "Soligt",
+  "partly": "Växlande molnighet",
+  "rain": "Risk för regn",
+  "storm": "Storm",
+  "low": "Lågt",
+  "high": "Högt"
 }

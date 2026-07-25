@@ -2,5 +2,7 @@
   "sun": "Pełne słońce",
   "partly": "Bezchmurne niebo",
   "rain": "Prawdopodobny deszcz",
-  "storm": "Burza"
+  "storm": "Burza",
+  "low": "Niskie",
+  "high": "Wysokie"
 }
