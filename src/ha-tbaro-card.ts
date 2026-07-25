@@ -242,6 +242,73 @@ export class HaTbaroCard extends LitElement {
         text-align: center;
       }
 
+      .modern-svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        font-family: var(--paper-font-body1_-_font-family, sans-serif);
+      }
+
+      .modern-svg-title {
+        fill: var(--baro-muted);
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 2.2px;
+        text-anchor: middle;
+        text-transform: uppercase;
+      }
+
+      .modern-svg-value {
+        fill: var(--baro-text);
+        font-size: 64px;
+        font-weight: 300;
+        text-anchor: middle;
+      }
+
+      .modern-svg-unit {
+        fill: var(--baro-muted);
+        font-size: 15px;
+        font-weight: 500;
+        text-anchor: middle;
+      }
+
+      .modern-svg-scale-value {
+        fill: var(--baro-text);
+        font-size: 11px;
+        font-weight: 600;
+        text-anchor: middle;
+      }
+
+      .modern-svg-scale-label,
+      .modern-svg-trend-period {
+        fill: var(--baro-muted);
+        font-size: 9px;
+        text-anchor: middle;
+      }
+
+      .modern-svg-trend {
+        fill: var(--baro-text);
+        font-size: 16px;
+        font-weight: 500;
+        text-anchor: middle;
+      }
+
+      .modern-svg-trend-up {
+        fill: var(--success-color, #4caf50);
+      }
+
+      .modern-svg-trend-down {
+        fill: var(--error-color, #db4437);
+      }
+
+      .modern-svg-status {
+        fill: var(--baro-status-text);
+        font-size: 14px;
+        font-weight: 500;
+        text-anchor: middle;
+      }
+
 
 
     @media (max-width: 500px) {
@@ -609,19 +676,15 @@ private _renderModernArc() {
   const progress = (hpa - minP) / (maxP - minP);
 
   /*
-   * Courbe Bézier du design moderne.
-   *
-   * Les quatre points permettent de régler séparément :
-   * - la largeur visible de l'arc ;
-   * - la hauteur de l'arche ;
-   * - la troncature sur les côtés.
-   *
-   * Cela évite les compensations peu visibles de l'ellipse tronquée.
+   * Grande arche du mockup.
+   * Les extrémités restent proches des bords de la carte,
+   * tandis que les points de contrôle remontent franchement
+   * pour obtenir une courbe ample, et non un petit pont central.
    */
-  const p0 = { x: 56, y: 82 };
-  const p1 = { x: 90, y: 16 };
-  const p2 = { x: 210, y: 16 };
-  const p3 = { x: 244, y: 82 };
+  const p0 = { x: 30, y: 214 };
+  const p1 = { x: 78, y: 148 };
+  const p2 = { x: 222, y: 148 };
+  const p3 = { x: 270, y: 214 };
 
   const curvePath = `
     M ${p0.x} ${p0.y}
@@ -650,8 +713,8 @@ private _renderModernArc() {
     trend == null || trend === 0
       ? ''
       : trend > 0
-        ? 'modern-trend-up'
-        : 'modern-trend-down';
+        ? 'modern-svg-trend-up'
+        : 'modern-svg-trend-down';
 
   return html`
     <ha-card
@@ -662,19 +725,13 @@ private _renderModernArc() {
       @click=${this._onClick}
       @keydown=${this._onKeyDown}
     >
-      <div class="modern-shell">
-        <div class="modern-kicker">${title}</div>
-
-        ${this.config.show_pressure !== false
-          ? html`
-              <div class="modern-value-row">
-                <span class="modern-value">${pressure.toFixed(decimals)}</span>
-                <span class="modern-unit">${this.pressureUnit}</span>
-              </div>
-            `
-          : nothing}
-
-        <svg class="modern-arc" viewBox="0 0 300 142" aria-hidden="true">
+      ${svg`
+        <svg
+          class="modern-svg"
+          viewBox="0 0 300 360"
+          aria-hidden="true"
+          preserveAspectRatio="xMidYMid meet"
+        >
           <defs>
             <linearGradient
               id="baro-modern-gradient"
@@ -684,13 +741,28 @@ private _renderModernArc() {
               y2="0%"
             >
               <stop offset="0%" stop-color="#3a73f4" />
-              <stop offset="28%" stop-color="#43b7df" />
-              <stop offset="52%" stop-color="#66cf91" />
+              <stop offset="25%" stop-color="#43b7df" />
+              <stop offset="50%" stop-color="#66cf91" />
               <stop offset="72%" stop-color="#d5df55" />
               <stop offset="88%" stop-color="#f0b343" />
               <stop offset="100%" stop-color="#f57a45" />
             </linearGradient>
           </defs>
+
+          <text x="150" y="30" class="modern-svg-title">
+            ${title}
+          </text>
+
+          ${this.config.show_pressure !== false
+            ? svg`
+                <text x="150" y="104" class="modern-svg-value">
+                  ${pressure.toFixed(decimals)}
+                </text>
+                <text x="150" y="133" class="modern-svg-unit">
+                  ${this.pressureUnit}
+                </text>
+              `
+            : nothing}
 
           <path
             d="${curvePath}"
@@ -704,39 +776,55 @@ private _renderModernArc() {
             class="modern-marker"
             cx="${marker.x}"
             cy="${marker.y}"
-            r="7.5"
+            r="8"
           />
 
-          <text x="52" y="108" class="modern-scale-value">980</text>
-          <text x="52" y="128" class="modern-scale-label">basse</text>
+          <text x="38" y="239" class="modern-svg-scale-value">980</text>
+          <text x="38" y="255" class="modern-svg-scale-label">basse</text>
 
-          <text x="248" y="108" class="modern-scale-value">1040</text>
-          <text x="248" y="128" class="modern-scale-label">haute</text>
+          <text x="262" y="239" class="modern-svg-scale-value">1040</text>
+          <text x="262" y="255" class="modern-svg-scale-label">haute</text>
 
           ${trend == null
             ? svg`
-                <text x="150" y="112" class="modern-trend">
+                <text x="150" y="246" class="modern-svg-trend">
                   Tendance indisponible
                 </text>
               `
             : svg`
-                <text x="150" y="108" class="modern-trend ${trendClass}">
+                <text
+                  x="150"
+                  y="242"
+                  class="modern-svg-trend ${trendClass}"
+                >
                   ${trendArrow} ${trendNumber}
                 </text>
-                <text x="150" y="128" class="modern-trend-period">
+                <text
+                  x="150"
+                  y="262"
+                  class="modern-svg-trend-period"
+                >
                   ${trendHours} h
                 </text>
               `}
-        </svg>
 
-        ${this.config.show_weather_text !== false
-          ? html`
-              <div class="modern-footer">
-                <span class="modern-status">${weatherLabel}</span>
-              </div>
-            `
-          : nothing}
-      </div>
+          ${this.config.show_weather_text !== false
+            ? svg`
+                <rect
+                  x="94"
+                  y="294"
+                  width="112"
+                  height="38"
+                  rx="19"
+                  fill="var(--baro-status-bg)"
+                />
+                <text x="150" y="318" class="modern-svg-status">
+                  ${weatherLabel}
+                </text>
+              `
+            : nothing}
+        </svg>
+      `}
     </ha-card>
   `;
 }
