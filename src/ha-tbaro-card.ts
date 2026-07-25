@@ -778,7 +778,7 @@ private _renderModernArc() {
    * - deux coupes horizontales nettes.
    */
   const centerX = 150;
-  const vertexY = 154;
+  const vertexY = 166;
   const baseY = 214;
   const visibleLeftX = 30;
   const visibleRightX = 270;
@@ -787,16 +787,18 @@ private _renderModernArc() {
     (baseY - vertexY) /
     Math.pow(visibleRightX - centerX, 2);
 
-  const curveStartX = 20;
-  const curveEndX = 280;
-
   const parabolaY = (x: number) =>
     vertexY + parabolaA * Math.pow(x - centerX, 2);
 
+  /*
+   * Segment visible exact de la parabole.
+   * stroke-linecap="butt" coupe automatiquement chaque extrémité
+   * perpendiculairement à la tangente locale.
+   */
   const curvePath = `
-    M ${curveStartX} ${parabolaY(curveStartX)}
+    M ${visibleLeftX} ${parabolaY(visibleLeftX)}
     Q ${centerX} ${2 * vertexY - baseY}
-      ${curveEndX} ${parabolaY(curveEndX)}
+      ${visibleRightX} ${parabolaY(visibleRightX)}
   `;
 
   const markerX =
@@ -805,7 +807,7 @@ private _renderModernArc() {
 
   const marker = {
     x: markerX,
-    y: parabolaY(markerX),
+    y: parabolaY(markerX) + 2,
   };
 
   const trendArrow =
@@ -840,10 +842,6 @@ private _renderModernArc() {
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
-            <clipPath id="baro-parabola-clip">
-              <rect x="0" y="0" width="300" height="${baseY}" />
-            </clipPath>
-
             <linearGradient
               id="baro-modern-gradient"
               x1="0%"
@@ -883,10 +881,9 @@ private _renderModernArc() {
 
           <path
             d="${curvePath}"
-            clip-path="url(#baro-parabola-clip)"
             stroke="url(#baro-modern-gradient)"
             stroke-width="5"
-            stroke-linecap="round"
+            stroke-linecap="butt"
             fill="none"
           />
 
