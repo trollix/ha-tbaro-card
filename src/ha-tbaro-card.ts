@@ -8,7 +8,7 @@ import './ha-tbaro-card-editor';
 
 // Import des icônes SVG comme chaînes via rollup-plugin-string
 // @ts-ignore
-import weatherStyles from './styles.js';
+import weatherStyles from './styles/classic-style.js';
 import sunIcon from './icons/sun.svg';
 import rainIcon from './icons/rain.svg';
 import partlyIcon from './icons/partly.svg';
