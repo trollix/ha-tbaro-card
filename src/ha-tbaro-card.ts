@@ -679,11 +679,11 @@ private _renderModernArc() {
               `
             : nothing}
 
-          <!-- épaisseur du trait: stroke-width -->
+          <!-- épaisseur du trait: stroke-width 5-->
           <path
             d="${curvePath}"
             stroke="url(#baro-modern-gradient)"
-            stroke-width="8"
+            stroke-width="7"
             stroke-linecap="butt"
             fill="none"
           />
@@ -693,7 +693,7 @@ private _renderModernArc() {
             class="modern-marker"
             cx="${marker.x}"
             cy="${marker.y}"
-            r="10"
+            r="9"
           />
 
         <text x="38" y="239" class="modern-svg-scale-value">950</text>
