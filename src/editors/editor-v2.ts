@@ -47,8 +47,14 @@ export class HaTbaroEditorV2 extends LitElement {
           select: {
             mode: 'dropdown',
             options: [
-              { value: 'classic', label: 'Version 1 · Classique' },
-              { value: 'modern-arc', label: 'Version 2 · Moderne' },
+              {
+                value: 'classic',
+                label: this._translate('design_classic'),
+              },
+              {
+                value: 'modern-arc',
+                label: this._translate('design_modern_arc'),
+              },
             ],
           },
         },

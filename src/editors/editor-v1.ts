@@ -55,8 +55,14 @@ export class HaTbaroEditorV1 extends LitElement {
           select: {
             mode: 'dropdown',
             options: [
-              { value: 'classic', label: 'Version 1 · Classique' },
-              { value: 'modern-arc', label: 'Version 2 · Moderne' },
+              {
+                value: 'classic',
+                label: this._translate('design_classic'),
+              },
+              {
+                value: 'modern-arc',
+                label: this._translate('design_modern_arc'),
+              },
             ],
           },
         },
@@ -127,10 +133,22 @@ export class HaTbaroEditorV1 extends LitElement {
         selector: {
           select: {
             options: [
-              { value: 'none', label: 'Aucune' },
-              { value: 'inner', label: 'Intérieure' },
-              { value: 'outer', label: 'Extérieure' },
-              { value: 'both', label: 'Les deux' },
+              {
+                value: 'none',
+                label: this._translate('border_none'),
+              },
+              {
+                value: 'inner',
+                label: this._translate('border_inner'),
+              },
+              {
+                value: 'outer',
+                label: this._translate('border_outer'),
+              },
+              {
+                value: 'both',
+                label: this._translate('border_both'),
+              },
             ],
           },
         },
