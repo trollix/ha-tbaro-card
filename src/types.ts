@@ -30,20 +30,21 @@ export interface Segment {
   color: string;
 }
 
+/**
+ * Configuration complète acceptée par la carte principale.
+ *
+ * La carte principale gère actuellement tous les designs dans une même classe,
+ * donc elle utilise volontairement une interface commune.
+ */
 export interface BaroCardConfig {
   entity: string;
   title?: string;
   language?: string;
 
-  design?:
-    | 'classic'
-    | 'modern-arc'
-    | 'modern-history'
-    | 'modern-summary';
+  design?: CardDesign;
+  theme?: CardTheme;
 
-  theme?: 'auto' | 'light' | 'dark';
-
-  unit?: 'hpa' | 'mbar' | 'mm' | 'in' | 'pa';
+  unit?: PressureUnit;
   decimals?: number;
 
   needle_color?: string;
@@ -60,43 +61,52 @@ export interface BaroCardConfig {
   icon_offset_x?: number;
   icon_offset_y?: number;
 
-  angle?: 180 | 270;
-  border?: 'none' | 'inner' | 'outer' | 'both';
+  angle?: GaugeAngle;
+  border?: BorderStyle;
 
   trend_hours?: number;
 
   segments?: Segment[];
 }
 
+/**
+ * Configuration de l’éditeur classique.
+ */
 export interface BaroCardConfigV1 {
   entity: string;
   title?: string;
   language?: string;
-  design?: CardDesign;
-  theme?: CardTheme;
+
+  design?: 'classic';
+
   unit?: PressureUnit;
   decimals?: number;
+
   show_weather_icon?: boolean;
   show_weather_text?: boolean;
   show_pressure?: boolean;
+
   angle?: GaugeAngle;
   border?: BorderStyle;
+
   size?: number;
   stroke_width?: number;
+
   icon_size?: number;
   icon_offset_x?: number;
   icon_offset_y?: number;
+
   needle_color?: string;
   tick_color?: string;
-  trend?: number;
-  trend_hours?: number;
+
   segments?: Segment[];
 }
 
-
+/**
+ * Configuration de l’éditeur moderne.
+ */
 export interface BaroCardConfigV2 {
   entity: string;
-
   title?: string;
   language?: string;
 
@@ -118,8 +128,9 @@ export interface BaroCardConfigV2 {
 
 /**
  * Dans l’éditeur, la configuration peut être incomplète pendant la saisie.
- * L’entité, notamment, n’est pas forcément encore sélectionnée.
  */
-export type BaroCardEditorConfigV1 = Partial<BaroCardConfigV1>;
-export type BaroCardEditorConfigV2 = Partial<BaroCardConfigV2>;
+export type BaroCardEditorConfigV1 =
+  Partial<BaroCardConfigV1>;
 
+export type BaroCardEditorConfigV2 =
+  Partial<BaroCardConfigV2>;
