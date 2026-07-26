@@ -2,9 +2,11 @@
 
 import { LitElement, html, css, svg, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
+
+import type { BaroCardConfig, Segment } from './types';
 
 import './ha-tbaro-card-editor';
+
 
 import classicStyles from './styles/classic';
 import modernStyles from './styles/modern';
@@ -35,37 +37,6 @@ export const printVersionToConsole = () => console.info(
     'color: #000; font-weight: bold; background: #ddd',
 );
 printVersionToConsole();
-
-interface Segment {
-  from: number;
-  to: number;
-  color: string;
-}
-
-interface BaroCardConfig {
-  entity: string;
-  title?: string;
-  language?: string;
-  unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
-  decimals?: number;
-  needle_color?: string;
-  tick_color?: string;
-  show_weather_icon?: boolean;
-  show_weather_text?: boolean;
-  show_pressure?: boolean;
-  stroke_width?: number;
-  size?: number;
-  icon_size?: number;
-  icon_offset_x?: number;
-  icon_offset_y?: number;
-  angle?: 180 | 270;
-  border?: 'none' | 'outer' | 'inner' | 'both';
-  design?: 'classic' | 'modern-arc' | 'modern-history' | 'modern-summary';
-  theme?: 'auto' | 'light' | 'dark';
-  trend?: number;
-  trend_hours?: number;
-  segments?: Segment[];
-}
 
 @customElement('ha-tbaro-card')
 export class HaTbaroCard extends LitElement {
@@ -141,23 +112,23 @@ export class HaTbaroCard extends LitElement {
 
 
   // Makes the "Edit in visual editor" button appear
-static async getConfigElement() {
-  // The element is defined in ha-tbaro-card-editor.ts
-  return document.createElement('ha-tbaro-card-editor');
-}
+  static async getConfigElement() {
+    // The element is defined in ha-tbaro-card-editor.ts
+    return document.createElement('ha-tbaro-card-editor');
+  }
 
-// Optional: default config when user adds the card from the UI
-static getStubConfig() {
-  return {
-    type: 'custom:ha-tbaro-card',
-    entity: 'sensor.pressure',
-    angle: 270,
-    unit: 'hpa',
-    border: 'outer',
-    design: 'classic',
-    theme: 'auto',
-  };
-}
+  // Optional: default config when user adds the card from the UI
+  static getStubConfig() {
+    return {
+      type: 'custom:ha-tbaro-card',
+      entity: 'sensor.pressure',
+      angle: 270,
+      unit: 'hpa',
+      border: 'outer',
+      design: 'classic',
+      theme: 'auto',
+    }; 
+  }
 
 
   private static readonly HPA_TO_MM  = 0.75006156;
@@ -218,7 +189,7 @@ static getStubConfig() {
   }
 
   getIcon2(id: string) {
-    const svgMap: Record<string, string> = {
+      const svgMap: Record<string, string> = {
       sun: sunIcon,
       rain: rainIcon,
       partly: partlyIcon,
@@ -235,7 +206,7 @@ static getStubConfig() {
     `;
   }
   
-  // pour créer un lien <img en HTML à partit d'une image en svg
+    // pour créer un lien <img en HTML à partit d'une image en svg
   getIcon(id: string) {
     const svgMap: Record<string, string> = {
       sun: sunIcon,
@@ -399,29 +370,33 @@ private async _refreshPressureTrend() {
 }
 
 public getCardSize(): number {
-  if (this.config?.design === 'modern-arc') return 4;
-  if (
-    this.config?.design === 'modern-history' ||
-    this.config?.design === 'modern-summary'
+  const design = this.config?.design ?? 'classic';
+
+  if (design === 'modern-arc') {
+    return 4;
+  } else if (
+    design === 'modern-history' ||
+    design === 'modern-summary'
   ) {
     return 6;
+  } else {
+    return this.config.angle === 180 ? 3 : 5;
   }
-  return this.config?.angle === 180 ? 3 : 5;
 }
 
 public getGridOptions() {
-  if (this.config?.design === 'modern-arc') {
+  const design = this.config?.design ?? 'classic';
+
+  if (design === 'modern-arc') {
     return {
       rows: 4,
       columns: 6,
       min_rows: 4,
       min_columns: 3,
     };
-  }
-
-  if (
-    this.config?.design === 'modern-history' ||
-    this.config?.design === 'modern-summary'
+  } else if (
+    design === 'modern-history' ||
+    design === 'modern-summary'
   ) {
     return {
       rows: 6,
@@ -429,14 +404,16 @@ public getGridOptions() {
       min_rows: 5,
       min_columns: 4,
     };
-  }
+  } else {
+    const isHalfGauge = this.config.angle === 180;
 
-  return {
-    rows: this.config?.angle === 180 ? 3 : 5,
-    columns: 6,
-    min_rows: this.config?.angle === 180 ? 2 : 4,
-    min_columns: 3,
-  };
+    return {
+      rows: isHalfGauge ? 3 : 5,
+      columns: 6,
+      min_rows: isHalfGauge ? 2 : 4,
+      min_columns: 3,
+    };
+  }
 }
 
 private polarEllipse(
@@ -786,7 +763,9 @@ render() {
     return this._renderModernPlaceholder(this.config.design);
   }
 
+
   const pressure = this.pressure;
+
   const {
     title,
     needle_color,
@@ -797,7 +776,7 @@ render() {
     icon_offset_x = 0,
     icon_offset_y = 0,
     segments,
-    angle: gaugeAngle = 270,  // ← ici l’angle
+    angle: gaugeAngle = 270,
     border = 'outer',
   } = this.config;
 

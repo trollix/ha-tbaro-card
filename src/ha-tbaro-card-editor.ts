@@ -1,8 +1,8 @@
 import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
-import './editors/editor-v1.js';
-import './editors/editor-v2.js';
+import './editors/editor-v1';
+import './editors/editor-v2';
 
 type Config = {
   design?: 'classic' | 'modern-arc';
