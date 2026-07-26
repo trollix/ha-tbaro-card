@@ -682,7 +682,7 @@ private _renderModernArc() {
           <path
             d="${curvePath}"
             stroke="url(#baro-modern-gradient)"
-            stroke-width="5"
+            stroke-width="10"
             stroke-linecap="butt"
             fill="none"
           />
