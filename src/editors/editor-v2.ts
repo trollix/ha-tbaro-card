@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { translateEditor } from './editor-translation';
 
 type ConfigV2 = {
   entity?: string;
@@ -24,6 +25,10 @@ export class HaTbaroEditorV2 extends LitElement {
       padding: 8px 16px 16px;
     }
   `;
+
+  private _translate(key: string): string {
+    return translateEditor(this.config.language, key);
+  }
 
   private get _schema() {
     return [
@@ -73,9 +78,18 @@ export class HaTbaroEditorV2 extends LitElement {
         selector: {
           select: {
             options: [
-              { value: 'auto', label: 'Automatique' },
-              { value: 'light', label: 'Clair' },
-              { value: 'dark', label: 'Sombre' },
+              {
+                value: 'auto',
+                label: this._translate('editor_auto'),
+              },
+              {
+                value: 'light',
+                label: this._translate('editor_light'),
+              },
+              {
+                value: 'dark',
+                label: this._translate('editor_dark'),
+              },
             ],
           },
         },
@@ -122,21 +136,28 @@ export class HaTbaroEditorV2 extends LitElement {
   }
 
   private _computeLabel = (schemaItem: any) => {
-    const labels: Record<string, string> = {
-      entity: 'Entité de pression',
-      title: 'Titre',
-      design: 'Version',
-      unit: 'Unité',
-      decimals: 'Décimales',
-      theme: 'Thème',
-      trend_hours: 'Période de tendance',
-      show_pressure: 'Afficher la pression',
-      show_weather_text: 'Afficher le libellé météo',
-      language: 'Langue',
+    const translationKeys: Record<string, string> = {
+      entity: 'editor_pressure_entity',
+      title: 'title',
+      design: 'editor_version',
+      unit: 'unit',
+      decimals: 'decimals',
+      theme: 'editor_theme',
+      show_pressure: 'show_pressure',
+      trend_hours: 'trend_hours',
+      show_weather_text: 'show_weather_text',
+      language: 'language',
     };
 
-    return labels[schemaItem.name] ?? schemaItem.name;
+    const translationKey = translationKeys[schemaItem.name];
+
+    if (translationKey) {
+      return this._translate(translationKey);
+    }
+
+    return schemaItem.name;
   };
+
 
   private _valueChanged(event: CustomEvent) {
     const value = event.detail?.value;

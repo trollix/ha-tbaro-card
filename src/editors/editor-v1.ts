@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { translateEditor } from './editor-translation';
 
 type ConfigV1 = {
   entity?: string;
@@ -32,6 +33,10 @@ export class HaTbaroEditorV1 extends LitElement {
       padding: 8px 16px 16px;
     }
   `;
+
+  private _translate(key: string): string {
+    return translateEditor(this.config.language, key);
+  }
 
   private get _schema() {
     return [
@@ -172,28 +177,32 @@ export class HaTbaroEditorV1 extends LitElement {
   }
 
   private _computeLabel = (schemaItem: any) => {
-    const labels: Record<string, string> = {
-      entity: 'Entité de pression',
-      title: 'Titre',
-      design: 'Version',
-      unit: 'Unité',
-      decimals: 'Décimales',
-      show_pressure: 'Afficher la pression',
-      show_weather_text: 'Afficher le libellé météo',
-      show_weather_icon: 'Afficher l’icône météo',
-      language: 'Langue',
-      angle: 'Angle du cadran',
-      border: 'Bordure',
-      size: 'Taille de la carte',
-      icon_size: 'Taille de l’icône',
-      icon_offset_x: 'Décalage horizontal de l’icône',
-      icon_offset_y: 'Décalage vertical de l’icône',
-      stroke_width: 'Épaisseur de l’arc',
-      needle_color: 'Couleur de l’aiguille',
-      tick_color: 'Couleur des graduations',
+    const translationKeys: Record<string, string> = {
+      entity: 'editor_pressure_entity',
+      title: 'title',
+      design: 'editor_version',
+      unit: 'unit',
+      decimals: 'decimals',
+      show_pressure: 'show_pressure',
+      show_weather_text: 'show_weather_text',
+      show_weather_icon: 'show_weather_icon',
+      language: 'language',
+      angle: 'angle',
+      border: 'border',
+      size: 'size',
+      icon_size: 'icon_size',
+      icon_offset_x: 'icon_offset_x',
+      icon_offset_y: 'icon_offset_y',
+      stroke_width: 'stroke_width',
+      needle_color: 'needle_color',
+      tick_color: 'tick_color',
     };
 
-    return labels[schemaItem.name] ?? schemaItem.name;
+    const translationKey = translationKeys[schemaItem.name];
+
+    return translationKey
+      ? this._translate(translationKey)
+      : schemaItem.name;
   };
 
   private _valueChanged(event: CustomEvent) {
