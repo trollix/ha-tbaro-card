@@ -745,16 +745,21 @@ private _updateSummaryHistoryIfNeeded(): void {
     return;
   }
 
-  const trendHours = this.config.trend_hours ?? 24;
+  const trendHours =
+    this.config.trend_hours ?? 24;
 
   const requestKey =
-    `${this.config.design}|${this.config.entity}|${trendHours}`;
+    `${this.config.design}|${this.config.entity}|${trendHours}|${this.config.unit}`;
 
-  if (requestKey === this._summaryHistoryRequestKey) {
+  if (
+    requestKey ===
+    this._summaryHistoryRequestKey
+  ) {
     return;
   }
 
-  this._summaryHistoryRequestKey = requestKey;
+  this._summaryHistoryRequestKey =
+    requestKey;
 
   void this._loadSummaryHistory();
 }
@@ -787,25 +792,41 @@ private async _loadSummaryHistory(): Promise<void> {
     this.config.entity,
   );
 
-  try {
-    const history = await this.hass.callApi(
-      'GET',
-      `history/period/${startTime}?filter_entity_id=${entityId}&minimal_response&no_attributes`,
-    ) as Array<Array<{ state: string }>>;
+try {
+  const history = await this.hass.callApi(
+    'GET',
+    `history/period/${startTime}?filter_entity_id=${entityId}&minimal_response&no_attributes`,
+  ) as Array<Array<{ state: string }>>;
 
-    const values = (history[0] ?? [])
-      .map((state) => Number(state.state))
-      .filter((value) => Number.isFinite(value));
+  const values = (history[0] ?? [])
+    .map((state) => this.historicalStateToHpa(state.state))
+    .filter((value): value is number => value !== null)
+    .map((value) => {
+      if (this.config.unit === 'mm') {
+        return value * HaTbaroCard.HPA_TO_MM;
+      }
 
-    this._summaryHistoryValues = values;
-  } catch (error) {
-    console.error(
-      'ha-tbaro-card: unable to load pressure history',
-      error,
-    );
+      if (this.config.unit === 'in') {
+        return value * HaTbaroCard.HPA_TO_IN;
+      }
 
-    this._summaryHistoryValues = [];
-  }
+      if (this.config.unit === 'pa') {
+        return value * HaTbaroCard.HPA_TO_PA;
+      }
+
+      return value;
+    });
+
+  this._summaryHistoryValues = values;
+} catch (error) {
+  console.error(
+    'ha-tbaro-card: unable to load pressure history',
+    error,
+  );
+
+  this._summaryHistoryValues = [];
+}
+
 }
 
 /**
@@ -1036,6 +1057,9 @@ private _renderModernSummary() {
     lastChartPoint[1] ?? 0,
   );
 
+  const trendHours = this.config.trend_hours ?? 24;
+
+
   return html`
     <ha-card
       class="modern-card ${theme === 'auto' ? '' : `theme-${theme}`}"
@@ -1051,9 +1075,14 @@ private _renderModernSummary() {
             ${title}
           </span>
 
-          <span class="modern-summary-weather">
-            ${weatherLabel}
-          </span>
+          ${this.config.show_weather_text !== false
+           ? html`
+                <span class="modern-summary-weather">
+                  ${weatherLabel}
+                </span>
+              `
+            : nothing}
+
         </div>
 
         <div class="modern-summary-value">
@@ -1107,6 +1136,10 @@ private _renderModernSummary() {
                   ${this._translateText('summary_min')}
                   ${minimumPressure.toFixed(decimals)}
                   ${this.pressureUnit}
+                </span>
+
+                <span>
+                  ${trendHours} h
                 </span>
 
                 <span>
