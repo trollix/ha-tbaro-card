@@ -63,6 +63,14 @@ export class HaTbaroEditorV1 extends LitElement {
                 value: 'modern-arc',
                 label: this._translate('design_modern_arc'),
               },
+              {
+                value: 'modern-history',
+                label: this._translate('design_modern_history'),
+              },
+              {
+                value: 'modern-summary',
+                label: this._translate('design_modern_summary'),
+              },
             ],
           },
         },
