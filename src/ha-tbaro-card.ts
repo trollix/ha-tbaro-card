@@ -1070,19 +1070,20 @@ private _renderModernSummary() {
       @keydown=${this._onKeyDown}
     >
       <div class="modern-summary">
+
+
         <div class="modern-summary-header">
           <span class="modern-summary-title">
             ${title}
           </span>
 
           ${this.config.show_weather_text !== false
-           ? html`
+            ? html`
                 <span class="modern-summary-weather">
                   ${weatherLabel}
                 </span>
               `
             : nothing}
-
         </div>
 
         <div class="modern-summary-value">

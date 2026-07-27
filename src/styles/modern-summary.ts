@@ -53,4 +53,28 @@ export default css`
     font-variant-numeric: tabular-nums;
   }
 
+  .modern-summary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px; 
+  }
+
+  .modern-summary-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .modern-summary-weather {
+    font-size: 12px;
+    color: var(--baro-muted);
+    white-space: nowrap;
+  }
+
+  .modern-summary-value {
+    margin-top: 4px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
 `;
