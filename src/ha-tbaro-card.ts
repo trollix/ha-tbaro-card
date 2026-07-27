@@ -819,6 +819,36 @@ private async _loadSummaryHistory(): Promise<void> {
   }
 }
 
+/**
+ * Réduit une série historique à un nombre raisonnable de valeurs.
+ *
+ * Les points sont prélevés régulièrement sur toute la période afin
+ * de conserver la forme générale de la courbe sans surcharger le SVG.
+ */
+private _sampleSummaryHistoryValues(
+  values: number[],
+  maximumPoints: number,
+): number[] {
+  if (values.length <= maximumPoints) {
+    return [...values];
+  }
+
+  const sampledValues: number[] = [];
+
+  for (let index = 0; index < maximumPoints; index += 1) {
+    const sourceIndex = Math.round(
+      (index / (maximumPoints - 1)) *
+        (values.length - 1),
+    );
+
+    sampledValues.push(
+      values[sourceIndex],
+    );
+  }
+
+  return sampledValues;
+}
+
 
 /**
  * Transforme une série de valeurs en points SVG.
@@ -892,9 +922,11 @@ private _renderModernSummary() {
   const chartHeight = 90;
   const chartPadding = 5;
 
-  const chartValues = [
-    ...this._summaryHistoryValues,
-  ];
+  const chartValues =
+    this._sampleSummaryHistoryValues(
+      this._summaryHistoryValues,
+      60,
+    );
 
   const lastHistoryValue = chartValues[chartValues.length - 1];
 
