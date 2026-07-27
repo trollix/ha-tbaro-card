@@ -892,14 +892,41 @@ private _renderModernSummary() {
   const chartHeight = 90;
   const chartPadding = 5;
 
-  const chartValues = this._summaryHistoryValues;
+  const chartValues = [
+    ...this._summaryHistoryValues,
+  ];
 
-  const chartPoints = this._buildSummaryChartPoints(
-    chartValues,
-    chartWidth,
-    chartHeight,
-    chartPadding,
-  );
+  const lastHistoryValue = chartValues[chartValues.length - 1];
+
+if (
+  Number.isFinite(pressure) &&
+  pressure !== lastHistoryValue
+) {
+  chartValues.push(pressure);
+}
+
+const chartPoints = this._buildSummaryChartPoints(
+  chartValues,
+  chartWidth,
+  chartHeight,
+  chartPadding,
+);
+
+const chartPointList = chartPoints
+  ? chartPoints.split(' ')
+  : [];
+
+const lastChartPoint = chartPointList.length > 0
+  ? chartPointList[chartPointList.length - 1].split(',')
+  : [];
+
+const lastChartX = Number(
+  lastChartPoint[0] ?? 0,
+);
+
+const lastChartY = Number(
+  lastChartPoint[1] ?? 0,
+);
 
 
   return html`
@@ -940,6 +967,14 @@ private _renderModernSummary() {
             class="modern-summary-curve"
             points="${chartPoints}"
           />
+
+          <circle
+            class="modern-summary-point"
+            cx="${lastChartX}"
+            cy="${lastChartY}"
+            r="4"
+          />
+
         </svg>
       `
     : html`
