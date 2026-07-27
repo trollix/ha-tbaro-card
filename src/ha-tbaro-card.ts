@@ -729,9 +729,52 @@ private _renderModernArc() {
 }
 
 
+
 // -----------------------------------------------------------------------------
 // MODERN SUMMARY
 // -----------------------------------------------------------------------------
+
+/**
+ * Transforme une série de valeurs en points SVG.
+ *
+ * Les valeurs sont automatiquement réparties sur toute la largeur
+ * et normalisées verticalement selon le minimum et le maximum
+ * de la série.
+ */
+private _buildSummaryChartPoints(
+  values: number[],
+  width: number,
+  height: number,
+  padding: number,
+): string {
+  if (values.length < 2) {
+    return '';
+  }
+
+  const minimum = Math.min(...values);
+  const maximum = Math.max(...values);
+  const range = maximum - minimum || 1;
+
+  return values
+    .map((value, index) => {
+      const x =
+        padding +
+        (index / (values.length - 1)) *
+          (width - padding * 2);
+
+      const y =
+        height -
+        padding -
+        ((value - minimum) / range) *
+          (height - padding * 2);
+
+      return `${x.toFixed(2)},${y.toFixed(2)}`;
+    })
+    .join(' ');
+}
+
+
+
 /**
  * Rendu compact « Modern Summary ».
  *
@@ -749,8 +792,40 @@ private _renderModernSummary() {
   const theme = this.config.theme ?? 'auto';
   const title = this.config.title || 'Pression';
   const pressure = this.pressure;
-  const decimals = Math.min(2, Math.max(0, this.config.decimals ?? 0));
+  const decimals = Math.min(
+    2,
+    Math.max(
+      0,
+      this.config.decimals ?? 0,
+    ),
+  );
   const weatherLabel = this.translatedWeatherLabel;
+
+
+  const chartWidth = 300;
+  const chartHeight = 90;
+  const chartPadding = 5;
+
+  const chartValues = [
+    1014.2,
+    1014.6,
+    1014.4,
+    1015.1,
+    1015.8,
+    1015.5,
+    1016.2,
+    1016.8,
+    1017.1,
+    1016.9,
+  ];
+
+  const chartPoints = this._buildSummaryChartPoints(
+    chartValues,
+    chartWidth,
+    chartHeight,
+    chartPadding,
+  );
+
 
   return html`
     <ha-card
@@ -785,16 +860,10 @@ private _renderModernSummary() {
         d="M 0 45 H 300"
       />
 
-      <path
-        class="modern-summary-curve"
-        d="
-          M 0 58
-          C 30 54, 45 62, 72 52
-          S 115 35, 142 42
-          S 185 58, 212 44
-          S 258 23, 300 30
-        "
-      />
+<polyline
+  class="modern-summary-curve"
+  points="${chartPoints}"
+/>
 
       <circle
         class="modern-summary-point"
