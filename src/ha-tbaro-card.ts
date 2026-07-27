@@ -772,9 +772,40 @@ private _renderModernSummary() {
           <span class="modern-summary-unit">${this.pressureUnit}</span>
         </div>
 
-        <div class="modern-summary-chart">
-          Courbe à venir
-        </div>
+<div class="modern-summary-chart">
+  ${svg`
+    <svg
+      class="modern-summary-svg"
+      viewBox="0 0 300 90"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        class="modern-summary-grid"
+        d="M 0 45 H 300"
+      />
+
+      <path
+        class="modern-summary-curve"
+        d="
+          M 0 58
+          C 30 54, 45 62, 72 52
+          S 115 35, 142 42
+          S 185 58, 212 44
+          S 258 23, 300 30
+        "
+      />
+
+      <circle
+        class="modern-summary-point"
+        cx="300"
+        cy="30"
+        r="4"
+      />
+    </svg>
+  `}
+</div>
+
       </div>
     </ha-card>
   `;
