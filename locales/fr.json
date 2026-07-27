@@ -15,8 +15,13 @@
   "editor_auto": "Automatique",
   "design_classic": "Version 1 · Classique",
   "design_modern_arc": "Version 2 · Moderne",
-  "design_modern_history": "Version 2 · Historique",
-  "design_modern_summary": "Version 2 · Résumé",
+  "design_modern_history": "Version 3 · Historique",
+  "design_modern_summary": "Version 4 · Résumé",
+
+  "summary_history_unavailable": "Historique indisponible",
+  "summary_min": "Min.",
+  "summary_max": "Max.",
+
   "border_none": "Aucune",
   "border_inner": "Intérieure",
   "border_outer": "Extérieure",

@@ -1104,7 +1104,7 @@ private _renderModernSummary() {
               `
             : html`
                 <div class="modern-summary-empty">
-                  Historique indisponible
+                  ${'summary_history_unavailable'}
                 </div>
               `}
         </div>
@@ -1113,17 +1113,19 @@ private _renderModernSummary() {
         maximumPressure !== undefined
           ? html`
               <div class="modern-summary-range">
+
                 <span>
-                  Min.
+                  ${'summary_min'}
                   ${minimumPressure.toFixed(decimals)}
                   ${this.pressureUnit}
                 </span>
 
                 <span>
-                  Max.
+                  ${'summary_max'}
                   ${maximumPressure.toFixed(decimals)}
                   ${this.pressureUnit}
                 </span>
+
               </div>
             `
           : ''}
