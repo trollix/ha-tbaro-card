@@ -50,6 +50,8 @@ export class HaTbaroCard extends LitElement {
 
   private _trendRequestKey = '';
   private _trendRequestInFlight = false;
+  private _summaryHistoryRequestKey = '';
+
 
   private _translations: Record<string, string> = {};
   private static _localeMap: Record<string, Record<string, string>> = { en, de, es, fr, it, nl, pl, ru, sv };
@@ -296,6 +298,7 @@ protected updated(changedProperties: Map<PropertyKey, unknown>) {
   ) {
     this._refreshPressureTrend();
   }
+  this._updateSummaryHistoryIfNeeded();
 }
 
 private historicalStateToHpa(stateValue: string): number | null {
@@ -737,9 +740,36 @@ private _renderModernArc() {
 // MODERN SUMMARY
 // -----------------------------------------------------------------------------
 
-protected firstUpdated(): void {
-  this._loadSummaryHistory();
+
+/**
+ * Vérifie si l'historique de Modern Summary doit être rechargé.
+ *
+ * Une nouvelle requête est effectuée uniquement lorsque le design,
+ * l'entité ou la période de tendance change.
+ */
+private _updateSummaryHistoryIfNeeded(): void {
+  if (
+    !this.hass ||
+    !this.config.entity ||
+    this.config.design !== 'modern-summary'
+  ) {
+    return;
+  }
+
+  const trendHours = this.config.trend_hours ?? 24;
+
+  const requestKey =
+    `${this.config.design}|${this.config.entity}|${trendHours}`;
+
+  if (requestKey === this._summaryHistoryRequestKey) {
+    return;
+  }
+
+  this._summaryHistoryRequestKey = requestKey;
+
+  void this._loadSummaryHistory();
 }
+
 
 /**
  * Charge l’historique récent de l’entité de pression
