@@ -5,7 +5,7 @@ import { translateEditor } from './editor-translation';
 type ConfigV2 = {
   entity?: string;
   title?: string;
-  design?: 'classic' | 'modern-arc';
+  design?: 'classic' | 'modern-arc' | 'modern-history' | 'modern-summary';
   theme?: 'auto' | 'light' | 'dark';
   unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
   decimals?: number;

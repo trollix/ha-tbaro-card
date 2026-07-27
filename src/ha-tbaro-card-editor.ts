@@ -5,7 +5,12 @@ import './editors/editor-v1';
 import './editors/editor-v2';
 
 type Config = {
-  design?: 'classic' | 'modern-arc';
+  design?:
+    | 'classic'
+    | 'modern-arc'
+    | 'modern-history'
+    | 'modern-summary';
+
   [key: string]: unknown;
 };
 
@@ -36,7 +41,11 @@ export class HaTbaroCardEditor extends LitElement {
   render() {
     const design = this._config.design ?? 'classic';
 
-    if (design === 'modern-arc') {
+    if (
+      design === 'modern-arc' ||
+      design === 'modern-history' ||
+      design === 'modern-summary'
+    ) { 
       return html`
         <ha-tbaro-editor-v2
           .hass=${this.hass}
