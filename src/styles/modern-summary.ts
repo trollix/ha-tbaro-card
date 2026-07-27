@@ -1,9 +1,38 @@
 import { css } from 'lit';
 
 export default css`
+  .modern-summary {
+    padding: 14px 16px 12px;
+  }
+
+  .modern-summary-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .modern-summary-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .modern-summary-weather {
+    font-size: 12px;
+    color: var(--baro-muted);
+    white-space: nowrap;
+  }
+
+  .modern-summary-value {
+    margin-top: 6px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
   .modern-summary-chart {
-    height: 90px;
-    margin-top: 20px;
+    height: 110px;
+    margin-top: 14px;
   }
 
   .modern-summary-svg {
@@ -40,41 +69,16 @@ export default css`
     justify-content: center;
     height: 100%;
     color: var(--baro-muted);
-    font-size: 13px;  
+    font-size: 13px;
   }
 
   .modern-summary-range {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 8px;
+    margin-top: 10px;
     color: var(--baro-muted);
     font-size: 12px;
     font-variant-numeric: tabular-nums;
   }
-
-  .modern-summary-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px; 
-  }
-
-  .modern-summary-title {
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .modern-summary-weather {
-    font-size: 12px;
-    color: var(--baro-muted);
-    white-space: nowrap;
-  }
-
-  .modern-summary-value {
-    margin-top: 4px;
-    font-size: 18px;
-    font-weight: 600;
-  }
-
 `;
