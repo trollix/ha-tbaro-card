@@ -15,6 +15,6 @@
     },
     "include": [
     "src",
-    "src/types.d.ts"
+    "src/assets.d.ts"
   ]
   }

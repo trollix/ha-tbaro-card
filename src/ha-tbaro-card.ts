@@ -10,6 +10,7 @@ import './ha-tbaro-card-editor';
 
 import classicStyles from './styles/classic';
 import modernStyles from './styles/modern';
+import modernSummaryStyles from './styles/modern-summary';
 
 // Import des icônes SVG comme chaînes via rollup-plugin-string
 import sunIcon from './icons/sun.svg';
@@ -63,6 +64,7 @@ export class HaTbaroCard extends LitElement {
     `,
     classicStyles,
     modernStyles,
+    modernSummaryStyles,
   ];
 
 
@@ -726,6 +728,62 @@ private _renderModernArc() {
   `;
 }
 
+
+// -----------------------------------------------------------------------------
+// MODERN SUMMARY
+// -----------------------------------------------------------------------------
+/**
+ * Rendu compact « Modern Summary ».
+ *
+ * Cette vue présente une synthèse rapide de la pression :
+ * - titre de la carte ;
+ * - valeur actuelle et unité ;
+ * - état météo estimé ;
+ * - zone réservée à la future courbe d’historique.
+ *
+ * Le premier rendu reste volontairement simple et statique.
+ * La récupération et l’affichage de l’historique seront ajoutés
+ * dans une étape séparée afin de ne pas modifier Modern Arc.
+ */
+private _renderModernSummary() {
+  const theme = this.config.theme ?? 'auto';
+  const title = this.config.title || 'Pression';
+  const pressure = this.pressure;
+  const decimals = Math.min(2, Math.max(0, this.config.decimals ?? 0));
+  const weatherLabel = this.translatedWeatherLabel;
+
+  return html`
+    <ha-card
+      class="modern-card ${theme === 'auto' ? '' : `theme-${theme}`}"
+      role="button"
+      tabindex="0"
+      aria-label="Show details"
+      @click=${this._onClick}
+      @keydown=${this._onKeyDown}
+    >
+      <div class="modern-summary">
+        <div class="modern-summary-header">
+          <span class="modern-summary-title">${title}</span>
+          <span class="modern-summary-weather">${weatherLabel}</span>
+        </div>
+
+        <div class="modern-summary-value">
+          ${pressure.toFixed(decimals)}
+          <span class="modern-summary-unit">${this.pressureUnit}</span>
+        </div>
+
+        <div class="modern-summary-chart">
+          Courbe à venir
+        </div>
+      </div>
+    </ha-card>
+  `;
+}
+
+
+
+
+
 private _renderModernPlaceholder(design: 'modern-history' | 'modern-summary') {
   const theme = this.config.theme ?? 'auto';
   const label =
@@ -759,10 +817,12 @@ render() {
     return this._renderModernArc();
   }
 
+  if (this.config.design === 'modern-summary') {
+    return this._renderModernSummary();
+  }
+
   if (
-    this.config.design === 'modern-history' ||
-    this.config.design === 'modern-summary'
-  ) {
+    this.config.design === 'modern-history') {
     return this._renderModernPlaceholder(this.config.design);
   }
 
