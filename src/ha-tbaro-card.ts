@@ -889,6 +889,71 @@ private _buildSummaryChartPoints(
     .join(' ');
 }
 
+/**
+ * Transforme une liste de points SVG en courbe lissée.
+ *
+ * La courbe utilise des segments quadratiques entre les points,
+ * tout en conservant le premier et le dernier point de la série.
+ */
+private _buildSummaryChartPath(
+  points: string,
+): string {
+  if (!points) {
+    return '';
+  }
+
+  const parsedPoints = points
+    .split(' ')
+    .map((point) => {
+      const [x, y] = point
+        .split(',')
+        .map(Number);
+
+      return { x, y };
+    })
+    .filter((point) => (
+      Number.isFinite(point.x) &&
+      Number.isFinite(point.y)
+    ));
+
+  if (parsedPoints.length < 2) {
+    return '';
+  }
+
+  let path =
+    `M ${parsedPoints[0].x} ${parsedPoints[0].y}`;
+
+  for (
+    let index = 1;
+    index < parsedPoints.length - 2;
+    index += 1
+  ) {
+    const currentPoint = parsedPoints[index];
+    const nextPoint = parsedPoints[index + 1];
+
+    const middleX =
+      (currentPoint.x + nextPoint.x) / 2;
+
+    const middleY =
+      (currentPoint.y + nextPoint.y) / 2;
+
+    path +=
+      ` Q ${currentPoint.x} ${currentPoint.y}` +
+      ` ${middleX} ${middleY}`;
+  }
+
+  const controlPoint =
+    parsedPoints[parsedPoints.length - 2];
+
+  const lastPoint =
+    parsedPoints[parsedPoints.length - 1];
+
+  path +=
+    ` Q ${controlPoint.x} ${controlPoint.y}` +
+    ` ${lastPoint.x} ${lastPoint.y}`;
+
+  return path;
+}
 
 
 /**
@@ -908,6 +973,7 @@ private _renderModernSummary() {
   const theme = this.config.theme ?? 'auto';
   const title = this.config.title || 'Pression';
   const pressure = this.pressure;
+
   const decimals = Math.min(
     2,
     Math.max(
@@ -915,8 +981,8 @@ private _renderModernSummary() {
       this.config.decimals ?? 0,
     ),
   );
-  const weatherLabel = this.translatedWeatherLabel;
 
+  const weatherLabel = this.translatedWeatherLabel;
 
   const chartWidth = 300;
   const chartHeight = 90;
@@ -928,38 +994,58 @@ private _renderModernSummary() {
       60,
     );
 
-  const lastHistoryValue = chartValues[chartValues.length - 1];
+  const lastHistoryValue =
+    chartValues[chartValues.length - 1];
 
-if (
-  Number.isFinite(pressure) &&
-  pressure !== lastHistoryValue
-) {
-  chartValues.push(pressure);
-}
+  if (
+    Number.isFinite(pressure) &&
+    pressure !== lastHistoryValue
+  ) {
+    chartValues.push(pressure);
+  }
 
-const chartPoints = this._buildSummaryChartPoints(
-  chartValues,
-  chartWidth,
-  chartHeight,
-  chartPadding,
-);
+  const minimumPressure =
+    chartValues.length > 0
+      ? Math.min(...chartValues)
+      : undefined;
 
-const chartPointList = chartPoints
-  ? chartPoints.split(' ')
-  : [];
+  const maximumPressure =
+    chartValues.length > 0
+      ? Math.max(...chartValues)
+      : undefined;
 
-const lastChartPoint = chartPointList.length > 0
-  ? chartPointList[chartPointList.length - 1].split(',')
-  : [];
+  const chartPoints =
+    this._buildSummaryChartPoints(
+      chartValues,
+      chartWidth,
+      chartHeight,
+      chartPadding,
+    );
 
-const lastChartX = Number(
-  lastChartPoint[0] ?? 0,
-);
+  const chartPath =
+    this._buildSummaryChartPath(
+      chartPoints,
+    );
 
-const lastChartY = Number(
-  lastChartPoint[1] ?? 0,
-);
+  const chartPointList =
+    chartPoints
+      ? chartPoints.split(' ')
+      : [];
 
+  const lastChartPoint =
+    chartPointList.length > 0
+      ? chartPointList[
+          chartPointList.length - 1
+        ].split(',')
+      : [];
+
+  const lastChartX = Number(
+    lastChartPoint[0] ?? 0,
+  );
+
+  const lastChartY = Number(
+    lastChartPoint[1] ?? 0,
+  );
 
   return html`
     <ha-card
@@ -972,56 +1058,79 @@ const lastChartY = Number(
     >
       <div class="modern-summary">
         <div class="modern-summary-header">
-          <span class="modern-summary-title">${title}</span>
-          <span class="modern-summary-weather">${weatherLabel}</span>
+          <span class="modern-summary-title">
+            ${title}
+          </span>
+
+          <span class="modern-summary-weather">
+            ${weatherLabel}
+          </span>
         </div>
 
         <div class="modern-summary-value">
           ${pressure.toFixed(decimals)}
-          <span class="modern-summary-unit">${this.pressureUnit}</span>
+
+          <span class="modern-summary-unit">
+            ${this.pressureUnit}
+          </span>
         </div>
 
-<div class="modern-summary-chart">
-  ${chartPoints
-    ? svg`
-        <svg
-          class="modern-summary-svg"
-          viewBox="0 0 ${chartWidth} ${chartHeight}"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path
-            class="modern-summary-grid"
-            d="M 0 ${chartHeight / 2} H ${chartWidth}"
-          />
+        <div class="modern-summary-chart">
+          ${chartPath
+            ? svg`
+                <svg
+                  class="modern-summary-svg"
+                  viewBox="0 0 ${chartWidth} ${chartHeight}"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    class="modern-summary-grid"
+                    d="M 0 ${chartHeight / 2} H ${chartWidth}"
+                  />
 
-          <polyline
-            class="modern-summary-curve"
-            points="${chartPoints}"
-          />
+                  <path
+                    class="modern-summary-curve"
+                    d="${chartPath}"
+                  />
 
-          <circle
-            class="modern-summary-point"
-            cx="${lastChartX}"
-            cy="${lastChartY}"
-            r="4"
-          />
-
-        </svg>
-      `
-    : html`
-        <div class="modern-summary-empty">
-          Historique indisponible
+                  <circle
+                    class="modern-summary-point"
+                    cx="${lastChartX}"
+                    cy="${lastChartY}"
+                    r="4"
+                  />
+                </svg>
+              `
+            : html`
+                <div class="modern-summary-empty">
+                  Historique indisponible
+                </div>
+              `}
         </div>
-      `}
-</div>
 
+        ${minimumPressure !== undefined &&
+        maximumPressure !== undefined
+          ? html`
+              <div class="modern-summary-range">
+                <span>
+                  Min.
+                  ${minimumPressure.toFixed(decimals)}
+                  ${this.pressureUnit}
+                </span>
+
+                <span>
+                  Max.
+                  ${maximumPressure.toFixed(decimals)}
+                  ${this.pressureUnit}
+                </span>
+              </div>
+            `
+          : ''}
       </div>
     </ha-card>
   `;
 }
-
-
 
 
 

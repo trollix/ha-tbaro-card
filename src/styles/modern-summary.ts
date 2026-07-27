@@ -43,4 +43,14 @@ export default css`
     font-size: 13px;  
   }
 
+  .modern-summary-range {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    color: var(--baro-muted);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
 `;
