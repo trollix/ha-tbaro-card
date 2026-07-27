@@ -26,13 +26,21 @@ export default css`
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
   }
 
   .modern-summary-point {
     fill: var(--primary-color);
     stroke: var(--baro-bg);
     stroke-width: 2;
-    vector-effect: non-scaling-stroke;
   }
+
+  .modern-summary-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--baro-muted);
+    font-size: 13px;  
+  }
+
 `;

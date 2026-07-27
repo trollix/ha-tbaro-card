@@ -40,8 +40,11 @@ printVersionToConsole();
 
 @customElement('ha-tbaro-card')
 export class HaTbaroCard extends LitElement {
+  
+  
   @property({ attribute: false }) hass: any;
   @property({ type: Object }) config!: BaroCardConfig;
+  @property({ attribute: false }) private _summaryHistoryValues: number[] = [];
 
   @state() private _historyTrend: number | null = null;
 
@@ -734,6 +737,59 @@ private _renderModernArc() {
 // MODERN SUMMARY
 // -----------------------------------------------------------------------------
 
+protected firstUpdated(): void {
+  this._loadSummaryHistory();
+}
+
+/**
+ * Charge l’historique récent de l’entité de pression
+ * pour alimenter la courbe de Modern Summary.
+ */
+/**
+ * Charge l’historique récent de l’entité de pression
+ * pour alimenter la courbe de Modern Summary.
+ */
+private async _loadSummaryHistory(): Promise<void> {
+  if (!this.hass || !this.config.entity) {
+    return;
+  }
+
+  const trendHours = this.config.trend_hours ?? 24;
+
+  const startDate = new Date(
+    Date.now() - trendHours * 60 * 60 * 1000,
+  );
+
+  const startTime = encodeURIComponent(
+    startDate.toISOString(),
+  );
+
+  const entityId = encodeURIComponent(
+    this.config.entity,
+  );
+
+  try {
+    const history = await this.hass.callApi(
+      'GET',
+      `history/period/${startTime}?filter_entity_id=${entityId}&minimal_response&no_attributes`,
+    ) as Array<Array<{ state: string }>>;
+
+    const values = (history[0] ?? [])
+      .map((state) => Number(state.state))
+      .filter((value) => Number.isFinite(value));
+
+    this._summaryHistoryValues = values;
+  } catch (error) {
+    console.error(
+      'ha-tbaro-card: unable to load pressure history',
+      error,
+    );
+
+    this._summaryHistoryValues = [];
+  }
+}
+
+
 /**
  * Transforme une série de valeurs en points SVG.
  *
@@ -806,18 +862,7 @@ private _renderModernSummary() {
   const chartHeight = 90;
   const chartPadding = 5;
 
-  const chartValues = [
-    1014.2,
-    1014.6,
-    1014.4,
-    1015.1,
-    1015.8,
-    1015.5,
-    1016.2,
-    1016.8,
-    1017.1,
-    1016.9,
-  ];
+  const chartValues = this._summaryHistoryValues;
 
   const chartPoints = this._buildSummaryChartPoints(
     chartValues,
@@ -848,31 +893,30 @@ private _renderModernSummary() {
         </div>
 
 <div class="modern-summary-chart">
-  ${svg`
-    <svg
-      class="modern-summary-svg"
-      viewBox="0 0 300 90"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-    >
-      <path
-        class="modern-summary-grid"
-        d="M 0 45 H 300"
-      />
+  ${chartPoints
+    ? svg`
+        <svg
+          class="modern-summary-svg"
+          viewBox="0 0 ${chartWidth} ${chartHeight}"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            class="modern-summary-grid"
+            d="M 0 ${chartHeight / 2} H ${chartWidth}"
+          />
 
-<polyline
-  class="modern-summary-curve"
-  points="${chartPoints}"
-/>
-
-      <circle
-        class="modern-summary-point"
-        cx="300"
-        cy="30"
-        r="4"
-      />
-    </svg>
-  `}
+          <polyline
+            class="modern-summary-curve"
+            points="${chartPoints}"
+          />
+        </svg>
+      `
+    : html`
+        <div class="modern-summary-empty">
+          Historique indisponible
+        </div>
+      `}
 </div>
 
       </div>
