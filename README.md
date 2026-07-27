@@ -144,37 +144,37 @@ language: fr  # or en
 
 #### Baro-en (hPa - hpa)
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/img_tbaro_en_hpa.png?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_tbaro_en_hpa.png?raw=true "Ha TBaro Card")
 
 #### Form-en (hPa - hpa)
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/img_form_en_hpa.png?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_form_en_hpa.png?raw=true "Ha TBaro Card")
 
 #### Baro-en (mmHg - mm)
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/img_tbaro_en.png_mm?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_tbaro_en.png_mm?raw=true "Ha TBaro Card")
 
 #### Form-en (mmHg - mm)
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/img_form_en_mm.png?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_form_en_mm.png?raw=true "Ha TBaro Card")
 
 ### Card (fr)
 
 #### Baro-fr
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/img_tbaro_fr.png?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_tbaro_fr.png?raw=true "Ha TBaro Card")
 
 #### form-fr
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/img_form_fr.png?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_form_fr.png?raw=true "Ha TBaro Card")
 
 #### Baro-fr (mmHg - mm)
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/img_tbaro_fr_mm.png?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_tbaro_fr_mm.png?raw=true "Ha TBaro Card")
 
 #### form-fr (mmHg - mm)
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/img_form_fr_mm.png?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_form_fr_mm.png?raw=true "Ha TBaro Card")
 
 ---
 
