@@ -52,8 +52,6 @@ export class HaTbaroCard extends LitElement {
   private _trendRequestInFlight = false;
   private _summaryHistoryRequestKey = '';
 
-
-  private _translations: Record<string, string> = {};
   private static _localeMap: Record<string, Record<string, string>> = { en, de, es, fr, it, nl, pl, ru, sv };
 
   static styles = [
@@ -76,18 +74,6 @@ export class HaTbaroCard extends LitElement {
   setConfig(config: BaroCardConfig) {
 
     if (!config.entity) throw new Error("Entity is required");
-
-    //const lang = config.language || this.hass?.locale?.language || 'en';
-    //this._translations = HaTbaroCard._localeMap[lang] || HaTbaroCard._localeMap['en'];
-
-    const lang = (config.language || this.hass?.locale?.language || 'en').toLowerCase();
-    if (!HaTbaroCard._localeMap[lang]) {
-      console.warn(`No translation for "${lang}", fallback to English`);
-      this._translations = HaTbaroCard._localeMap['en'];
-    } else {
-      this._translations = HaTbaroCard._localeMap[lang];
-    }
-
 
     this.config = {
       needle_color:   'var(--primary-color)',        // aiguille
@@ -498,15 +484,24 @@ private get normalizedLanguage(): string {
     .split('-')[0];
 }
 
-private get translatedWeatherLabel(): string {
-  const lang = this.normalizedLanguage;
-  const translations =
-    HaTbaroCard._localeMap[lang] ?? HaTbaroCard._localeMap.en;
 
+private _translateText(key: string): string {
+  const translations =
+    HaTbaroCard._localeMap[this.normalizedLanguage] ??
+    HaTbaroCard._localeMap.en;
+
+  return translations[key] ??
+    HaTbaroCard._localeMap.en[key] ??
+    key;
+}
+
+
+private get translatedWeatherLabel(): string {
   const weather = this.getWeatherInfo();
 
-  return translations[weather.key] ?? weather.key;
+  return this._translateText(weather.key);
 }
+
 
 private _renderModernArc() {
   const pressure = this.pressure;
@@ -537,14 +532,8 @@ private _renderModernArc() {
 
    
 
-  const lang = this.normalizedLanguage;
-
-  const translations =
-    HaTbaroCard._localeMap[lang] ??
-    HaTbaroCard._localeMap.en;
-
-  const lowLabel = translations.low ?? 'Low';
-  const highLabel = translations.high ?? 'High';
+  const lowLabel = this._translateText('low');
+  const highLabel = this._translateText('high');
 
 
   /*
@@ -1104,7 +1093,7 @@ private _renderModernSummary() {
               `
             : html`
                 <div class="modern-summary-empty">
-                  ${'summary_history_unavailable'}
+                  ${this._translateText('summary_history_unavailable')}
                 </div>
               `}
         </div>
@@ -1113,15 +1102,15 @@ private _renderModernSummary() {
         maximumPressure !== undefined
           ? html`
               <div class="modern-summary-range">
-
+                
                 <span>
-                  ${'summary_min'}
+                  ${this._translateText('summary_min')}
                   ${minimumPressure.toFixed(decimals)}
                   ${this.pressureUnit}
                 </span>
 
                 <span>
-                  ${'summary_max'}
+                  ${this._translateText('summary_max')}
                   ${maximumPressure.toFixed(decimals)}
                   ${this.pressureUnit}
                 </span>
@@ -1229,15 +1218,9 @@ render() {
   const pressureY = isHalfGauge ? cy : cy + 85;
 
 
-      // gestiopn de la locale
-  const lang = (language || this.hass?.locale?.language || 'en').toLowerCase().split('-')[0];
-  if (!Object.keys(this._translations).length || !this._translations[lang]) {
-    this._translations = HaTbaroCard._localeMap[lang] || HaTbaroCard._localeMap['en'];
-  }
-
   // ——— météo et localisation ———
-  const weather = this.getWeatherInfo(); // passe du hPa pur
-  const label = this._translations[weather.key] || weather.key;
+  const weather = this.getWeatherInfo();
+  const label = this._translateText(weather.key);
 
   // Arcs colorés
   const coloredArcs = segments.map(segment => {
