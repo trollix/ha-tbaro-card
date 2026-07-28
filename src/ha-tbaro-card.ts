@@ -1169,7 +1169,7 @@ const chartAxisValues =
         y="${axisValue.y + 3}"
         text-anchor="end"
       >
-        ${axisValue.value.toFixed(decimals)}
+        ${axisValue.value.toFixed(0)}
       </text>
 
       <line
