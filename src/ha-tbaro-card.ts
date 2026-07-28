@@ -1203,7 +1203,7 @@ ${chartTimeLabels.map(
     <text
       class="modern-summary-time-label"
       x="${timeLabel.x}"
-      y="${chartAxisY + 18}"
+      y="${chartAxisY + 24}"
       text-anchor="${timeLabel.x === chartAxisLeft
         ? 'start'
         : timeLabel.x === chartViewWidth

@@ -74,7 +74,7 @@ export default css`
 
  .modern-summary-axis-label {
   fill: var(--summary-muted, var(--baro-muted));
-  font-size: 15spx;
+  font-size: 14spx;
   font-family: sans-serif;
 }
 
