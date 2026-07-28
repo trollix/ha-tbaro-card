@@ -74,13 +74,13 @@ export default css`
 
  .modern-summary-axis-label {
   fill: var(--summary-muted, var(--baro-muted));
-  font-size: 10px;
+  font-size: 17px;
   font-family: sans-serif;
 }
 
 .modern-summary-time-label {
   fill: var(--summary-muted, var(--baro-muted));
-  font-size: 10px;
+  font-size: 17px;
   font-family: sans-serif;
 }
 

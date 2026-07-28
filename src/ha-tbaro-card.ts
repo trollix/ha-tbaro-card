@@ -996,7 +996,7 @@ private _renderModernSummary() {
 
   const chartWidth = 300;
   const chartHeight = 145;
-  const chartAxisLeft = 38;
+  const chartAxisLeft = 44;
   const chartTop = 8;
   const chartBottom = 22;
   const chartPlotHeight =
