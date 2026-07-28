@@ -1035,10 +1035,19 @@ const chartViewWidth =
       ? Math.max(...chartValues)
       : undefined;
 
+const chartAxisMinimum =
+  minimumPressure !== undefined
+    ? Math.floor(minimumPressure)
+    : undefined;
+
+const chartAxisMaximum =
+  maximumPressure !== undefined
+    ? Math.ceil(maximumPressure)
+    : undefined;
 
 const chartAxisValues =
-  minimumPressure !== undefined &&
-  maximumPressure !== undefined
+  chartAxisMinimum !== undefined &&
+  chartAxisMaximum !== undefined
     ? Array.from(
         { length: 4 },
         (_, index) => {
@@ -1046,11 +1055,11 @@ const chartAxisValues =
 
           return {
             value:
-              maximumPressure -
+              chartAxisMaximum -
               ratio *
                 (
-                  maximumPressure -
-                  minimumPressure
+                  chartAxisMaximum -
+                  chartAxisMinimum
                 ),
 
             y:
@@ -1060,7 +1069,6 @@ const chartAxisValues =
         },
       )
     : [];
-
 
       const chartTimeLabels = [
         {
@@ -1166,11 +1174,12 @@ const chartAxisValues =
     (axisValue) => svg`
       <text
         class="modern-summary-axis-label"
-        x="${chartAxisLeft - 6}"
+        x="${chartAxisLeft - 8}"
         y="${axisValue.y + 3}"
         text-anchor="end"
       >
-        ${axisValue.value.toFixed(0)}
+        ${Math.round(axisValue.value)}
+        
       </text>
 
       <line
