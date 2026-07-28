@@ -1001,6 +1001,7 @@ private _renderModernSummary() {
   const chartBottom = 22;
   const chartPlotHeight =
   chartHeight - chartTop - chartBottom;
+  const chartAxisY = chartHeight - 24;
 
 const chartPadding = 5;
 const chartViewWidth =
@@ -1178,6 +1179,14 @@ const chartAxisValues =
         y1="${axisValue.y}"
         x2="${chartViewWidth}"
         y2="${axisValue.y}"
+      />
+
+      <line
+        class="modern-summary-x-axis"
+        x1="${chartAxisLeft}"
+        y1="${chartAxisY}"
+        x2="${chartViewWidth}"
+        y2="${chartAxisY}"
       />
 
 
