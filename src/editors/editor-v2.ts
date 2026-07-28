@@ -113,7 +113,7 @@ export class HaTbaroEditorV2 extends LitElement {
       {
         name: 'curve_color',
         selector: {
-          color_rgb: {},
+          text: {},
         },
       },
 
