@@ -70,27 +70,19 @@ export default css`
     font-size: 13px;
   }
 
-  .modern-summary-range {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-    color: var(--baro-muted);
-    font-size: 12px;
-    font-variant-numeric: tabular-nums;
-  }
 
-  .modern-summary-axis-label {
-    fill: var(--summary-muted, var(--baro-muted));
-    font-size: 9px;
-    font-family: sans-serif;
-  }
 
-  .modern-summary-time-label {
-    fill: var(--summary-muted, var(--baro-muted));
-    font-size: 9px;
-    font-family: sans-serif;
-  }
+ .modern-summary-axis-label {
+  fill: var(--summary-muted, var(--baro-muted));
+  font-size: 10px;
+  font-family: sans-serif;
+}
+
+.modern-summary-time-label {
+  fill: var(--summary-muted, var(--baro-muted));
+  font-size: 10px;
+  font-family: sans-serif;
+}
 
 
 `;

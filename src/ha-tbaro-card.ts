@@ -995,7 +995,7 @@ private _renderModernSummary() {
   const weatherLabel = this.translatedWeatherLabel;
 
   const chartWidth = 300;
-  const chartHeight = 125;
+  const chartHeight = 145;
   const chartPadding = 5;
   const chartAxisLeft = 38;
   const chartViewWidth = chartWidth + chartAxisLeft;
@@ -1183,7 +1183,7 @@ ${chartTimeLabels.map(
     <text
       class="modern-summary-time-label"
       x="${timeLabel.x}"
-      y="${chartHeight - 2}"
+      y="${chartHeight - 8}"
       text-anchor="${timeLabel.x === chartAxisLeft
         ? 'start'
         : timeLabel.x === chartViewWidth
@@ -1221,30 +1221,6 @@ ${chartTimeLabels.map(
               `}
         </div>
 
-        ${minimumPressure !== undefined &&
-        maximumPressure !== undefined
-          ? html`
-              <div class="modern-summary-range">
-                
-                <span>
-                  ${this._translateText('summary_min')}
-                  ${minimumPressure.toFixed(decimals)}
-                  ${this.pressureUnit}
-                </span>
-
-                <span>
-                  ${trendHours} h
-                </span>
-
-                <span>
-                  ${this._translateText('summary_max')}
-                  ${maximumPressure.toFixed(decimals)}
-                  ${this.pressureUnit}
-                </span>
-
-              </div>
-            `
-          : ''}
       </div>
     </ha-card>
   `;
