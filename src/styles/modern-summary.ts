@@ -43,10 +43,8 @@ export default css`
   }
 
   .modern-summary-grid {
-    fill: none;
-    stroke: var(--baro-line);
+    stroke: var(--summary-grid, var(--baro-line));
     stroke-width: 1;
-    stroke-dasharray: 4 5;
   }
 
   .modern-summary-curve {
@@ -81,4 +79,12 @@ export default css`
     font-size: 12px;
     font-variant-numeric: tabular-nums;
   }
+
+  .modern-summary-axis-label {
+    fill: var(--summary-muted, var(--baro-muted));
+    font-size: 9px;
+    font-family: sans-serif;
+  }
+
+
 `;

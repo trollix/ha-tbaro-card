@@ -995,8 +995,10 @@ private _renderModernSummary() {
   const weatherLabel = this.translatedWeatherLabel;
 
   const chartWidth = 300;
-  const chartHeight = 90;
+  const chartHeight = 110;
   const chartPadding = 5;
+  const chartAxisLeft = 38;
+  const chartViewWidth = chartWidth + chartAxisLeft;
 
   const chartValues =
     this._sampleSummaryHistoryValues(
@@ -1023,6 +1025,37 @@ private _renderModernSummary() {
     chartValues.length > 0
       ? Math.max(...chartValues)
       : undefined;
+
+
+  const chartAxisValues =
+    minimumPressure !== undefined &&
+    maximumPressure !== undefined
+      ? Array.from(
+          { length: 4 },
+          (_, index) => {
+            const ratio = index / 3;
+
+            return {
+              value:
+                maximumPressure -
+                ratio *
+                  (
+                    maximumPressure -
+                    minimumPressure
+                  ),
+
+              y:
+                chartPadding +
+                ratio *
+                  (
+                    chartHeight -
+                   chartPadding * 2
+                  ),
+            };
+          },
+        )
+      : [];
+
 
   const chartPoints =
     this._buildSummaryChartPoints(
@@ -1097,29 +1130,47 @@ private _renderModernSummary() {
         <div class="modern-summary-chart">
           ${chartPath
             ? svg`
-                <svg
-                  class="modern-summary-svg"
-                  viewBox="0 0 ${chartWidth} ${chartHeight}"
-                  preserveAspectRatio="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    class="modern-summary-grid"
-                    d="M 0 ${chartHeight / 2} H ${chartWidth}"
-                  />
+<svg
+  class="modern-summary-svg"
+  viewBox="0 0 ${chartViewWidth} ${chartHeight}"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+>
+  ${chartAxisValues.map(
+    (axisValue) => svg`
+      <text
+        class="modern-summary-axis-label"
+        x="${chartAxisLeft - 6}"
+        y="${axisValue.y + 3}"
+        text-anchor="end"
+      >
+        ${axisValue.value.toFixed(decimals)}
+      </text>
 
-                  <path
-                    class="modern-summary-curve"
-                    d="${chartPath}"
-                  />
+      <line
+        class="modern-summary-grid"
+        x1="${chartAxisLeft}"
+        y1="${axisValue.y}"
+        x2="${chartViewWidth}"
+        y2="${axisValue.y}"
+      />
+    `,
+  )}
 
-                  <circle
-                    class="modern-summary-point"
-                    cx="${lastChartX}"
-                    cy="${lastChartY}"
-                    r="4"
-                  />
-                </svg>
+  <g transform="translate(${chartAxisLeft} 0)">
+    <path
+      class="modern-summary-curve"
+      d="${chartPath}"
+    />
+
+    <circle
+      class="modern-summary-point"
+      cx="${lastChartX}"
+      cy="${lastChartY}"
+      r="4"
+    />
+  </g>
+</svg>
               `
             : html`
                 <div class="modern-summary-empty">
