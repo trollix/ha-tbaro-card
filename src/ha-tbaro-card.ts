@@ -995,10 +995,11 @@ private _renderModernSummary() {
   const weatherLabel = this.translatedWeatherLabel;
 
   const chartWidth = 300;
-  const chartHeight = 110;
+  const chartHeight = 125;
   const chartPadding = 5;
   const chartAxisLeft = 38;
   const chartViewWidth = chartWidth + chartAxisLeft;
+  const trendHours = this.config.trend_hours ?? 24;
 
   const chartValues =
     this._sampleSummaryHistoryValues(
@@ -1057,6 +1058,27 @@ private _renderModernSummary() {
       : [];
 
 
+      const chartTimeLabels = [
+        {
+          x: chartAxisLeft,
+          label: `-${trendHours}h`,
+        },
+        {
+          x: chartAxisLeft + chartWidth / 3,
+          label: `-${Math.round(trendHours * 2 / 3)}h`,
+        },
+        {
+          x: chartAxisLeft + chartWidth * 2 / 3,
+          label: `-${Math.round(trendHours / 3)}h`,
+        },
+        {
+          x: chartViewWidth,
+          label: '0h',
+        },
+      ];
+
+
+
   const chartPoints =
     this._buildSummaryChartPoints(
       chartValues,
@@ -1090,7 +1112,7 @@ private _renderModernSummary() {
     lastChartPoint[1] ?? 0,
   );
 
-  const trendHours = this.config.trend_hours ?? 24;
+  
 
 
   return html`
@@ -1154,6 +1176,26 @@ private _renderModernSummary() {
         x2="${chartViewWidth}"
         y2="${axisValue.y}"
       />
+
+
+${chartTimeLabels.map(
+  (timeLabel) => svg`
+    <text
+      class="modern-summary-time-label"
+      x="${timeLabel.x}"
+      y="${chartHeight - 2}"
+      text-anchor="${timeLabel.x === chartAxisLeft
+        ? 'start'
+        : timeLabel.x === chartViewWidth
+          ? 'end'
+          : 'middle'}"
+    >
+      ${timeLabel.label}
+    </text>
+  `,
+)}
+
+
     `,
   )}
 

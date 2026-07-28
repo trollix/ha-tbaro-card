@@ -86,5 +86,11 @@ export default css`
     font-family: sans-serif;
   }
 
+  .modern-summary-time-label {
+    fill: var(--summary-muted, var(--baro-muted));
+    font-size: 9px;
+    font-family: sans-serif;
+  }
+
 
 `;
