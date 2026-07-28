@@ -992,6 +992,9 @@ private _renderModernSummary() {
     ),
   );
 
+  const curveColor =
+  this.config.curve_color || 'var(--primary-color)';
+
   const weatherLabel = this.translatedWeatherLabel;
 
   const chartWidth = 300;
@@ -1179,7 +1182,7 @@ const chartAxisValues =
         text-anchor="end"
       >
         ${Math.round(axisValue.value)}
-        
+
       </text>
 
       <line
@@ -1231,14 +1234,16 @@ ${chartTimeLabels.map(
   <g transform="translate(${chartAxisLeft} ${chartTop})">
     <path
       class="modern-summary-curve"
-      d="${chartPath}"
+      d="${chartPath}" 
+      style="stroke: ${curveColor};"
     />
 
     <circle
       class="modern-summary-point"
       cx="${lastChartX}"
       cy="${lastChartY}"
-      r="4"
+      r="4" 
+      style="fill: ${curveColor};"
     />
   </g>
 </svg>

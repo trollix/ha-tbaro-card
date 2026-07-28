@@ -43,6 +43,7 @@ export interface BaroCardConfig {
 
   design?: CardDesign;
   theme?: CardTheme;
+  curve_color?: string;
 
   unit?: PressureUnit;
   decimals?: number;
@@ -116,6 +117,7 @@ export interface BaroCardConfigV2 {
     | 'modern-history';
 
   theme?: CardTheme;
+  curve_color?: string;
 
   unit?: PressureUnit;
   decimals?: number;

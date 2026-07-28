@@ -8,6 +8,7 @@ type ConfigV2 = {
   design?: 'classic' | 'modern-arc' | 'modern-history' | 'modern-summary';
   theme?: 'auto' | 'light' | 'dark';
   unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
+  curve_color?: string;  // on ajoute la couleur de la courbe ici
   decimals?: number;
   show_pressure?: boolean;
   show_weather_text?: boolean;
@@ -108,6 +109,14 @@ export class HaTbaroEditorV2 extends LitElement {
           },
         },
       },
+
+      {
+        name: 'curve_color',
+        selector: {
+          color_rgb: {},
+        },
+      },
+
       {
         name: 'trend_hours',
         selector: {
@@ -157,6 +166,7 @@ export class HaTbaroEditorV2 extends LitElement {
       unit: 'unit',
       decimals: 'decimals',
       theme: 'editor_theme',
+      curve_color: 'curve_color',
       show_pressure: 'show_pressure',
       trend_hours: 'trend_hours',
       show_weather_text: 'show_weather_text',
