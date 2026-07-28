@@ -996,9 +996,16 @@ private _renderModernSummary() {
 
   const chartWidth = 300;
   const chartHeight = 145;
-  const chartPadding = 5;
   const chartAxisLeft = 38;
-  const chartViewWidth = chartWidth + chartAxisLeft;
+  const chartTop = 8;
+  const chartBottom = 22;
+  const chartPlotHeight =
+  chartHeight - chartTop - chartBottom;
+
+const chartPadding = 5;
+const chartViewWidth =
+  chartWidth + chartAxisLeft;
+
   const trendHours = this.config.trend_hours ?? 24;
 
   const chartValues =
@@ -1028,34 +1035,30 @@ private _renderModernSummary() {
       : undefined;
 
 
-  const chartAxisValues =
-    minimumPressure !== undefined &&
-    maximumPressure !== undefined
-      ? Array.from(
-          { length: 4 },
-          (_, index) => {
-            const ratio = index / 3;
+const chartAxisValues =
+  minimumPressure !== undefined &&
+  maximumPressure !== undefined
+    ? Array.from(
+        { length: 4 },
+        (_, index) => {
+          const ratio = index / 3;
 
-            return {
-              value:
-                maximumPressure -
-                ratio *
-                  (
-                    maximumPressure -
-                    minimumPressure
-                  ),
+          return {
+            value:
+              maximumPressure -
+              ratio *
+                (
+                  maximumPressure -
+                  minimumPressure
+                ),
 
-              y:
-                chartPadding +
-                ratio *
-                  (
-                    chartHeight -
-                   chartPadding * 2
-                  ),
-            };
-          },
-        )
-      : [];
+            y:
+              chartTop +
+              ratio * chartPlotHeight,
+          };
+        },
+      )
+    : [];
 
 
       const chartTimeLabels = [
@@ -1083,7 +1086,7 @@ private _renderModernSummary() {
     this._buildSummaryChartPoints(
       chartValues,
       chartWidth,
-      chartHeight,
+      chartPlotHeight,
       chartPadding,
     );
 
@@ -1183,7 +1186,7 @@ ${chartTimeLabels.map(
     <text
       class="modern-summary-time-label"
       x="${timeLabel.x}"
-      y="${chartHeight - 8}"
+      y="${chartHeight - 3}"
       text-anchor="${timeLabel.x === chartAxisLeft
         ? 'start'
         : timeLabel.x === chartViewWidth
@@ -1199,7 +1202,7 @@ ${chartTimeLabels.map(
     `,
   )}
 
-  <g transform="translate(${chartAxisLeft} 0)">
+  <g transform="translate(${chartAxisLeft} ${chartTop})">
     <path
       class="modern-summary-curve"
       d="${chartPath}"
