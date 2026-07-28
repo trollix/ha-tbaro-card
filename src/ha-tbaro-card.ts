@@ -88,7 +88,7 @@ export class HaTbaroCard extends LitElement {
       border: 'outer',   // valeur par défaut
       design: 'classic',
       theme: 'auto',
-      trend_hours: 3,
+      trend_hours: 24,
       size: 300,
       angle: 270,
       unit: 'hpa',
