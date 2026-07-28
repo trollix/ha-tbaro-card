@@ -1192,10 +1192,18 @@ const chartAxisValues =
 
 ${chartTimeLabels.map(
   (timeLabel) => svg`
+    <line
+      class="modern-summary-x-tick"
+      x1="${timeLabel.x}"
+      y1="${chartAxisY}"
+      x2="${timeLabel.x}"
+      y2="${chartAxisY + 4}"
+    />
+
     <text
       class="modern-summary-time-label"
       x="${timeLabel.x}"
-      y="${chartHeight - 3}"
+      y="${chartAxisY + 18}"
       text-anchor="${timeLabel.x === chartAxisLeft
         ? 'start'
         : timeLabel.x === chartViewWidth

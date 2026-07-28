@@ -78,14 +78,17 @@ export default css`
   font-family: sans-serif;
 }
 
+
 .modern-summary-x-axis {
   stroke: var(--summary-axis, var(--baro-muted));
-  stroke-width: 1;
+  stroke-width: 0.6;
+  opacity: 0.7;
 }
 
 .modern-summary-x-tick {
   stroke: var(--summary-axis, var(--baro-muted));
-  stroke-width: 1;
+  stroke-width: 0.8;
+  opacity: 0.8;
 }
 
 .modern-summary-time-label {
