@@ -172,21 +172,21 @@ export default css`
 
   .modern-svg-value {
     fill: var(--baro-text);
-    font-size: 62px;
+    font-size: 54px;
     font-weight: 300;
     text-anchor: middle;
   }
 
   .modern-svg-unit {
     fill: var(--baro-muted);
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 500;
     text-anchor: middle;
   }
 
   .modern-svg-scale-value {
     fill: var(--baro-text);
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     text-anchor: middle;
   }

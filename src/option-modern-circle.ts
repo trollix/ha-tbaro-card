@@ -169,10 +169,10 @@ const marker = pointOnCircle(markerAngle);
 
           ${this.config.show_pressure !== false
             ? svg`
-                <text x="150" y="148" class="modern-svg-value">
+                <text x="150" y="158" class="modern-svg-value">
                   ${pressure.toFixed(decimals)}
                 </text>
-                <text x="150" y="178" class="modern-svg-unit">
+                <text x="150" y="188" class="modern-svg-unit">
                   ${this.pressureUnit}
                 </text>
               `
