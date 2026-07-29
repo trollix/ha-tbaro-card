@@ -46,10 +46,10 @@ export function renderModernCursor(this: any) {
     (hpa - minP) /
     (maxP - minP);
 
-  const barLeft = 30;
-  const barTop = 80;
-  const barWidth = 240;
-  const barHeight = 72;
+  const barLeft = 32;
+  const barTop = 84;
+  const barWidth = 236;
+  const barHeight = 56;
 
   const markerX =
     barLeft +
@@ -115,9 +115,9 @@ export function renderModernCursor(this: any) {
 
           <!-- Pluie -->
           <g
-            transform="translate(66 116)"
-            stroke="rgba(255, 255, 255, 0.65)"
-            stroke-width="2"
+            transform="translate(71 112)"
+            stroke="rgba(255, 255, 255, 0.82)"
+            stroke-width="2.4"
             fill="none"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -130,9 +130,9 @@ export function renderModernCursor(this: any) {
 
           <!-- Nuage -->
           <g
-            transform="translate(150 116)"
-            stroke="rgba(255, 255, 255, 0.65)"
-            stroke-width="2"
+            transform="translate(150 112)"
+            stroke="rgba(255, 255, 255, 0.82)"
+            stroke-width="2.4"
             fill="none"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -142,9 +142,9 @@ export function renderModernCursor(this: any) {
 
           <!-- Soleil -->
           <g
-            transform="translate(234 116)"
-            stroke="rgba(255, 255, 255, 0.65)"
-            stroke-width="2"
+            transform="translate(229 112)"
+            stroke="rgba(255, 255, 255, 0.82)"
+            stroke-width="2.4"
             fill="none"
             stroke-linecap="round"
           >
@@ -159,12 +159,11 @@ export function renderModernCursor(this: any) {
             <line x1="-8" y1="8" x2="-11" y2="11" />
           </g>
 
-          
           <line
             x1="${markerX}"
-            y1="${barTop - 5}"
+            y1="${barTop - 4}"
             x2="${markerX}"
-            y2="${barTop + barHeight + 5}"
+            y2="${barTop + barHeight + 4}"
             stroke="#ffffff"
             stroke-width="4"
             stroke-linecap="round"
