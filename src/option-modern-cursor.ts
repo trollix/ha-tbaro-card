@@ -110,6 +110,56 @@ export function renderModernCursor(this: any) {
             fill="url(#baro-fog-gradient)"
           />
 
+
+          <!-- Pictogrammes décoratifs -->
+
+          <!-- Pluie -->
+          <g
+            transform="translate(66 116)"
+            stroke="rgba(255, 255, 255, 0.65)"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M -10 0 C -10 -6 -5 -10 1 -9 C 5 -13 13 -10 14 -4 C 20 -3 21 6 15 8 H -7 C -13 8 -15 2 -10 0" />
+            <line x1="-4" y1="13" x2="-7" y2="18" />
+            <line x1="3" y1="13" x2="0" y2="18" />
+            <line x1="10" y1="13" x2="7" y2="18" />
+          </g>
+
+          <!-- Nuage -->
+          <g
+            transform="translate(150 116)"
+            stroke="rgba(255, 255, 255, 0.65)"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M -13 5 C -13 -1 -9 -5 -4 -5 C -1 -11 8 -12 12 -6 C 19 -6 22 3 17 7 H -8 C -12 7 -14 6 -13 5" />
+          </g>
+
+          <!-- Soleil -->
+          <g
+            transform="translate(234 116)"
+            stroke="rgba(255, 255, 255, 0.65)"
+            stroke-width="2"
+            fill="none"
+            stroke-linecap="round"
+          >
+            <circle cx="0" cy="0" r="8" />
+            <line x1="0" y1="-16" x2="0" y2="-12" />
+            <line x1="0" y1="12" x2="0" y2="16" />
+            <line x1="-16" y1="0" x2="-12" y2="0" />
+            <line x1="12" y1="0" x2="16" y2="0" />
+            <line x1="-11" y1="-11" x2="-8" y2="-8" />
+            <line x1="8" y1="8" x2="11" y2="11" />
+            <line x1="11" y1="-11" x2="8" y2="-8" />
+            <line x1="-8" y1="8" x2="-11" y2="11" />
+          </g>
+
+          
           <line
             x1="${markerX}"
             y1="${barTop - 5}"
