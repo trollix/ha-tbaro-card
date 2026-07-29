@@ -64,39 +64,43 @@ export function renderModernCircle(this: any) {
    * - une vraie parabole ;
    * - deux coupes horizontales nettes.
    */
-  const centerX = 150;
-  const vertexY = 166;
-  const baseY = 214;
-  const visibleLeftX = 30;
-  const visibleRightX = 270;
+/*
+ * Cercle ouvert sur 270°.
+ *
+ * L'arc commence en bas à gauche, passe par le haut,
+ * puis se termine en bas à droite.
+ */
+const centerX = 150;
+const centerY = 165;
+const radius = 105;
 
-  const parabolaA =
-    (baseY - vertexY) /
-    Math.pow(visibleRightX - centerX, 2);
+const startAngle = 225;
+const endAngle = 495;
 
-  const parabolaY = (x: number) =>
-    vertexY + parabolaA * Math.pow(x - centerX, 2);
+const pointOnCircle = (angle: number) => {
+  const radians = (angle - 90) * Math.PI / 180;
 
-  /*
-   * Segment visible exact de la parabole.
-   * stroke-linecap="butt" coupe automatiquement chaque extrémité
-   * perpendiculairement à la tangente locale.
-   */
-  const curvePath = `
-    M ${visibleLeftX} ${parabolaY(visibleLeftX)}
-    Q ${centerX} ${2 * vertexY - baseY}
-      ${visibleRightX} ${parabolaY(visibleRightX)}
-  `;
-
-  const markerX =
-    visibleLeftX +
-    progress * (visibleRightX - visibleLeftX);
-
-  const marker = {
-    x: markerX,
-    y: parabolaY(markerX) + 2,
+  return {
+    x: centerX + radius * Math.cos(radians),
+    y: centerY + radius * Math.sin(radians),
   };
+};
 
+const startPoint = pointOnCircle(startAngle);
+const endPoint = pointOnCircle(endAngle);
+
+const curvePath = `
+  M ${startPoint.x} ${startPoint.y}
+  A ${radius} ${radius}
+    0 1 1
+    ${endPoint.x} ${endPoint.y}
+`;
+
+const markerAngle =
+  startAngle +
+  progress * (endAngle - startAngle);
+
+const marker = pointOnCircle(markerAngle);
   const trendArrow =
     trend == null ? '→' : trend > 0 ? '↑' : trend < 0 ? '↓' : '→';
 
