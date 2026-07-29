@@ -33,6 +33,53 @@ export function renderModernCursor(this: any) {
   const theme = this.config.theme ?? 'auto';
   const title = this.config.title || 'Pression';
 
+  const trendHours = Math.max(
+  1,
+  this.config.trend_hours ?? 3,
+);
+
+const trendHpa = this._historyTrend;
+
+const trend =
+  trendHpa == null
+    ? null
+    : this.config.unit === 'mm'
+      ? trendHpa * this.constructor.HPA_TO_MM
+      : this.config.unit === 'in'
+        ? trendHpa * this.constructor.HPA_TO_IN
+        : this.config.unit === 'pa'
+          ? trendHpa * this.constructor.HPA_TO_PA
+          : trendHpa;
+
+const trendArrow =
+  trend == null
+    ? '→'
+    : trend > 0
+      ? '↑'
+      : trend < 0
+        ? '↓'
+        : '→';
+
+const trendDecimals =
+  this.config.unit === 'in'
+    ? 2
+    : this.config.unit === 'pa'
+      ? 0
+      : 1;
+
+const trendNumber =
+  trend == null
+    ? ''
+    : `${trend > 0 ? '+' : ''}${trend.toFixed(trendDecimals)} ${this.pressureUnit}`;
+
+const trendClass =
+  trend == null || trend === 0
+    ? ''
+    : trend > 0
+      ? 'modern-svg-trend-up'
+      : 'modern-svg-trend-down';
+
+
   const minP = 950;
   const maxP = 1050;
 
@@ -188,6 +235,38 @@ export function renderModernCursor(this: any) {
                 </text>
               `
             : nothing}
+
+          ${trend == null
+           ? svg`
+                <text
+                  x="150"
+                  y="294"
+                  class="modern-svg-trend"
+                >
+                  Tendance indisponible
+                </text>
+              `
+            : svg`
+                <text
+                  x="150"
+                  y="288"
+                  class="modern-svg-trend ${trendClass}"
+                >
+                  ${trendArrow} ${trendNumber}
+                </text>
+
+                <text
+                  x="150"
+                  y="310"
+                  class="modern-svg-trend-period"
+                >
+                  ${trendHours} h
+                </text>
+              `}
+
+
+
+
         </svg>
       `}
     </ha-card>
