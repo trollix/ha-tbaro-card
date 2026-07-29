@@ -4,6 +4,7 @@ import { LitElement, html, css, svg, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
 import type { BaroCardConfig } from './types';
+import { renderModernCircle } from './option-modern-circle';
 
 import './ha-tbaro-card-editor';
 
@@ -304,7 +305,7 @@ private async _refreshPressureTrend() {
   if (
     !this.hass ||
     !this.config?.entity ||
-    this.config.design !== 'modern-arc'
+    this.config.design !== 'modern-arc' && this.config.design !== 'modern-circle'
   ) {
     return;
   }
@@ -1305,6 +1306,8 @@ private _renderModernPlaceholder(design: 'modern-history' | 'modern-summary') {
 
 render() {
 
+  // Routeur
+  
   if (!this.config) return html``;
 
   if (this.config.design === 'modern-arc') {
@@ -1312,7 +1315,7 @@ render() {
   }
   
   if (this.config.design === 'modern-circle') {
-    return this._renderModernArc();
+    return renderModernCircle.call(this);
   }
   
   if (this.config.design === 'modern-summary') {
