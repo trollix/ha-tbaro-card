@@ -47,11 +47,55 @@ export function renderModernSummary(this: any) {
   chartHeight - chartTop - chartBottom;
   const chartAxisY = chartHeight - 24;
 
-const chartPadding = 5;
-const chartViewWidth =
-  chartWidth + chartAxisLeft;
+  const chartPadding = 5;
+  const chartViewWidth = chartWidth + chartAxisLeft;
 
   const trendHours = this.config.trend_hours ?? 24;
+
+  const trendHpa = this._historyTrend;
+
+  const trend =
+    trendHpa == null
+      ? null
+      : this.config.unit === 'mm'
+        ? trendHpa * this.constructor.HPA_TO_MM
+        : this.config.unit === 'in'
+          ? trendHpa * this.constructor.HPA_TO_IN
+          : this.config.unit === 'pa'
+            ? trendHpa * this.constructor.HPA_TO_PA
+            : trendHpa;
+
+
+
+  const trendArrow =
+    trend == null
+      ? '→'
+      : trend > 0
+        ? '↑'
+        : trend < 0
+          ? '↓'
+          : '→';
+
+  const trendDecimals =
+    this.config.unit === 'in'
+      ? 2
+      : this.config.unit === 'pa'
+        ? 0
+        : 1;
+
+  const trendNumber =
+    trend == null
+      ? ''
+      : `${trend > 0 ? '+' : ''}${trend.toFixed(trendDecimals)} ${this.pressureUnit}`;
+
+  const trendClass =
+    trend == null || trend === 0
+      ? ''
+      : trend > 0
+        ? 'modern-summary-trend-up'
+        : 'modern-summary-trend-down';
+
+
 
   const chartValues =
     this._sampleSummaryHistoryValues(
@@ -186,6 +230,7 @@ const chartAxisValues =
 
   
 
+      
 
   return html`
     <ha-card
@@ -199,19 +244,36 @@ const chartAxisValues =
       <div class="modern-summary">
 
 
-        <div class="modern-summary-header">
-          <span class="modern-summary-title">
-            ${title}
-          </span>
+<div class="modern-summary-header">
+  <div class="modern-summary-title">
+    ${title}
+  </div>
 
-          ${this.config.show_weather_text !== false
-            ? html`
-                <span class="modern-summary-weather">
-                  ${weatherLabel}
-                </span>
-              `
-            : nothing}
-        </div>
+  <div class="modern-summary-header-right">
+    ${trend == null
+      ? html`
+          <div class="modern-summary-trend">
+            Tendance indisponible
+          </div>
+        `
+      : html`
+          <div class="modern-summary-trend ${trendClass}">
+            ${trendArrow} ${trendNumber}
+          </div>
+          <div class="modern-summary-trend-period">
+            ${trendHours} h
+          </div>
+        `}
+
+    ${this.config.show_weather_text !== false
+      ? html`
+          <div class="modern-summary-weather">
+            ${weatherLabel}
+          </div>
+        `
+      : nothing}
+  </div>
+</div>
 
         <div class="modern-summary-value">
           ${pressure.toFixed(decimals)}

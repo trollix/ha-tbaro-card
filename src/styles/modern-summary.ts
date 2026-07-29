@@ -97,6 +97,38 @@ export default css`
   font-family: sans-serif;
 }
 
+.modern-summary-header-right {
+  text-align: right;
+}
+
+.modern-summary-trend {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.modern-summary-trend-period {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--baro-muted);
+}
+
+.modern-summary-weather {
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--baro-muted);
+  white-space: nowrap;
+}
+
+.modern-summary-trend-up {
+  color: var(--success-color, #43a047);
+}
+
+.modern-summary-trend-down {
+  color: var(--error-color, #db4437);
+}
+
 
 
 `;
