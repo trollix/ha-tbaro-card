@@ -32,7 +32,9 @@ export class HaTbaroEditorV2 extends LitElement {
   }
 
   private get _schema() {
-    return [
+
+    // on construit une variable pour pouvoir lui ajouter à vonté un champ spécifique
+    const lc_schema = [
       {
         name: 'entity',
         required: true,
@@ -109,7 +111,6 @@ export class HaTbaroEditorV2 extends LitElement {
           },
         },
       },
-
       {
         name: 'curve_color',
         selector: {
@@ -156,6 +157,18 @@ export class HaTbaroEditorV2 extends LitElement {
         },
       },
     ];
+
+    if (this.config.design === 'modern-summary') {
+      lc_schema.push({
+        name: 'curve_color',
+        selector: {
+          text: {},
+        },
+      });
+    }
+
+    return lc_schema;
+
   }
 
   private _computeLabel = (schemaItem: any) => {

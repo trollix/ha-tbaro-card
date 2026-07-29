@@ -162,11 +162,11 @@ language: fr  # or en
 
 #### Baro-fr
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_tbaro_fr.png?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/src/doc/img_tbaro_fr.png?raw=true "Ha TBaro Card")
 
 #### form-fr
 
-![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/doc/img_form_fr.png?raw=true "Ha TBaro Card")
+![HA-TBARO-CARD](https://github.com/trollix/ha-tbaro-card/blob/main/src/doc/img_form_fr.png?raw=true "Ha TBaro Card")
 
 #### Baro-fr (mmHg - mm)
 
