@@ -5,7 +5,7 @@ import { translateEditor } from './editor-translation';
 type ConfigV2 = {
   entity?: string;
   title?: string;
-  design?: 'classic' | 'modern-arc' | 'modern-circle' | 'modern-summary';
+  design?: 'classic' | 'modern-arc' | 'modern-circle' | 'modern-summary' | 'modern-fog';
   theme?: 'auto' | 'light' | 'dark';
   unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
   curve_color?: string;  // on ajoute la couleur de la courbe ici

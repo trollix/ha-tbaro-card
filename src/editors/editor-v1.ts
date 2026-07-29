@@ -5,7 +5,7 @@ import { translateEditor } from './editor-translation';
 type ConfigV1 = {
   entity?: string;
   title?: string;
-  design?: 'classic' | 'modern-arc' | 'modern-circle' | 'modern-summary';
+  design?: 'classic' | 'modern-arc' | 'modern-circle' | 'modern-summary' | 'modern-fog';
   unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
   decimals?: number;
   show_pressure?: boolean;
