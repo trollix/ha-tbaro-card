@@ -163,16 +163,16 @@ const marker = pointOnCircle(markerAngle);
             </linearGradient>
           </defs>
 
-          <text x="150" y="30" class="modern-svg-title">
+          <text x="150" y="34" class="modern-svg-title">
             ${title}
           </text>
 
           ${this.config.show_pressure !== false
             ? svg`
-                <text x="150" y="104" class="modern-svg-value">
+                <text x="150" y="148" class="modern-svg-value">
                   ${pressure.toFixed(decimals)}
                 </text>
-                <text x="150" y="133" class="modern-svg-unit">
+                <text x="150" y="178" class="modern-svg-unit">
                   ${this.pressureUnit}
                 </text>
               `
@@ -195,29 +195,29 @@ const marker = pointOnCircle(markerAngle);
             r="9"
           />
 
-        <text x="38" y="239" class="modern-svg-scale-value">950</text>
-        <text x="38" y="255" class="modern-svg-scale-label">${lowLabel}</text>
+        <text x="67" y="261" class="modern-svg-scale-value">950</text>
+        <text x="67" y="278" class="modern-svg-scale-label">${lowLabel}</text>
 
-        <text x="262" y="239" class="modern-svg-scale-value">1050</text>
-        <text x="262" y="255" class="modern-svg-scale-label">${highLabel}</text>
+        <text x="233" y="261" class="modern-svg-scale-value">1050</text>
+        <text x="233" y="278" class="modern-svg-scale-label">${highLabel}</text>
 
           ${trend == null
             ? svg`
-                <text x="150" y="246" class="modern-svg-trend">
+                <text x="150" y="247" class="modern-svg-trend">
                   Tendance indisponible
                 </text>
               `
             : svg`
                 <text
                   x="150"
-                  y="242"
+                  y="239"
                   class="modern-svg-trend ${trendClass}"
                 >
                   ${trendArrow} ${trendNumber}
                 </text>
                 <text
                   x="150"
-                  y="262"
+                  y="260"
                   class="modern-svg-trend-period"
                 >
                   ${trendHours} h
@@ -228,13 +228,13 @@ const marker = pointOnCircle(markerAngle);
             ? svg`
                 <rect
                   x="94"
-                  y="294"
+                  y="301"
                   width="112"
                   height="38"
                   rx="19"
                   fill="var(--baro-status-bg)"
                 />
-                <text x="150" y="318" class="modern-svg-status">
+                <text x="150" y="325" class="modern-svg-status">
                   ${weatherLabel}
                 </text>
               `
