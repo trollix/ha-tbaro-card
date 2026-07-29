@@ -73,7 +73,7 @@ export function renderModernCursor(this: any) {
         >
           <defs>
             <linearGradient
-              id="baro-fog-gradient"
+              id="baro-cursor-gradient"
               x1="0%"
               y1="0%"
               x2="100%"
@@ -106,8 +106,8 @@ export function renderModernCursor(this: any) {
             y="${barTop}"
             width="${barWidth}"
             height="${barHeight}"
-            rx="12"
-            fill="url(#baro-fog-gradient)"
+            rx="14"
+            fill="url(#baro-cursor-gradient)"
           />
 
 
