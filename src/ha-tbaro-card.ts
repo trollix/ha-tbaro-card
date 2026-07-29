@@ -1258,7 +1258,8 @@ ${chartTimeLabels.map(
       class="modern-summary-point"
       cx="${lastChartX}"
       cy="${lastChartY}"
-      r="6" 
+      r="5" 
+      style="fill: ${curveColor};"
     />
   </g>
 </svg>
