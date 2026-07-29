@@ -8,6 +8,7 @@ export type PressureUnit =
 export type CardDesign =
   | 'classic'
   | 'modern-arc'
+  | 'modern-circle'
   | 'modern-history'
   | 'modern-summary';
 
@@ -113,6 +114,7 @@ export interface BaroCardConfigV2 {
 
   design?:
     | 'modern-arc'
+    | 'modern-circle'
     | 'modern-summary'
     | 'modern-history';
 

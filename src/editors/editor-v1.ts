@@ -5,7 +5,7 @@ import { translateEditor } from './editor-translation';
 type ConfigV1 = {
   entity?: string;
   title?: string;
-  design?: 'classic' | 'modern-arc' | 'modern-history' | 'modern-summary';
+  design?: 'classic' | 'modern-arc' | 'modern-circle' | 'modern-history' | 'modern-summary';
   unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
   decimals?: number;
   show_pressure?: boolean;
@@ -61,6 +61,10 @@ export class HaTbaroEditorV1 extends LitElement {
               },
               {
                 value: 'modern-arc',
+                label: this._translate('design_modern_arc'),
+              },
+              {
+                value: 'modern-circle',
                 label: this._translate('design_modern_arc'),
               },
               {

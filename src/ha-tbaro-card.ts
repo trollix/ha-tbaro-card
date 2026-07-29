@@ -1310,7 +1310,11 @@ render() {
   if (this.config.design === 'modern-arc') {
     return this._renderModernArc();
   }
-
+  
+  if (this.config.design === 'modern-circle') {
+    return this._renderModernArc();
+  }
+  
   if (this.config.design === 'modern-summary') {
     return this._renderModernSummary();
   }
