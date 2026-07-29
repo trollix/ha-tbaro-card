@@ -9,8 +9,8 @@ export type CardDesign =
   | 'classic'
   | 'modern-arc'
   | 'modern-circle'
-  | 'modern-summary'
-  | 'modern-fog';
+  | 'modern-cursor'
+  | 'modern-summary';
 
 export type CardTheme =
   | 'auto'
@@ -116,7 +116,7 @@ export interface BaroCardConfigV2 {
     | 'modern-arc'
     | 'modern-circle'
     | 'modern-summary'
-    | 'modern-fog';
+    | 'modern-cursor';
 
   theme?: CardTheme;
   curve_color?: string;

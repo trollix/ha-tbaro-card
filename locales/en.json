@@ -16,7 +16,9 @@
   "design_classic": "Version 1 · Classic",
   "design_modern_arc": "Version 2 · Modern Arc",
   "design_modern_circle": "Version 3 · Modern Circle",
-  "design_modern_summary": "Version 4 · Summary",
+  "design_modern_cursor": "Version 4 · Cursor",
+  "design_modern_summary": "Version 5 · Summary",
+
   "curve_color": "Curve color",
   
   "summary_history_unavailable": "History unavailable",

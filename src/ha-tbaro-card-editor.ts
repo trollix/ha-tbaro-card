@@ -10,7 +10,7 @@ type Config = {
     | 'modern-arc'
     | 'modern-circle'
     | 'modern-summary'
-    | 'modern-fog';
+    | 'modern-cursor';
 
   [key: string]: unknown;
 };
@@ -46,7 +46,7 @@ export class HaTbaroCardEditor extends LitElement {
       design === 'modern-arc' ||
       design === 'modern-circle' ||
       design === 'modern-summary' ||
-      design === 'modern-fog'
+      design === 'modern-cursor'
     ) { 
       return html`
         <ha-tbaro-editor-v2

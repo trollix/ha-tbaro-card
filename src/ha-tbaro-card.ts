@@ -7,7 +7,7 @@ import type { BaroCardConfig } from './types';
 import { renderModernSummary } from './option-modern-summary';
 import { renderModernCircle } from './option-modern-circle';
 import { renderModernArc } from './option-modern-arc';
-import { renderModernFog } from './option-modern-fog';
+import { renderModernCursor } from './option-modern-cursor';
 
 
 import './ha-tbaro-card-editor';
@@ -791,8 +791,8 @@ render() {
     return renderModernSummary.call(this);
   }
 
-  if (this.config.design === 'modern-fog') {
-    return renderModernFog.call(this);
+  if (this.config.design === 'modern-cursor') {
+    return renderModernCursor.call(this);
   }
 
   const pressure = this.pressure;

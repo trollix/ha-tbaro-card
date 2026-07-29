@@ -1,7 +1,7 @@
 /**
  * ============================================================================
  * HA-TBARO-CARD
- * Rendu : Modern Fog
+ * Rendu : Modern Cursor
  * ============================================================================
  *
  * Affichage horizontal inspiré des baromètres traditionnels.
@@ -19,7 +19,7 @@
 
 import { html, svg, nothing } from 'lit';
 
-export function renderModernFog(this: any) {
+export function renderModernCursor(this: any) {
   return html`
     <ha-card
       class="modern-card"
