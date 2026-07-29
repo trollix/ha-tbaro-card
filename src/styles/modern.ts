@@ -172,7 +172,7 @@ export default css`
 
   .modern-svg-value {
     fill: var(--baro-text);
-    font-size: 54px;
+    font-size: 50px;
     font-weight: 300;
     text-anchor: middle;
   }
@@ -194,7 +194,7 @@ export default css`
   .modern-svg-scale-label,
   .modern-svg-trend-period {
     fill: var(--baro-muted);
-    font-size: 12px;
+    font-size: 14px;
     text-anchor: middle;
   }
 
