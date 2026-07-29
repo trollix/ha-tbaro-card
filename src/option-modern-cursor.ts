@@ -236,11 +236,12 @@ const trendClass =
               `
             : nothing}
 
+          <!-- Tendance -->
           ${trend == null
            ? svg`
                 <text
                   x="150"
-                  y="294"
+                  y="306"
                   class="modern-svg-trend"
                 >
                   Tendance indisponible
@@ -249,7 +250,7 @@ const trendClass =
             : svg`
                 <text
                   x="150"
-                  y="288"
+                  y="300"
                   class="modern-svg-trend ${trendClass}"
                 >
                   ${trendArrow} ${trendNumber}
@@ -257,7 +258,7 @@ const trendClass =
 
                 <text
                   x="150"
-                  y="310"
+                  y="322"
                   class="modern-svg-trend-period"
                 >
                   ${trendHours} h
