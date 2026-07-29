@@ -1073,24 +1073,40 @@ const chartAxisValues =
       )
     : [];
 
-      const chartTimeLabels = [
-        {
-          x: chartAxisLeft,
-          label: `-${trendHours}h`,
-        },
-        {
-          x: chartAxisLeft + chartWidth / 3,
-          label: `-${Math.round(trendHours * 2 / 3)}h`,
-        },
-        {
-          x: chartAxisLeft + chartWidth * 2 / 3,
-          label: `-${Math.round(trendHours / 3)}h`,
-        },
-        {
-          x: chartViewWidth,
-          label: '0h',
-        },
-      ];
+  const now = new Date();
+
+  const formatChartTime = (hoursAgo: number) => {
+    const date = new Date(
+      now.getTime() - hoursAgo * 60 * 60 * 1000,
+    );
+
+    return date.toLocaleTimeString(
+      this.normalizedLanguage,
+      {
+        hour: '2-digit',
+        minute: '2-digit',
+      },
+    );
+  };
+
+  const chartTimeLabels = [
+    {
+      x: chartAxisLeft,
+      label: formatChartTime(trendHours),
+    },
+    {
+      x: chartAxisLeft + chartWidth / 3,
+      label: formatChartTime(trendHours * 2 / 3),
+    },
+    {
+      x: chartAxisLeft + chartWidth * 2 / 3,
+      label: formatChartTime(trendHours / 3),
+    },
+    {
+      x: chartViewWidth,
+      label: formatChartTime(0),
+    },
+  ];
 
 
 
@@ -1242,8 +1258,7 @@ ${chartTimeLabels.map(
       class="modern-summary-point"
       cx="${lastChartX}"
       cy="${lastChartY}"
-      r="4" 
-      style="fill: ${curveColor};"
+      r="6" 
     />
   </g>
 </svg>

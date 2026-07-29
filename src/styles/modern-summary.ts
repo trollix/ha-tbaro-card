@@ -97,5 +97,10 @@ export default css`
   font-family: sans-serif;
 }
 
+.modern-summary-point {
+  fill: var(--primary-text-color);
+  stroke: var(--card-background-color);
+  stroke-width: 2.5;
+}
 
 `;
