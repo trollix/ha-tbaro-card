@@ -374,7 +374,6 @@ public getCardSize(): number {
   if (design === 'modern-arc') {
     return 4;
   } else if (
-    design === 'modern-history' ||
     design === 'modern-summary'
   ) {
     return 6;
@@ -393,10 +392,7 @@ public getGridOptions() {
       min_rows: 4,
       min_columns: 3,
     };
-  } else if (
-    design === 'modern-history' ||
-    design === 'modern-summary'
-  ) {
+  } else if (design === 'modern-summary') {
     return {
       rows: 6,
       columns: 6,
@@ -791,11 +787,6 @@ render() {
   
   if (this.config.design === 'modern-summary') {
     return renderModernSummary.call(this);
-  }
-
-  if (
-    this.config.design === 'modern-history') {
-    return this._renderModernPlaceholder(this.config.design);
   }
 
 

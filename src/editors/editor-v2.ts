@@ -5,7 +5,7 @@ import { translateEditor } from './editor-translation';
 type ConfigV2 = {
   entity?: string;
   title?: string;
-  design?: 'classic' | 'modern-arc' | 'modern-circle' | 'modern-history' | 'modern-summary';
+  design?: 'classic' | 'modern-arc' | 'modern-circle' | 'modern-summary';
   theme?: 'auto' | 'light' | 'dark';
   unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
   curve_color?: string;  // on ajoute la couleur de la courbe ici
@@ -61,10 +61,6 @@ export class HaTbaroEditorV2 extends LitElement {
               {
                 value: 'modern-circle',
                 label: this._translate('design_modern_circle'),
-              },
-              {
-                value: 'modern-history',
-                label: this._translate('design_modern_history'),
               },
               {
                 value: 'modern-summary',

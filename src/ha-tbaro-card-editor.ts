@@ -9,7 +9,6 @@ type Config = {
     | 'classic'
     | 'modern-arc'
     | 'modern-circle'
-    | 'modern-history'
     | 'modern-summary';
 
   [key: string]: unknown;
@@ -45,7 +44,6 @@ export class HaTbaroCardEditor extends LitElement {
     if (
       design === 'modern-arc' ||
       design === 'modern-circle' ||
-      design === 'modern-history' ||
       design === 'modern-summary'
     ) { 
       return html`

@@ -9,7 +9,6 @@ export type CardDesign =
   | 'classic'
   | 'modern-arc'
   | 'modern-circle'
-  | 'modern-history'
   | 'modern-summary';
 
 export type CardTheme =
@@ -115,8 +114,7 @@ export interface BaroCardConfigV2 {
   design?:
     | 'modern-arc'
     | 'modern-circle'
-    | 'modern-summary'
-    | 'modern-history';
+    | 'modern-summary';
 
   theme?: CardTheme;
   curve_color?: string;
