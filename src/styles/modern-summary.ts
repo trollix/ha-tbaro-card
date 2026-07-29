@@ -131,7 +131,7 @@ export default css`
 
 .modern-summary-header-right {
   text-align: right;
-  transform: translateY(20px);
+  transform: translateY(24px);
 }
 
 `;
