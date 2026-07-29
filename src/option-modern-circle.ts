@@ -179,13 +179,54 @@ const marker = pointOnCircle(markerAngle);
             : nothing}
 
           <!-- épaisseur du trait: stroke-width 5-->
-          <path
-            d="${curvePath}"
-            stroke="url(#baro-modern-gradient)"
-            stroke-width="7"
-            stroke-linecap="butt"
-            fill="none"
-          />
+<!-- Fond bleu : 20 % -->
+<path
+  d="${curvePath}"
+  pathLength="100"
+  stroke="#43a5ec"
+  stroke-width="7"
+  stroke-linecap="butt"
+  stroke-dasharray="20 80"
+  fill="none"
+/>
+
+<!-- Vert : 20 % -->
+<path
+  d="${curvePath}"
+  pathLength="100"
+  stroke="#66cf91"
+  stroke-width="7"
+  stroke-linecap="butt"
+  stroke-dasharray="20 80"
+  stroke-dashoffset="-20"
+  fill="none"
+/>
+
+<!-- Jaune : 20 % -->
+<path
+  d="${curvePath}"
+  pathLength="100"
+  stroke="#e6c648"
+  stroke-width="7"
+  stroke-linecap="butt"
+  stroke-dasharray="20 80"
+  stroke-dashoffset="-40"
+  fill="none"
+/>
+
+<!-- Rouge : 40 % -->
+<path
+  d="${curvePath}"
+  pathLength="100"
+  stroke="#f57a45"
+  stroke-width="7"
+  stroke-linecap="butt"
+  stroke-dasharray="40 60"
+  stroke-dashoffset="-60"
+  fill="none"
+/>
+
+
 
           <!-- grosseur du rond: r=8 -->
           <circle
