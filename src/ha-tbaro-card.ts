@@ -788,7 +788,7 @@ render() {
   }
   
   if (this.config.design === 'modern-summary') {
-    renderModernSummary.call(this);
+    return renderModernSummary.call(this);
   }
 
   if (
