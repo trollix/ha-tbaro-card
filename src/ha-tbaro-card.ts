@@ -1090,7 +1090,7 @@ render() {
   if (!this.config) return html``;
 
   if (this.config.design === 'modern-arc') {
-    return renderModernArc();
+    return renderModernArc.call(this);
   }
   
   if (this.config.design === 'modern-circle') {
