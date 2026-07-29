@@ -307,7 +307,9 @@ private async _refreshPressureTrend() {
   if (
     !this.hass ||
     !this.config?.entity ||
-    this.config.design !== 'modern-arc' && this.config.design !== 'modern-circle'
+    this.config.design !== 'modern-arc' && 
+    this.config.design !== 'modern-circle' &&
+    this.config.design !== 'modern-summary'
   ) {
     return;
   }
