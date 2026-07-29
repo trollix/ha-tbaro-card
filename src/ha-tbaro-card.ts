@@ -311,7 +311,8 @@ private async _refreshPressureTrend() {
     !this.config?.entity ||
     this.config.design !== 'modern-arc' && 
     this.config.design !== 'modern-circle' &&
-    this.config.design !== 'modern-summary'
+    this.config.design !== 'modern-summary'&&
+    this.config.design !== 'modern-cursor'
   ) {
     return;
   }
@@ -359,15 +360,17 @@ private async _refreshPressureTrend() {
       previousHpa === null
         ? null
         : this.rawHpa - previousHpa;
-  } catch (error) {
-    console.warn(
-      '[ha-tbaro-card] Unable to load pressure history:',
-      error,
-    );
-    this._historyTrend = null;
-  } finally {
-    this._trendRequestInFlight = false;
-  }
+      } catch (error) {
+        console.warn(
+          '[ha-tbaro-card] Unable to load pressure history:',
+          error,
+        );
+
+        this._historyTrend = null;
+        this._trendRequestKey = '';
+      } finally {
+        this._trendRequestInFlight = false;
+      }
 }
 
 public getCardSize(): number {
