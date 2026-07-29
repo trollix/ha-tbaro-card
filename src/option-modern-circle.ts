@@ -156,9 +156,9 @@ const marker = pointOnCircle(markerAngle);
               <stop offset="40%" stop-color="#66cf91" />
 
               <stop offset="40%" stop-color="#d5df55" />
-              <stop offset="63%" stop-color="#f0b343" />
+              <stop offset="60%" stop-color="#f0b343" />
 
-              <stop offset="63%" stop-color="#f57a45" />
+              <stop offset="60%" stop-color="#f57a45" />
               <stop offset="100%" stop-color="#f57a45" />
             </linearGradient>
           </defs>
