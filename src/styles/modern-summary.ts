@@ -129,6 +129,9 @@ export default css`
   color: var(--error-color, #db4437);
 }
 
-
+.modern-summary-header-right {
+  text-align: right;
+  transform: translateY(8px);
+}
 
 `;
