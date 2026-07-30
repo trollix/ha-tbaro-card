@@ -161,16 +161,7 @@ export class HaTbaroEditorV2 extends LitElement {
       },
     ];
 
-    if (this.config.design === 'modern-summary') {
-      lc_schema.push({
-        name: 'curve_color',
-        selector: {
-          text: {},
-        },
-      });
-    }
-
-    if (this.config.design === 'classic-modern') {
+        if (this.config.design === 'classic-modern') {
       lc_schema.push({
         name: 'gauge_mode',
         selector: {
@@ -182,7 +173,17 @@ export class HaTbaroEditorV2 extends LitElement {
           },
         },
      });
-}
+    }
+    
+    if (this.config.design === 'modern-summary') {
+      lc_schema.push({
+        name: 'curve_color',
+        selector: {
+          text: {},
+        },
+      });
+    }
+
 
     return lc_schema;
 

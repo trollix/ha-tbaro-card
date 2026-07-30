@@ -344,7 +344,7 @@ return html`
           d="${classicModernArc}"
           stroke="url(#classic-modern-gradient)"
           stroke-width="${stroke_width + 8}"
-          stroke-linecap="round"
+          stroke-linecap="butt"
           fill="none"
           opacity="0.20"
           filter="url(#classic-modern-glow)"
@@ -355,7 +355,7 @@ return html`
           d="${classicModernArc}"
           stroke="url(#classic-modern-gradient)"
           stroke-width="${Math.max(10, stroke_width - 6)}"
-          stroke-linecap="round"
+          stroke-linecap="butt"
           fill="none"
         />
 
