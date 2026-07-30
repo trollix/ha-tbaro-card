@@ -9,6 +9,9 @@ export default css`
     --classic-modern-muted: var(--secondary-text-color);
     --classic-modern-bg:
       var(--ha-card-background, var(--card-background-color));
+    --classic-modern-status-bg:
+    color-mix(in srgb, var(--primary-text-color) 7%, transparent);
+
   }
 
   .classic-modern-svg {

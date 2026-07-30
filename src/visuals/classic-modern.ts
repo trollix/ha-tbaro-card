@@ -66,8 +66,8 @@ export function renderClassicModern(this: any) {
   const iconX = cx - 25 + icon_offset_x;
   const iconYOffset = isHalfGauge ? -90 : 0;
   const iconY = (isHalfGauge ? cy + 12 : cy + 5) + iconYOffset + icon_offset_y;
-  const labelY = isHalfGauge ? cy - 25 : cy + 60;
-  const pressureY = isHalfGauge ? cy : cy + 85;
+  const labelY = isHalfGauge ? cy - 34 : cy + 74;
+  const pressureY = isHalfGauge ? cy + 10 : cy + 28;
 
 
   // ——— météo et localisation ———
@@ -238,18 +238,26 @@ const needle = (() => {
       `
     : nothing;
 
-  const weatherLabel = show_weather_text
-    ? svg`
-        <text
-          x="${cx}"
-          y="${labelY}"
-          font-size="14"
-          class="label"
-        >
-          ${label}
-        </text>
-      `
-    : nothing;
+    const weatherLabel = show_weather_text
+        ? svg`
+            <rect
+                x="${cx - 58}"
+                y="${labelY - 21}"
+                width="116"
+                height="34"
+                rx="17"
+                fill="var(--classic-modern-status-bg)"
+            />
+
+            <text
+                x="${cx}"
+                y="${labelY + 1}"
+                class="classic-modern-weather"
+            >
+                ${label}
+            </text>
+            `
+        : nothing;
 
   // Sécurise la précision entre 0 et 2 décimales
   const pressureDecimals = Math.min(2, Math.max(0, decimals));
@@ -259,7 +267,7 @@ const svgPressText = show_pressure
   ? svg`
       <text
         x="${cx}"
-        y="${pressureY - 6}"
+        y="${pressureY}"
         class="classic-modern-pressure"
       >
         ${pressure.toFixed(pressureDecimals)}
@@ -267,7 +275,7 @@ const svgPressText = show_pressure
 
       <text
         x="${cx}"
-        y="${pressureY + 18}"
+        y="${pressureY + 23}"
         class="classic-modern-unit"
       >
         ${pressureUnit}
