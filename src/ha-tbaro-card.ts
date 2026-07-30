@@ -104,7 +104,7 @@ export class HaTbaroCard extends LitElement {
       theme: 'auto',
       trend_hours: 24,
       size: 300,
-      angle: 270,
+      gauge_angle: 270,
       unit: 'hpa',
       segments: [
         { from: 950, to: 980, color: '#3399ff' },
@@ -128,7 +128,7 @@ export class HaTbaroCard extends LitElement {
     return {
       type: 'custom:ha-tbaro-card',
       entity: 'sensor.pressure',
-      angle: 270,
+      gauge_angle: 270,
       unit: 'hpa',
       border: 'outer',
       design: 'classic',
@@ -392,7 +392,7 @@ public getCardSize(): number {
   ) {
     return 6;
   } else {
-    return this.config.angle === 180 ? 3 : 5;
+    return this.config.gauge_angle === 180 ? 3 : 5;
   }
 }
 
@@ -414,7 +414,7 @@ public getGridOptions() {
       min_columns: 4,
     };
   } else {
-    const isHalfGauge = this.config.angle === 180;
+    const isHalfGauge = this.config.gauge_angle === 180;
 
     return {
       rows: isHalfGauge ? 3 : 5,

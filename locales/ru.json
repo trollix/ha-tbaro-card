@@ -26,7 +26,7 @@
   "border_outer": "Внешняя",
   "border_both": "Обе",
   "editor_pressure_entity": "Сущность давления",
-  "angle": "Угол шкалы",
+  "gauge_angle": "Угол шкалы",
   "border": "Рамка",
   "size": "Размер карточки",
   "icon_size": "Размер значка",

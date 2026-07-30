@@ -64,7 +64,7 @@ export interface BaroCardConfig {
   icon_offset_x?: number;
   icon_offset_y?: number;
 
-  angle?: GaugeAngle;
+  gauge_angle?: GaugeAngle;
   border?: BorderStyle;
 
   trend_hours?: number;
@@ -89,7 +89,7 @@ export interface BaroCardConfigV1 {
   show_weather_text?: boolean;
   show_pressure?: boolean;
 
-  angle?: GaugeAngle;
+  gauge_angle?: GaugeAngle;
   border?: BorderStyle;
 
   size?: number;

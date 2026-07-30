@@ -32,7 +32,7 @@
   "border_outer": "Outer",
   "border_both": "Both",
   "editor_pressure_entity": "Pressure entity",
-  "angle": "Gauge angle",
+  "gauge_angle": "Gauge angle",
   "border": "Border",
   "size": "Card size",
   "icon_size": "Icon size",

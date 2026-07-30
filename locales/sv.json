@@ -26,7 +26,7 @@
   "border_outer": "Yttre",
   "border_both": "Båda",
   "editor_pressure_entity": "Lufttrycksentitet",
-  "angle": "Mätarvinkel",
+  "gauge_angle": "Mätarvinkel",
   "border": "Kantlinje",
   "size": "Kortstorlek",
   "icon_size": "Ikonstorlek",

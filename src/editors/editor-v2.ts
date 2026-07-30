@@ -10,7 +10,7 @@ type ConfigV2 = {
   unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
   curve_color?: string;  // on ajoute la couleur de la courbe ici
   decimals?: number;
-  angle?: 180 | 270;
+  gauge_angle?: 180 | 270;
   show_pressure?: boolean;
   show_weather_text?: boolean;
   language?: string;
@@ -172,18 +172,12 @@ export class HaTbaroEditorV2 extends LitElement {
 
     if (this.config.design === 'classic-modern') {
       lc_schema.push({
-        name: 'angle',
+        name: 'gauge_angle',
         selector: {
-         select: {
+          select: {
             options: [
-              {
-                value: '180',
-                label: '180°',
-              },
-              {
-                value: '270',
-                label: '270°',
-              },
+              { value: '180', label: '180°' },
+              { value: '270', label: '270°' },
             ],
           },
         },
@@ -207,7 +201,7 @@ export class HaTbaroEditorV2 extends LitElement {
       trend_hours: 'trend_hours',
       show_weather_text: 'show_weather_text',
       language: 'language',
-      angle: 'angle',
+      gauge_angle: 'gauge_angle',
     };
 
     const translationKey = translationKeys[schemaItem.name];
@@ -228,6 +222,7 @@ export class HaTbaroEditorV2 extends LitElement {
 
     if (next.decimals != null) next.decimals = Number(next.decimals);
     if (next.trend_hours != null) next.trend_hours = Number(next.trend_hours);
+    if (next.gauge_angle != null) next.gauge_angle = Number(next.gauge_angle) as 180 | 270;
 
     this.config = next;
 
