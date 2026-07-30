@@ -1,6 +1,6 @@
 // ha-tbaro-card.ts
 
-import { LitElement, html, css, svg, nothing } from 'lit';
+import { LitElement, html, css, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
 import type { BaroCardConfig } from './types';
@@ -754,33 +754,6 @@ private _buildSummaryChartPath(
 
   return path;
 }
-
-
-
-private _renderModernPlaceholder(design: 'modern-history' | 'modern-summary') {
-  const theme = this.config.theme ?? 'auto';
-  const label =
-    design === 'modern-history'
-      ? 'Modern history'
-      : 'Modern summary';
-
-  return html`
-    <ha-card
-      class="modern-card ${theme === 'auto' ? '' : `theme-${theme}`}"
-      role="button"
-      tabindex="0"
-      aria-label="Show details"
-      @click=${this._onClick}
-      @keydown=${this._onKeyDown}
-    >
-      <div class="modern-coming-soon">
-        <strong>${label}</strong><br />
-        Le squelette est prêt. Le rendu arrive après validation de Modern arc.
-      </div>
-    </ha-card>
-  `;
-}
-
 
 render() {
 
