@@ -13,9 +13,14 @@
   "editor_light": "Светлая",
   "editor_dark": "Тёмная",
   "editor_auto": "Автоматически",
-  "design_classic": "Версия 1 · Классическая",
-  "design_modern_arc": "Версия 2 · Современная",
-  "design_modern_summary": "Версия 3 · Сводка",
+
+  "design_classic": "1 - Классический",
+  "design_classic_modern": "2 - Современная классика",
+  "design_modern_arc": "3 - Современная дуга",
+  "design_modern_circle": "4 - Современный круг",
+  "design_modern_cursor": "5 - Указатель",
+  "design_modern_summary": "6 - Сводка",
+
   "border_none": "Нет",
   "border_inner": "Внутренняя",
   "border_outer": "Внешняя",

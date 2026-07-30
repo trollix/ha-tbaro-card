@@ -13,9 +13,14 @@
   "editor_light": "Jasny",
   "editor_dark": "Ciemny",
   "editor_auto": "Automatyczny",
-  "design_classic": "Wersja 1 · Klasyczna",
-  "design_modern_arc": "Wersja 2 · Nowoczesna",
-  "design_modern_summary": "Wersja 3 · Podsumowanie",
+
+  "design_classic": "1 - Klasyczny",
+  "design_classic_modern": "2 - Klasyczny nowoczesny",
+  "design_modern_arc": "3 - Nowoczesny łuk",
+  "design_modern_circle": "4 - Nowoczesny okrąg",
+  "design_modern_cursor": "5 - Wskaźnik",
+  "design_modern_summary": "6 - Podsumowanie",
+
   "border_none": "Brak",
   "border_inner": "Wewnętrzne",
   "border_outer": "Zewnętrzne",

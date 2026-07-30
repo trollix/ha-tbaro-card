@@ -13,9 +13,14 @@
   "editor_light": "Claro",
   "editor_dark": "Oscuro",
   "editor_auto": "Automático",
-  "design_classic": "Versión 1 · Clásica",
-  "design_modern_arc": "Versión 2 · Moderna",
-  "design_modern_summary": "Versión 2 · Resumen",
+  
+  "design_classic": "1 - Clásico",
+  "design_classic_modern": "2 - Clásico moderno",
+  "design_modern_arc": "3 - Arco moderno",
+  "design_modern_circle": "4 - Círculo moderno",
+  "design_modern_cursor": "5 - Cursor",
+  "design_modern_summary": "6 - Resumen",
+
   "border_none": "Ninguno",
   "border_inner": "Interior",
   "border_outer": "Exterior",

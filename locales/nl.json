@@ -13,9 +13,14 @@
   "editor_light": "Licht",
   "editor_dark": "Donker",
   "editor_auto": "Automatisch",
-  "design_classic": "Versie 1 · Klassiek",
-  "design_modern_arc": "Versie 2 · Modern",
-  "design_modern_summary": "Versie 3 · Samenvatting",
+
+  "design_classic": "1 - Klassiek",
+  "design_classic_modern": "2 - Modern klassiek",
+  "design_modern_arc": "3 - Moderne boog",
+  "design_modern_circle": "4 - Moderne cirkel",
+  "design_modern_cursor": "5 - Cursor",
+  "design_modern_summary": "6 - Overzicht",
+
   "border_none": "Geen",
   "border_inner": "Binnen",
   "border_outer": "Buiten",

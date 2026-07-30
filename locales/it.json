@@ -13,10 +13,15 @@
   "editor_light": "Chiaro",
   "editor_dark": "Scuro",
   "editor_auto": "Automatico",
-  "design_classic": "Versione 1 · Classica",
-  "design_modern_arc": "Versione 2 · Moderna",
-  "design_modern_summary": "Versione 3 · Moderna",
-  
+
+  "design_classic": "1 - Classico",
+  "design_classic_modern": "2 - Classico moderno",
+  "design_modern_arc": "3 - Arco moderno",
+  "design_modern_circle": "4 - Cerchio moderno",
+  "design_modern_cursor": "5 - Cursore",
+  "design_modern_summary": "6 - Riepilogo",
+
+
   "border_none": "Nessuno",
   "border_inner": "Interno",
   "border_outer": "Esterno",

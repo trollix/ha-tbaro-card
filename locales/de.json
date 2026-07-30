@@ -13,9 +13,14 @@
   "editor_light": "Hell",
   "editor_dark": "Dunkel",
   "editor_auto": "Automatisch",
-  "design_classic": "Version 1 · Klassisch",
-  "design_modern_arc": "Version 2 · Modern",
-  "design_modern_summary": "Version 3 · Übersicht",
+
+  "design_classic": "1 - Klassisch",
+  "design_classic_modern": "2 - Modern klassisch",
+  "design_modern_arc": "3 - Moderner Bogen",
+  "design_modern_circle": "4 - Moderner Kreis",
+  "design_modern_cursor": "5 - Zeiger",
+  "design_modern_summary": "6 - Übersicht",
+
   "border_none": "Keine",
   "border_inner": "Innen",
   "border_outer": "Außen",

@@ -9,11 +9,13 @@ import { renderModernCircle } from './visuals/modern-circle';
 import { renderModernArc } from './visuals/modern-arc';
 import { renderModernCursor } from './visuals/modern-cursor';
 import { renderClassic } from './visuals/classic';
+import { renderClassicModern } from './visuals/classic-modern';
 
 import './ha-tbaro-card-editor';
 
 
 import classicStyles from './styles/classic';
+import classicModernStyles from './styles/classic-modern';
 import modernArcStyles from './styles/modern-arc';
 import modernSummaryStyles from './styles/modern-summary';
 import modernCursorStyles from './styles/modern-cursor';
@@ -74,11 +76,12 @@ export class HaTbaroCard extends LitElement {
       }
     `,
     classicStyles,
-    modernSummaryStyles,
+    classicModernStyles,
+    commonStyles,
     modernArcStyles,
     modernCircleStyles,
+    modernSummaryStyles,
     modernCursorStyles,
-    commonStyles,
   ];
 
 
@@ -776,6 +779,12 @@ render() {
   if (this.config.design === 'modern-cursor') {
     return renderModernCursor.call(this);
   }
+  
+  if (this.config.design === 'classic-modern') {
+    return renderClassicModern.call(this);
+  }
+
+return renderClassic.call(this);
 
   return renderClassic.call(this);
   

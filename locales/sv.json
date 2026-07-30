@@ -13,9 +13,14 @@
   "editor_light": "Ljust",
   "editor_dark": "Mörkt",
   "editor_auto": "Automatiskt",
-  "design_classic": "Version 1 · Klassisk",
-  "design_modern_arc": "Version 2 · Modern",
-  "design_modern_summary": "Version 3 · Sammanfattning",
+
+  "design_classic": "1 - Klassisk",
+  "design_classic_modern": "2 - Modern klassisk",
+  "design_modern_arc": "3 - Modern båge",
+  "design_modern_circle": "4 - Modern cirkel",
+  "design_modern_cursor": "5 - Markör",
+  "design_modern_summary": "6 - Sammanfattning",
+
   "border_none": "Ingen",
   "border_inner": "Inre",
   "border_outer": "Yttre",

@@ -7,6 +7,7 @@ import './editors/editor-v2';
 type Config = {
   design?:
     | 'classic'
+    | 'classic-modern'
     | 'modern-arc'
     | 'modern-circle'
     | 'modern-summary'
@@ -43,6 +44,7 @@ export class HaTbaroCardEditor extends LitElement {
     const design = this._config.design ?? 'classic';
 
     if (
+      design === 'classic-modern' ||
       design === 'modern-arc' ||
       design === 'modern-circle' ||
       design === 'modern-summary' ||

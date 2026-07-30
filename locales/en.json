@@ -13,11 +13,13 @@
   "editor_light": "Light",
   "editor_dark": "Dark",
   "editor_auto": "Automatic",
-  "design_classic": "Version 1 · Classic",
-  "design_modern_arc": "Version 2 · Modern Arc",
-  "design_modern_circle": "Version 3 · Modern Circle",
-  "design_modern_cursor": "Version 4 · Cursor",
-  "design_modern_summary": "Version 5 · Summary",
+
+  "design_classic": "1 - Classic",
+  "design_classic_modern": "2 - Classic Modern",
+  "design_modern_arc": "3 - Modern Arc",
+  "design_modern_circle": "4 - Modern Circle",
+  "design_modern_cursor": "5 - Cursor",
+  "design_modern_summary": "6 - Summary",
 
   "curve_color": "Curve color",
   

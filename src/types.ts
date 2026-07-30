@@ -7,6 +7,7 @@ export type PressureUnit =
 
 export type CardDesign =
   | 'classic'
+  | 'classic-modern'
   | 'modern-arc'
   | 'modern-circle'
   | 'modern-cursor'
