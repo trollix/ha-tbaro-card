@@ -26,7 +26,7 @@
   "border_outer": "Exterior",
   "border_both": "Ambos",
   "editor_pressure_entity": "Entidad de presión",
-  "gauge_angle": "Ángulo del indicador",
+  "gauge_mode": "Ángulo del indicador",
   "border": "Borde",
   "size": "Tamaño de la tarjeta",
   "icon_size": "Tamaño del icono",

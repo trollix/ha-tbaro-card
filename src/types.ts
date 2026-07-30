@@ -18,7 +18,9 @@ export type CardTheme =
   | 'light'
   | 'dark';
 
-export type GaugeAngle = 180 | 270;
+export type GaugeMode =
+  | 'half'
+  | 'three-quarter';
 
 export type BorderStyle =
   | 'none'
@@ -64,7 +66,7 @@ export interface BaroCardConfig {
   icon_offset_x?: number;
   icon_offset_y?: number;
 
-  gauge_angle?: GaugeAngle;
+  gauge_mode?: GaugeMode;
   border?: BorderStyle;
 
   trend_hours?: number;
@@ -89,7 +91,7 @@ export interface BaroCardConfigV1 {
   show_weather_text?: boolean;
   show_pressure?: boolean;
 
-  gauge_angle?: GaugeAngle;
+  gauge_mode?: GaugeMode;
   border?: BorderStyle;
 
   size?: number;

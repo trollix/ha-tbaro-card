@@ -12,7 +12,7 @@ type ConfigV1 = {
   show_weather_text?: boolean;
   show_weather_icon?: boolean;
   language?: string;
-  gauge_angle?: 180 | 270;
+  gauge_mode?: 'half' | 'three-quarter';
   border?: 'inner' | 'outer' | 'both' | 'none';
   size?: number;
   icon_size?: number;
@@ -131,12 +131,12 @@ export class HaTbaroEditorV1 extends LitElement {
         },
       },
       {
-        name: 'gauge_angle',
+        name: 'gauge_mode',
         selector: {
           select: {
             options: [
-              { value: '180', label: '180°' },
-              { value: '270', label: '270°' },
+              { value: 'half', label: '180°' },
+              { value: 'three-quarter', label: '270°' },
             ],
           },
         },
@@ -218,7 +218,7 @@ export class HaTbaroEditorV1 extends LitElement {
       show_weather_text: 'show_weather_text',
       show_weather_icon: 'show_weather_icon',
       language: 'language',
-      gauge_angle: 'gauge_angle',
+      gauge_mode: 'gauge_mode',
       border: 'border',
       size: 'size',
       icon_size: 'icon_size',
@@ -242,7 +242,6 @@ export class HaTbaroEditorV1 extends LitElement {
 
     const next: ConfigV1 = { ...value };
 
-    if (next.gauge_angle != null) next.gauge_angle = Number(next.gauge_angle) as 180 | 270;
     if (next.decimals != null) next.decimals = Number(next.decimals);
     if (next.size != null) next.size = Number(next.size);
     if (next.stroke_width != null) next.stroke_width = Number(next.stroke_width);

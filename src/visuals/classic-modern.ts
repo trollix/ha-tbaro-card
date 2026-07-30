@@ -35,7 +35,7 @@ export function renderClassicModern(this: any) {
     icon_offset_y = 0,
     segments = [],
     stroke_width = 20,
-    angle: gaugeAngle = 270,
+    gauge_mode = 'three-quarter',
     border = 'outer',
     show_weather_icon,
     show_weather_text,
@@ -51,7 +51,7 @@ export function renderClassicModern(this: any) {
   const pressureRange = maxPressure - minPressure;
 
   // Gestion de l'angle dynamique
-  const isHalfGauge = gaugeAngle === 180;
+  const isHalfGauge = gauge_mode === 'half';
   const startAngle = isHalfGauge ? Math.PI : Math.PI * 0.75;
   const endAngle = isHalfGauge ? Math.PI * 2 : Math.PI * 2.25;
   const angleRange = endAngle - startAngle;
