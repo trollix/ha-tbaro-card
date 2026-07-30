@@ -51,7 +51,7 @@ export function renderClassic(this: any) {
   const pressureRange = maxPressure - minPressure;
 
   // Gestion de l'angle dynamique
-  const isHalfGauge = gauge_mode === 180;
+  const isHalfGauge = gauge_mode === 'half';
   const startAngle = isHalfGauge ? Math.PI : Math.PI * 0.75;
   const endAngle = isHalfGauge ? Math.PI * 2 : Math.PI * 2.25;
   const angleRange = endAngle - startAngle;
