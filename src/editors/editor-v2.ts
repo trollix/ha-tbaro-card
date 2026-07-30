@@ -10,6 +10,7 @@ type ConfigV2 = {
   unit?: 'hpa' | 'mm' | 'in' | 'pa' | 'mbar';
   curve_color?: string;  // on ajoute la couleur de la courbe ici
   decimals?: number;
+  angle?: 180 | 270;
   show_pressure?: boolean;
   show_weather_text?: boolean;
   language?: string;
@@ -169,6 +170,26 @@ export class HaTbaroEditorV2 extends LitElement {
       });
     }
 
+    if (this.config.design === 'classic-modern') {
+      lc_schema.push({
+        name: 'angle',
+        selector: {
+         select: {
+            options: [
+              {
+                value: '180',
+                label: '180°',
+              },
+              {
+                value: '270',
+                label: '270°',
+              },
+            ],
+          },
+        },
+     });
+}
+
     return lc_schema;
 
   }
@@ -186,6 +207,7 @@ export class HaTbaroEditorV2 extends LitElement {
       trend_hours: 'trend_hours',
       show_weather_text: 'show_weather_text',
       language: 'language',
+      angle: 'angle',
     };
 
     const translationKey = translationKeys[schemaItem.name];
