@@ -339,6 +339,7 @@ return html`
           </filter>
         </defs>
 
+        <g transform="${isHalfGauge ? 'translate(0 -18)' : ''}">
         <!-- Halo diffus -->
         <path
           d="${classicModernArc}"
@@ -362,6 +363,9 @@ return html`
         ${tickMarks}
         ${pressureLabels}
         ${needle}
+
+        </g>
+        
         ${svgIcon}
         ${weatherLabel}
         ${svgPressText}
