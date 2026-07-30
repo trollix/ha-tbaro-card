@@ -4,11 +4,11 @@ import { LitElement, html, css, svg, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
 import type { BaroCardConfig } from './types';
-import { renderModernSummary } from './option-modern-summary';
-import { renderModernCircle } from './option-modern-circle';
-import { renderModernArc } from './option-modern-arc';
+import { renderModernSummary } from './visuals/modern-summary';
+import { renderModernCircle } from './visuals/modern-circle';
+import { renderModernArc } from './visuals/modern-arc';
 import modernCircleStyles from './styles/modern-circle';
-import { renderModernCursor } from './option-modern-cursor';
+import { renderModernCursor } from './visuals/modern-cursor';
 
 
 import './ha-tbaro-card-editor';
