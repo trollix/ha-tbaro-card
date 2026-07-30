@@ -18,6 +18,7 @@ import classicStyles from './styles/classic';
 import modernArcStyles from './styles/modern-arc';
 import modernSummaryStyles from './styles/modern-summary';
 import modernCursorStyles from './styles/modern-cursor';
+import commonStyles from './styles/common';
 
 // Import des icônes SVG comme chaînes via rollup-plugin-string
 import sunIcon from './icons/sun.svg';
@@ -77,6 +78,7 @@ export class HaTbaroCard extends LitElement {
     modernArcStyles,
     modernCircleStyles,
     modernCursorStyles,
+    commonStyles,
   ];
 
 
