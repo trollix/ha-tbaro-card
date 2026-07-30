@@ -7,6 +7,7 @@ import type { BaroCardConfig } from './types';
 import { renderModernSummary } from './option-modern-summary';
 import { renderModernCircle } from './option-modern-circle';
 import { renderModernArc } from './option-modern-arc';
+import modernCircleStyles from './styles/modern-circle';
 import { renderModernCursor } from './option-modern-cursor';
 
 
@@ -14,8 +15,9 @@ import './ha-tbaro-card-editor';
 
 
 import classicStyles from './styles/classic';
-import modernStyles from './styles/modern';
+import modernArcStyles from './styles/modern-arc';
 import modernSummaryStyles from './styles/modern-summary';
+import modernCursorStyles from './styles/modern-cursor';
 
 // Import des icônes SVG comme chaînes via rollup-plugin-string
 import sunIcon from './icons/sun.svg';
@@ -71,8 +73,10 @@ export class HaTbaroCard extends LitElement {
       }
     `,
     classicStyles,
-    modernStyles,
     modernSummaryStyles,
+    modernArcStyles,
+    modernCircleStyles,
+    modernCursorStyles,
   ];
 
 
