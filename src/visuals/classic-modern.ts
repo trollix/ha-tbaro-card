@@ -17,6 +17,7 @@
  */
 
 import { html, svg, nothing } from 'lit';
+import { renderWeatherIcon, type WeatherIcon, } from '../assets/weather-icons';
 
 export function renderClassicModern(this: any) {
 
@@ -82,6 +83,55 @@ export function renderClassicModern(this: any) {
     startAngle,
     endAngle,
   );
+
+
+  // icônes 
+const weatherPositions: Array<{
+  key: WeatherIcon;
+  pressure: number;
+}> = [
+  { key: 'storm', pressure: 965 },
+  { key: 'rain', pressure: 990 },
+  { key: 'partly', pressure: 1010 },
+  { key: 'sun', pressure: 1035 },
+];
+
+const weatherIcons =
+  isHalfGauge && show_weather_icon
+    ? weatherPositions.map((item) => {
+        const iconAngle =
+          startAngle +
+          (
+            (item.pressure - minPressure) /
+            pressureRange
+          ) *
+          angleRange;
+
+        const iconPoint = this.polar(
+          cx,
+          cy,
+          radius - 52,
+          iconAngle,
+        );
+
+        const isActive =
+          weather.key === item.key;
+
+        return renderWeatherIcon(
+          item.key as WeatherIcon,
+          {
+            x: iconPoint.x,
+            y: iconPoint.y,
+            scale: 0.62,
+            stroke: isActive
+              ? 'var(--classic-modern-text)'
+              : 'var(--classic-modern-muted)',
+            strokeWidth: isActive ? 2 : 1.5,
+            opacity: isActive ? 1 : 0.38,
+          },
+        );
+      })
+    : nothing;
 
   // Ticks
   // valeurs fixes en hPa utilisées pour la position angulaire
@@ -395,7 +445,7 @@ return html`
 
         </g>
 
-        ${svgIcon}
+        ${weatherIcons}
         ${weatherLabel}
         ${svgPressText}
       </svg>

@@ -60,6 +60,10 @@ export class HaTbaroEditorV1 extends LitElement {
                 label: this._translate('design_classic'),
               },
               {
+                value: 'classic-modern',
+                label: this._translate('design_classic_modern'),
+              },
+              {
                 value: 'modern-arc',
                 label: this._translate('design_modern_arc'),
               },
@@ -67,7 +71,7 @@ export class HaTbaroEditorV1 extends LitElement {
                 value: 'modern-circle',
                 label: this._translate('design_modern_circle'),
               },
-                            {
+              {
                 value: 'modern-cursor',
                 label: this._translate('design_modern_cursor'),
               },
