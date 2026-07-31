@@ -244,26 +244,37 @@ const needle = (() => {
       `
     : nothing;
 
-    const weatherLabel = show_weather_text
-        ? svg`
-            <rect
-                x="${cx - 58}"
-                y="${labelY - 21}"
-                width="116"
-                height="34"
-                rx="17"
-                fill="var(--classic-modern-status-bg)"
-            />
+const weatherLabel = show_weather_text
+  ? isHalfGauge
+    ? svg`
+        <text
+          x="${cx}"
+          y="${labelY}"
+          font-size="14"
+          class="label"
+        >
+          ${label}
+        </text>
+      `
+    : svg`
+        <rect
+          x="${cx - 58}"
+          y="${labelY - 21}"
+          width="116"
+          height="34"
+          rx="17"
+          fill="var(--classic-modern-status-bg)"
+        />
 
-            <text
-                x="${cx}"
-                y="${labelY + 1}"
-                class="classic-modern-weather"
-            >
-                ${label}
-            </text>
-            `
-        : nothing;
+        <text
+          x="${cx}"
+          y="${labelY + 1}"
+          class="classic-modern-weather"
+        >
+          ${label}
+        </text>
+      `
+    : nothing;
 
   // Sécurise la précision entre 0 et 2 décimales
   const pressureDecimals = Math.min(2, Math.max(0, decimals));
