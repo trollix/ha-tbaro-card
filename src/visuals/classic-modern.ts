@@ -66,8 +66,8 @@ export function renderClassicModern(this: any) {
   const iconX = cx - 25 + icon_offset_x;
   const iconYOffset = isHalfGauge ? -90 : 0;
   const iconY = (isHalfGauge ? cy + 12 : cy + 5) + iconYOffset + icon_offset_y;
-  const labelY = isHalfGauge ? 264 : cy + 74;
-  const pressureY = isHalfGauge ? 205 : cy + 28;
+  const labelY = isHalfGauge ? cy - 25 : cy + 74;
+  const pressureY = isHalfGauge ? cy : cy + 28;
 
 
   // ——— météo et localisation ———
@@ -144,32 +144,41 @@ export function renderClassicModern(this: any) {
 
     // Aiguille
 const needle = (() => {
-  const needleLength =
-    isHalfGauge
-      ? radius - 8
-      : radius - 24;
+  if (isHalfGauge) {
+    const needleLength = radius - 5;
+    const baseLength = 80;
 
-  const rearLength =
-    isHalfGauge
-      ? 18
-      : 22;
+    const tip = this.polar(cx, cy, needleLength, needleAngle);
+    const base = this.polar(cx, cy, baseLength, needleAngle);
 
-  const tip = this.polar(
-    cx,
-    cy,
-    needleLength,
-    needleAngle,
-  );
+    const sideAngle = needleAngle + Math.PI / 2;
+    const offset = 7;
 
-  const rear = this.polar(
-    cx,
-    cy,
-    -rearLength,
-    needleAngle,
-  );
+    const baseLeft = {
+      x: base.x + Math.cos(sideAngle) * offset,
+      y: base.y + Math.sin(sideAngle) * offset,
+    };
+
+    const baseRight = {
+      x: base.x - Math.cos(sideAngle) * offset,
+      y: base.y - Math.sin(sideAngle) * offset,
+    };
+
+    return svg`
+      <polygon
+        points="${tip.x},${tip.y} ${baseLeft.x},${baseLeft.y} ${baseRight.x},${baseRight.y}"
+        fill="var(--classic-modern-text)"
+      />
+    `;
+  }
+
+  const needleLength = radius - 24;
+  const rearLength = 22;
+
+  const tip = this.polar(cx, cy, needleLength, needleAngle);
+  const rear = this.polar(cx, cy, -rearLength, needleAngle);
 
   return svg`
-    <!-- Ombre légère -->
     <line
       x1="${rear.x + 1.5}"
       y1="${rear.y + 2}"
@@ -180,7 +189,6 @@ const needle = (() => {
       stroke-linecap="round"
     />
 
-    <!-- Aiguille principale -->
     <line
       x1="${rear.x}"
       y1="${rear.y}"
@@ -191,7 +199,6 @@ const needle = (() => {
       stroke-linecap="round"
     />
 
-    <!-- Moyeu extérieur -->
     <circle
       cx="${cx}"
       cy="${cy}"
@@ -201,7 +208,6 @@ const needle = (() => {
       stroke-width="4"
     />
 
-    <!-- Moyeu central -->
     <circle
       cx="${cx}"
       cy="${cy}"
@@ -264,28 +270,40 @@ const needle = (() => {
   const pressureUnit = this.pressureUnit;
 
 const svgPressText = show_pressure
-  ? svg`
-      <text
-        x="${cx}"
-        y="${pressureY}"
-        class="classic-modern-pressure"
-      >
-        ${pressure.toFixed(pressureDecimals)}
-      </text>
+  ? isHalfGauge
+    ? svg`
+        <text
+          x="${cx}"
+          y="${pressureY}"
+          font-size="22"
+          font-weight="bold"
+          class="label"
+        >
+          ${pressure.toFixed(pressureDecimals)} ${pressureUnit}
+        </text>
+      `
+    : svg`
+        <text
+          x="${cx}"
+          y="${pressureY}"
+          class="classic-modern-pressure"
+        >
+          ${pressure.toFixed(pressureDecimals)}
+        </text>
 
-      <text
-        x="${cx}"
-        y="${pressureY + 23}"
-        class="classic-modern-unit"
-      >
-        ${pressureUnit}
-      </text>
-    `
+        <text
+          x="${cx}"
+          y="${pressureY + 23}"
+          class="classic-modern-unit"
+        >
+          ${pressureUnit}
+        </text>
+      `
   : nothing;
 
 
   // Hauteur utile : ±180 px au lieu de 300 px
-  const viewHeight = isHalfGauge ? 280 : 300;
+  const viewHeight = isHalfGauge ? 180 : 300;
   //const clipHeight = isHalfGauge ? (size! / 300) * 180 : 'auto';
 
   // before building the template
@@ -339,7 +357,7 @@ return html`
           </filter>
         </defs>
 
-        <g transform="${isHalfGauge ? 'translate(0 -18)' : ''}">
+        <g>
         <!-- Halo diffus -->
         <path
           d="${classicModernArc}"
