@@ -66,8 +66,8 @@ export function renderClassicModern(this: any) {
   const iconX = cx - 25 + icon_offset_x;
   const iconYOffset = isHalfGauge ? -90 : 0;
   const iconY = (isHalfGauge ? cy + 12 : cy + 5) + iconYOffset + icon_offset_y;
-  const labelY = isHalfGauge ? cy - 34 : cy + 74;
-  const pressureY = isHalfGauge ? cy + 10 : cy + 28;
+  const labelY = isHalfGauge ? 264 : cy + 74;
+  const pressureY = isHalfGauge ? 205 : cy + 28;
 
 
   // ——— météo et localisation ———
@@ -365,7 +365,7 @@ return html`
         ${needle}
 
         </g>
-        
+
         ${svgIcon}
         ${weatherLabel}
         ${svgPressText}
