@@ -54,4 +54,23 @@ export default css`
     font-weight: 500;
     text-anchor: middle;
   }
+
+.classic-modern-pressure-value {
+  fill: var(--classic-modern-text);
+  font-size: 18px;
+  font-weight: 300;
+  text-anchor: middle;
+  letter-spacing: 0.2px;
+  font-family: var(--paper-font-body1_-_font-family, sans-serif);
+}
+
+.classic-modern-pressure-unit {
+  fill: var(--classic-modern-muted);
+  font-size: 11px;
+  font-weight: 500;
+  text-anchor: middle;
+  font-family: var(--paper-font-body1_-_font-family, sans-serif);
+}
+
+
 `;

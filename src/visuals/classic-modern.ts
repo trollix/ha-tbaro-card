@@ -121,12 +121,12 @@ export function renderClassicModern(this: any) {
   // icônes 
 const weatherPositions: Array<{
   key: WeatherIcon;
-  pressure: number;
+  ratio: number;
 }> = [
-  { key: 'storm', pressure: 965 },
-  { key: 'rain', pressure: 990 },
-  { key: 'partly', pressure: 1010 },
-  { key: 'sun', pressure: 1035 },
+  { key: 'storm', ratio: 0.10 },  // centre du bleu
+  { key: 'rain', ratio: 0.30 },   // centre du vert
+  { key: 'partly', ratio: 0.50 }, // centre du jaune
+  { key: 'sun', ratio: 0.80 },    // centre du rouge
 ];
 
 const weatherIcons =
@@ -135,13 +135,7 @@ const weatherIcons =
 
         const isActive = weather.key === item.key;
 
-        const iconAngle =
-          startAngle +
-          (
-            (item.pressure - minPressure) /
-            pressureRange
-          ) *
-          angleRange;
+const iconAngle = startAngle + angleRange * item.ratio;
 
         const weatherIconRadius = radius -2;
         const weatherIconScale = 0.42;
@@ -153,16 +147,16 @@ const weatherIcons =
           iconAngle,
         );
 
-        return renderWeatherIcon(item.key, {
-          x: iconPoint.x,
-          y: iconPoint.y,
-          scale: 0.42,
-          stroke: isActive
-            ? 'rgba(255, 255, 255, 0.95)'
-            : 'rgba(255, 255, 255, 0.45)',
-          strokeWidth: isActive ? 2 : 1.5,
-          opacity: isActive ? 1 : 0.7,
-        });
+return renderWeatherIcon(item.key, {
+  x: iconPoint.x,
+  y: iconPoint.y,
+  scale: isHalfGauge ? 0.46 : 0.42,
+  stroke: isActive
+    ? 'rgba(255, 255, 255, 0.98)'
+    : 'rgba(255, 255, 255, 0.68)',
+  strokeWidth: isActive ? 2.2 : 1.8,
+  opacity: isActive ? 1 : 0.82,
+});
 
 
       
@@ -366,36 +360,27 @@ const weatherLabel = show_weather_text
   const pressureDecimals = Math.min(2, Math.max(0, decimals));
   const pressureUnit = this.pressureUnit;
 
-const svgPressText = show_pressure
-  ? isHalfGauge
-    ? svg`
-        <text
-          x="${cx}"
-          y="${pressureY}"
-          font-size="22"
-          font-weight="bold"
-          class="label"
-        >
-          ${pressure.toFixed(pressureDecimals)} ${pressureUnit}
-        </text>
-      `
-    : svg`
-        <text
-          x="${cx}"
-          y="${pressureY}"
-          class="classic-modern-pressure"
-        >
-          ${pressure.toFixed(pressureDecimals)}
-        </text>
+const pressureValueY = isHalfGauge ? cy + 42 : cy + 74;
+const pressureUnitY = pressureValueY + 18;
 
-        <text
-          x="${cx}"
-          y="${pressureY + 23}"
-          class="classic-modern-unit"
-        >
-          ${pressureUnit}
-        </text>
-      `
+const svgPressText = show_pressure
+  ? svg`
+      <text
+        x="${cx}"
+        y="${pressureValueY}"
+        class="classic-modern-pressure-value"
+      >
+        ${pressure.toFixed(pressureDecimals)}
+      </text>
+
+      <text
+        x="${cx}"
+        y="${pressureUnitY}"
+        class="classic-modern-pressure-unit"
+      >
+        ${pressureUnit}
+      </text>
+    `
   : nothing;
 
 
