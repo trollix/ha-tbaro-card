@@ -285,7 +285,7 @@ const svgPressText = show_pressure
 
 
   // Hauteur utile : ±180 px au lieu de 300 px
-  const viewHeight = isHalfGauge ? 180 : 300;
+  const viewHeight = isHalfGauge ? 280 : 300;
   //const clipHeight = isHalfGauge ? (size! / 300) * 180 : 'auto';
 
   // before building the template
