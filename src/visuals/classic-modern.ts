@@ -76,6 +76,13 @@ export function renderClassicModern(this: any) {
   const label = this._translateText(weather.key);
 
   // Arcs colorés
+  const arcZones = [
+    { ratio: 0.20, color: '#43a5ec' },
+    { ratio: 0.20, color: '#66cf91' },
+    { ratio: 0.20, color: '#e6c648' },
+    { ratio: 0.40, color: '#f57a45' },
+  ];
+
   const classicModernArc = this.describeArc(
     cx,
     cy,
@@ -83,6 +90,32 @@ export function renderClassicModern(this: any) {
     startAngle,
     endAngle,
   );
+
+  let currentAngle = startAngle;
+
+  const classicModernArcs = arcZones.map((zone) => {
+    const zoneEndAngle =
+      currentAngle + angleRange * zone.ratio;
+
+    const arc = {
+      color: zone.color,
+      path: this.describeArc(
+        cx,
+        cy,
+        radius,
+        currentAngle,
+        zoneEndAngle,
+      ),
+    };
+
+    currentAngle = zoneEndAngle;
+
+    return arc;
+  });
+
+
+
+
 
 
   // icônes 
@@ -99,6 +132,9 @@ const weatherPositions: Array<{
 const weatherIcons =
   isHalfGauge && show_weather_icon
     ? weatherPositions.map((item) => {
+
+        const isActive = weather.key === item.key;
+
         const iconAngle =
           startAngle +
           (
@@ -107,29 +143,29 @@ const weatherIcons =
           ) *
           angleRange;
 
+        const weatherIconRadius = radius -2;
+        const weatherIconScale = 0.42;
+
         const iconPoint = this.polar(
           cx,
           cy,
-          radius - 52,
+          weatherIconRadius,
           iconAngle,
         );
 
-        const isActive =
-          weather.key === item.key;
+        return renderWeatherIcon(item.key, {
+          x: iconPoint.x,
+          y: iconPoint.y,
+          scale: 0.42,
+          stroke: isActive
+            ? 'rgba(255, 255, 255, 0.95)'
+            : 'rgba(255, 255, 255, 0.45)',
+          strokeWidth: isActive ? 2 : 1.5,
+          opacity: isActive ? 1 : 0.7,
+        });
 
-        return renderWeatherIcon(
-          item.key as WeatherIcon,
-          {
-            x: iconPoint.x,
-            y: iconPoint.y,
-            scale: 0.62,
-            stroke: isActive
-              ? 'var(--classic-modern-text)'
-              : 'var(--classic-modern-muted)',
-            strokeWidth: isActive ? 2 : 1.5,
-            opacity: isActive ? 1 : 0.38,
-          },
-        );
+
+      
       })
     : nothing;
 
@@ -388,25 +424,6 @@ return html`
         style="max-width:${size}px;height:auto;display:block;margin-top:${svgTop};"
       >
         <defs>
-          <linearGradient
-            id="classic-modern-gradient"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stop-color="#43a5ec" />
-            <stop offset="20%" stop-color="#43a5ec" />
-
-            <stop offset="35%" stop-color="#66cf91" />
-            <stop offset="50%" stop-color="#66cf91" />
-
-            <stop offset="65%" stop-color="#e6c648" />
-            <stop offset="78%" stop-color="#e6c648" />
-
-            <stop offset="100%" stop-color="#f57a45" />
-          </linearGradient>
-
           <filter
             id="classic-modern-glow"
             x="-30%"
@@ -419,30 +436,33 @@ return html`
         </defs>
 
         <g>
-        <!-- Halo diffus -->
-        <path
-          d="${classicModernArc}"
-          stroke="url(#classic-modern-gradient)"
-          stroke-width="${stroke_width + 8}"
-          stroke-linecap="butt"
-          fill="none"
-          opacity="0.20"
-          filter="url(#classic-modern-glow)"
-        />
+          ${classicModernArcs.map(
+            (arc) => svg`
+              <!-- Halo diffus -->
+              <path
+                d="${arc.path}"
+                stroke="${arc.color}"
+                stroke-width="${stroke_width + 8}"
+                stroke-linecap="butt"
+                fill="none"
+                opacity="0.20"
+                filter="url(#classic-modern-glow)"
+              />
 
-        <!-- Arc principal -->
-        <path
-          d="${classicModernArc}"
-          stroke="url(#classic-modern-gradient)"
-          stroke-width="${Math.max(10, stroke_width - 6)}"
-          stroke-linecap="butt"
-          fill="none"
-        />
+              <!-- Arc principal -->
+              <path
+                d="${arc.path}"
+                stroke="${arc.color}"
+                stroke-width="${Math.max(10, stroke_width - 6)}"
+                stroke-linecap="butt"
+                fill="none"
+              />
+            `,
+          )}
 
-        ${tickMarks}
-        ${pressureLabels}
-        ${needle}
-
+          ${tickMarks}
+          ${pressureLabels}
+          ${needle}
         </g>
 
         ${weatherIcons}
