@@ -143,16 +143,24 @@ const weatherIcons = show_weather_icon
 
       const isActive = weather.key === item.key;
 
-      return renderWeatherIcon(item.key, {
-        x: iconPoint.x,
-        y: iconPoint.y,
-        scale: isHalfGauge ? 0.56 : 0.48,
-        stroke: isActive
-          ? 'rgba(28, 32, 40, 0.96)'
-          : 'rgba(28, 32, 40, 0.70)',
-        strokeWidth: isActive ? 2.3 : 1.9,
-        opacity: isActive ? 1 : 0.92,
-      });
+return renderWeatherIcon(item.key, {
+  x: iconPoint.x,
+  y: iconPoint.y,
+
+  scale: 0.62,
+
+  stroke: 'rgba(255, 255, 255, 0.98)',
+  strokeWidth: isActive ? 2.5 : 2.2,
+  opacity: isActive ? 1 : 0.92,
+
+  shadow: true,
+  shadowStroke: 'rgba(0, 0, 0, 0.38)',
+  shadowStrokeWidth: isActive ? 4 : 3.6,
+  shadowOpacity: 0.5,
+  shadowOffsetX: 0.8,
+  shadowOffsetY: 1,
+});
+
     })
   : nothing;
 
@@ -280,8 +288,8 @@ if (isHalfGauge) {
           Z
         "
         fill="var(--classic-modern-text)"
-        stroke="rgba(255, 255, 255, 0.95)"
-        stroke-width="3"
+        stroke="rgba(255, 255, 255, 0.98)"
+        stroke-width="4"
         stroke-linejoin="round"
         paint-order="stroke fill"
       />
