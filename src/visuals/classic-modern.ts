@@ -254,22 +254,29 @@ const colorSeparators = separatorRatios.map((ratio) => {
     // Aiguille
 const needle = (() => {
 
-  if (isHalfGauge) {
-  const needleLength = radius - 8;
-  const needleRotation = needleAngle * 180 / Math.PI;
+if (isHalfGauge) {
+  const cursorPoint = this.polar(
+    cx,
+    cy,
+    radius - 8,
+    needleAngle,
+  );
+
+  const cursorRotation =
+    needleAngle * 180 / Math.PI;
 
   return svg`
     <g
       transform="
-        translate(${cx} ${cy})
-        rotate(${needleRotation})
+        translate(${cursorPoint.x} ${cursorPoint.y})
+        rotate(${cursorRotation})
       "
     >
       <path
         d="
-          M ${needleLength} 0
-          L -8 -5
-          A 5 5 0 1 0 -8 5
+          M 10 0
+          L -5 -5
+          A 5 5 0 1 0 -5 5
           Z
         "
         fill="var(--classic-modern-text)"
