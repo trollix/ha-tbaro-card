@@ -150,12 +150,12 @@ const iconAngle = startAngle + angleRange * item.ratio;
 return renderWeatherIcon(item.key, {
   x: iconPoint.x,
   y: iconPoint.y,
-  scale: isHalfGauge ? 0.48 : 0.42,
+  scale: 0.52,
   stroke: isActive
-    ? 'rgba(255, 255, 255, 0.98)'
-    : 'rgba(255, 255, 255, 0.72)',
-  strokeWidth: isActive ? 2.2 : 1.8,
-  opacity: isActive ? 1 : 0.88,
+    ? 'rgba(20, 24, 28, 0.95)'
+    : 'rgba(20, 24, 28, 0.62)',
+  strokeWidth: isActive ? 2.4 : 1.9,
+  opacity: 1,
 });
 
 
@@ -360,27 +360,37 @@ const weatherLabel = show_weather_text
   const pressureDecimals = Math.min(2, Math.max(0, decimals));
   const pressureUnit = this.pressureUnit;
 
-const pressureValueY = isHalfGauge ? cy + 44 : cy + 74;
-const pressureUnitY = pressureValueY + 18;
+const pressureValueY = isHalfGauge ? 170 : cy + 74;
+const pressureUnitY = isHalfGauge ? 179 : pressureValueY + 18;
 
 const svgPressText = show_pressure
-  ? svg`
-      <text
-        x="${cx}"
-        y="${pressureValueY}"
-        class="classic-modern-pressure-value"
-      >
-        ${pressure.toFixed(pressureDecimals)}
-      </text>
+  ? isHalfGauge
+    ? svg`
+        <text
+          x="${cx}"
+          y="170"
+          class="classic-modern-pressure-value"
+        >
+          ${pressure.toFixed(pressureDecimals)} ${pressureUnit}
+        </text>
+      `
+    : svg`
+        <text
+          x="${cx}"
+          y="${pressureValueY}"
+          class="classic-modern-pressure-value"
+        >
+          ${pressure.toFixed(pressureDecimals)}
+        </text>
 
-      <text
-        x="${cx}"
-        y="${pressureUnitY}"
-        class="classic-modern-pressure-unit"
-      >
-        ${pressureUnit}
-      </text>
-    `
+        <text
+          x="${cx}"
+          y="${pressureUnitY}"
+          class="classic-modern-pressure-unit"
+        >
+          ${pressureUnit}
+        </text>
+      `
   : nothing;
 
 
