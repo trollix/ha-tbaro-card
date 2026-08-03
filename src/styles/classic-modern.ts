@@ -56,8 +56,8 @@ export default css`
   }
 
 .classic-modern-pressure-value {
-  fill: var(--classic-modern-text);
-  font-size: 18px;
+  fill: var(--classic-modern-text, var(--primary-text-color));
+  font-size: 17px;
   font-weight: 300;
   text-anchor: middle;
   letter-spacing: 0.2px;
@@ -65,7 +65,7 @@ export default css`
 }
 
 .classic-modern-pressure-unit {
-  fill: var(--classic-modern-muted);
+  fill: var(--classic-modern-muted, var(--secondary-text-color));
   font-size: 11px;
   font-weight: 500;
   text-anchor: middle;

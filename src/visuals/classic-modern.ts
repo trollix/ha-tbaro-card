@@ -129,39 +129,32 @@ const weatherPositions: Array<{
   { key: 'sun', ratio: 0.80 },    // centre du rouge
 ];
 
-const weatherIcons =
-  isHalfGauge && show_weather_icon
-    ? weatherPositions.map((item) => {
+const weatherIcons = show_weather_icon
+  ? weatherPositions.map((item) => {
+      const iconAngle =
+        startAngle + angleRange * item.ratio;
 
-        const isActive = weather.key === item.key;
+      const iconPoint = this.polar(
+        cx,
+        cy,
+        radius + 1,
+        iconAngle,
+      );
 
-const iconAngle = startAngle + angleRange * item.ratio;
+      const isActive = weather.key === item.key;
 
-        const weatherIconRadius = radius -2;
-        const weatherIconScale = 0.42;
-
-        const iconPoint = this.polar(
-          cx,
-          cy,
-          weatherIconRadius,
-          iconAngle,
-        );
-
-return renderWeatherIcon(item.key, {
-  x: iconPoint.x,
-  y: iconPoint.y,
-  scale: 0.52,
-  stroke: isActive
-    ? 'rgba(20, 24, 28, 0.95)'
-    : 'rgba(20, 24, 28, 0.62)',
-  strokeWidth: isActive ? 2.4 : 1.9,
-  opacity: 1,
-});
-
-
-      
-      })
-    : nothing;
+      return renderWeatherIcon(item.key, {
+        x: iconPoint.x,
+        y: iconPoint.y,
+        scale: isHalfGauge ? 0.56 : 0.48,
+        stroke: isActive
+          ? 'rgba(28, 32, 40, 0.96)'
+          : 'rgba(28, 32, 40, 0.70)',
+        strokeWidth: isActive ? 2.3 : 1.9,
+        opacity: isActive ? 1 : 0.92,
+      });
+    })
+  : nothing;
 
   // Ticks
   // valeurs fixes en hPa utilisées pour la position angulaire
@@ -200,6 +193,42 @@ return renderWeatherIcon(item.key, {
       />
     `;
   });
+
+  // séparateurs de couleurs
+
+  const arcStrokeWidth = Math.max(10, stroke_width - 6);
+
+const separatorRatios = [0.20, 0.40, 0.60];
+
+const colorSeparators = separatorRatios.map((ratio) => {
+  const separatorAngle = startAngle + angleRange * ratio;
+
+  const outerPoint = this.polar(
+    cx,
+    cy,
+    radius + arcStrokeWidth / 2,
+    separatorAngle,
+  );
+
+  const innerPoint = this.polar(
+    cx,
+    cy,
+    radius - arcStrokeWidth / 2,
+    separatorAngle,
+  );
+
+  return svg`
+    <line
+      x1="${outerPoint.x}"
+      y1="${outerPoint.y}"
+      x2="${innerPoint.x}"
+      y2="${innerPoint.y}"
+      stroke="rgba(255, 255, 255, 0.55)"
+      stroke-width="1.4"
+      stroke-linecap="butt"
+    />
+  `;
+});
 
 
 
@@ -357,40 +386,31 @@ const weatherLabel = show_weather_text
     : nothing;
 
   // Sécurise la précision entre 0 et 2 décimales
-  const pressureDecimals = Math.min(2, Math.max(0, decimals));
-  const pressureUnit = this.pressureUnit;
 
-const pressureValueY = isHalfGauge ? 170 : cy + 74;
-const pressureUnitY = isHalfGauge ? 179 : pressureValueY + 18;
+const pressureValueY = isHalfGauge ? 156 : cy + 74;
+const pressureUnitY = isHalfGauge ? 171 : pressureValueY + 17;
+
+const pressureDecimals = Math.min(2, Math.max(0, decimals));
+const pressureUnit = this.pressureUnit;
 
 const svgPressText = show_pressure
-  ? isHalfGauge
-    ? svg`
-        <text
-          x="${cx}"
-          y="170"
-          class="classic-modern-pressure-value"
-        >
-          ${pressure.toFixed(pressureDecimals)} ${pressureUnit}
-        </text>
-      `
-    : svg`
-        <text
-          x="${cx}"
-          y="${pressureValueY}"
-          class="classic-modern-pressure-value"
-        >
-          ${pressure.toFixed(pressureDecimals)}
-        </text>
+  ? svg`
+      <text
+        x="${cx}"
+        y="${pressureValueY}"
+        class="classic-modern-pressure-value"
+      >
+        ${pressure.toFixed(pressureDecimals)}
+      </text>
 
-        <text
-          x="${cx}"
-          y="${pressureUnitY}"
-          class="classic-modern-pressure-unit"
-        >
-          ${pressureUnit}
-        </text>
-      `
+      <text
+        x="${cx}"
+        y="${pressureUnitY}"
+        class="classic-modern-pressure-unit"
+      >
+        ${pressureUnit}
+      </text>
+    `
   : nothing;
 
 
@@ -455,7 +475,7 @@ return html`
             `,
           )}
 
-          
+          ${colorSeparators}
           ${pressureLabels}
           ${needle}
         </g>
