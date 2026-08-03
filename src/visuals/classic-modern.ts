@@ -455,7 +455,7 @@ return html`
             `,
           )}
 
-          ${tickMarks}
+          
           ${pressureLabels}
           ${needle}
         </g>
