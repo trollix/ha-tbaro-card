@@ -253,33 +253,35 @@ const colorSeparators = separatorRatios.map((ratio) => {
 
     // Aiguille
 const needle = (() => {
+
   if (isHalfGauge) {
-    const needleLength = radius - 5;
-    const baseLength = 80;
+  const needleLength = radius - 8;
+  const needleRotation = needleAngle * 180 / Math.PI;
 
-    const tip = this.polar(cx, cy, needleLength, needleAngle);
-    const base = this.polar(cx, cy, baseLength, needleAngle);
-
-    const sideAngle = needleAngle + Math.PI / 2;
-    const offset = 7;
-
-    const baseLeft = {
-      x: base.x + Math.cos(sideAngle) * offset,
-      y: base.y + Math.sin(sideAngle) * offset,
-    };
-
-    const baseRight = {
-      x: base.x - Math.cos(sideAngle) * offset,
-      y: base.y - Math.sin(sideAngle) * offset,
-    };
-
-    return svg`
-      <polygon
-        points="${tip.x},${tip.y} ${baseLeft.x},${baseLeft.y} ${baseRight.x},${baseRight.y}"
+  return svg`
+    <g
+      transform="
+        translate(${cx} ${cy})
+        rotate(${needleRotation})
+      "
+    >
+      <path
+        d="
+          M ${needleLength} 0
+          L -8 -5
+          A 5 5 0 1 0 -8 5
+          Z
+        "
         fill="var(--classic-modern-text)"
+        stroke="rgba(255, 255, 255, 0.95)"
+        stroke-width="2.5"
+        stroke-linejoin="round"
+        paint-order="stroke fill"
       />
-    `;
-  }
+    </g>
+  `;
+}
+
 
   const needleLength = radius - 24;
   const rearLength = 22;
