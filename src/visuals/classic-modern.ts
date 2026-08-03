@@ -258,12 +258,11 @@ if (isHalfGauge) {
   const cursorPoint = this.polar(
     cx,
     cy,
-    radius - 8,
+    radius - 4,
     needleAngle,
   );
 
-  const cursorRotation =
-    needleAngle * 180 / Math.PI;
+  const cursorRotation = needleAngle * 180 / Math.PI;
 
   return svg`
     <g
@@ -274,9 +273,9 @@ if (isHalfGauge) {
     >
       <path
         d="
-          M 10 0
-          L -5 -5
-          A 5 5 0 1 0 -5 5
+          M 9 0
+          L -4 -4.5
+          A 4.5 4.5 0 1 0 -4 4.5
           Z
         "
         fill="var(--classic-modern-text)"
