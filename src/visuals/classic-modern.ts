@@ -150,12 +150,12 @@ const iconAngle = startAngle + angleRange * item.ratio;
 return renderWeatherIcon(item.key, {
   x: iconPoint.x,
   y: iconPoint.y,
-  scale: isHalfGauge ? 0.46 : 0.42,
+  scale: isHalfGauge ? 0.48 : 0.42,
   stroke: isActive
     ? 'rgba(255, 255, 255, 0.98)'
-    : 'rgba(255, 255, 255, 0.68)',
+    : 'rgba(255, 255, 255, 0.72)',
   strokeWidth: isActive ? 2.2 : 1.8,
-  opacity: isActive ? 1 : 0.82,
+  opacity: isActive ? 1 : 0.88,
 });
 
 
@@ -360,7 +360,7 @@ const weatherLabel = show_weather_text
   const pressureDecimals = Math.min(2, Math.max(0, decimals));
   const pressureUnit = this.pressureUnit;
 
-const pressureValueY = isHalfGauge ? cy + 42 : cy + 74;
+const pressureValueY = isHalfGauge ? cy + 44 : cy + 74;
 const pressureUnitY = pressureValueY + 18;
 
 const svgPressText = show_pressure
