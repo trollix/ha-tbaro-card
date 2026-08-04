@@ -29,8 +29,8 @@ export default css`
 
   .classic-modern-card .classic-modern-scale-label {
     fill: var(--classic-modern-muted);
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 600;
     text-anchor: middle;
   }
 
