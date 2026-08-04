@@ -262,13 +262,13 @@ const colorSeparators = separatorRatios.map((ratio) => {
     // Aiguille
 const needle = (() => {
 
-if (isHalfGauge) {
-  const cursorPoint = this.polar(
-    cx,
-    cy,
-    radius - 14,
-    needleAngle,
-  );
+  if (isHalfGauge) {
+    const cursorPoint = this.polar(
+      cx,
+      cy,
+      radius - 17,
+      needleAngle,
+    );
 
   const cursorRotation = needleAngle * 180 / Math.PI;
 
@@ -288,13 +288,13 @@ if (isHalfGauge) {
         "
         fill="var(--classic-modern-text)"
         stroke="rgba(255, 255, 255, 0.98)"
-        stroke-width="5"
+        stroke-width="6"
         stroke-linejoin="round"
         paint-order="stroke fill"
       />
     </g>
   `;
-}
+  }
 
 
   const needleLength = radius - 24;
