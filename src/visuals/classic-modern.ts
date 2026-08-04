@@ -270,8 +270,7 @@ if (isHalfGauge) {
     needleAngle,
   );
 
-  const cursorRotation =
-    needleAngle * 180 / Math.PI;
+  const cursorRotation = needleAngle * 180 / Math.PI;
 
   return svg`
     <g
@@ -282,14 +281,14 @@ if (isHalfGauge) {
     >
       <path
         d="
-          M 12 0
-          L -6 -6
-          A 6 6 0 1 0 -6 6
+          M 10 0
+          L -7 -7
+          A 7 7 0 1 0 -7 7
           Z
         "
         fill="var(--classic-modern-text)"
         stroke="rgba(255, 255, 255, 0.98)"
-        stroke-width="4"
+        stroke-width="5"
         stroke-linejoin="round"
         paint-order="stroke fill"
       />
