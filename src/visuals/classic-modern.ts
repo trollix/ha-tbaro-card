@@ -60,10 +60,7 @@ export function renderClassicModern(this: any) {
   const pressureHpa = this.rawHpa; // pour l’angle et getWeatherInfo
   const needleAngle = startAngle + ((pressureHpa - minPressure) / pressureRange) * angleRange;
 
-
-  // Position dynamique des éléments verticaux
-  // const weatherYOffset = isHalfGauge ? -90 : 0;
-  
+ 
   const iconX = cx - 25 + icon_offset_x;
   const iconYOffset = isHalfGauge ? -90 : 0;
   const iconY = (isHalfGauge ? cy + 12 : cy + 5) + iconYOffset + icon_offset_y;
@@ -205,10 +202,8 @@ return renderWeatherIcon(item.key, {
   // séparateurs de couleurs
 
   const arcStrokeWidth = Math.max(10, stroke_width - 6);
-
-const separatorRatios = [0.20, 0.40, 0.60];
-
-const colorSeparators = separatorRatios.map((ratio) => {
+  const separatorRatios = [0.20, 0.40, 0.60];
+  const colorSeparators = separatorRatios.map((ratio) => {
   const separatorAngle = startAngle + angleRange * ratio;
 
   const outerPoint = this.polar(
@@ -239,13 +234,16 @@ const colorSeparators = separatorRatios.map((ratio) => {
 });
 
 
-
-    // Labels
+    //----------------------------------------
+    // Création des étiquettes (label)
+    //----------------------------------------
+    
     // on étiquette un repère sur deux pour garder de l’espace
     const labelPressures = [960, 980, 1000, 1020, 1040];
 
     // Labels convertis
     const pressureLabels = labelPressures.map((pressureValue: number) => {
+
       const display =
         unit === 'mm'
           ? (pressureValue * this.constructor.HPA_TO_MM).toFixed(0)
@@ -254,92 +252,103 @@ const colorSeparators = separatorRatios.map((ratio) => {
               : pressureValue.toString();
 
       const labelAngle  = startAngle + ((pressureValue - minPressure) / pressureRange) * angleRange;
-      const labelPoint = this.polar(cx, cy, radius - 36, labelAngle);
-      return svg`<text x="${labelPoint.x}" y="${labelPoint.y}" class="classic-modern-scale-label">${display}</text>`;
+      const labelPoint = this.polar(cx, cy, radius - 40, labelAngle); // le radius est la longueur du rayon sur lequel est placé l'objet
+      
+      return svg`
+        <text 
+          x="${labelPoint.x}" 
+          y="${labelPoint.y}" 
+          class="classic-modern-scale-label">$
+          {display}
+        </text>`;
     });
 
 
-    // Aiguille
-const needle = (() => {
+    //----------------------------------------
+    // Création de l'aiguille  (ou curseur)
+    //----------------------------------------
+    const needle = (() => {
 
-  if (isHalfGauge) {
-    const cursorPoint = this.polar(
-      cx,
-      cy,
-      radius - 17,
-      needleAngle,
-    );
+      if (isHalfGauge) {
+        const cursorPoint = this.polar(
+          cx,
+          cy,
+          radius - 17,
+          needleAngle,
+        );
 
-  const cursorRotation = needleAngle * 180 / Math.PI;
+      const cursorRotation = needleAngle * 180 / Math.PI;
 
-  return svg`
-    <g
-      transform="
-        translate(${cursorPoint.x} ${cursorPoint.y})
-        rotate(${cursorRotation})
-      "
-    >
-      <path
-        d="
-          M 10 0
-          L -7 -7
-          A 7 7 0 1 0 -7 7
-          Z
-        "
-        fill="var(--classic-modern-text)"
-        stroke="rgba(255, 255, 255, 0.98)"
-        stroke-width="6"
-        stroke-linejoin="round"
-        paint-order="stroke fill"
+      return svg`
+        <g
+          transform="
+            translate(${cursorPoint.x} ${cursorPoint.y})
+            rotate(${cursorRotation})
+          "
+        >
+          <path
+            d="
+              M 10 0
+              L -7 -7
+              A 7 7 0 1 0 -7 7
+              Z
+            "
+            fill="var(--classic-modern-text)"
+            stroke="rgba(255, 255, 255, 0.98)"
+            stroke-width="6"
+            stroke-linejoin="round"
+            paint-order="stroke fill"
+          />
+        </g>
+      `;
+    }
+
+
+    // Là on est sur une gauge à 270°
+    const needleLength = radius - 24;
+    const rearLength = 22;
+
+    const tip = this.polar(cx, cy, needleLength, needleAngle);
+    const rear = this.polar(cx, cy, -rearLength, needleAngle);
+
+    return svg`
+      <line
+        x1="${rear.x + 1.5}"
+        y1="${rear.y + 2}"
+        x2="${tip.x + 1.5}"
+        y2="${tip.y + 2}"
+        stroke="rgba(0, 0, 0, 0.16)"
+        stroke-width="5"
+        stroke-linecap="round"
       />
-    </g>
-  `;
-  }
 
+      <line
+        x1="${rear.x}"
+        y1="${rear.y}"
+        x2="${tip.x}"
+        y2="${tip.y}"
+        stroke="var(--classic-modern-text)"
+        stroke-width="4"
+        stroke-linecap="round"
+      />
 
-  const needleLength = radius - 24;
-  const rearLength = 22;
+      <circle
+        cx="${cx}"
+        cy="${cy}"
+        r="11"
+        fill="var(--classic-modern-bg)"
+        stroke="rgba(255, 255, 255, 0.78)"
+        stroke-width="4"
+      />
 
-  const tip = this.polar(cx, cy, needleLength, needleAngle);
-  const rear = this.polar(cx, cy, -rearLength, needleAngle);
-
-  return svg`
-    <line
-      x1="${rear.x + 1.5}"
-      y1="${rear.y + 2}"
-      x2="${tip.x + 1.5}"
-      y2="${tip.y + 2}"
-      stroke="rgba(0, 0, 0, 0.16)"
-      stroke-width="5"
-      stroke-linecap="round"
-    />
-
-    <line
-      x1="${rear.x}"
-      y1="${rear.y}"
-      x2="${tip.x}"
-      y2="${tip.y}"
-      stroke="var(--classic-modern-text)"
-      stroke-width="4"
-      stroke-linecap="round"
-    />
-
-    <circle
-      cx="${cx}"
-      cy="${cy}"
-      r="11"
-      fill="var(--classic-modern-bg)"
-      stroke="rgba(255, 255, 255, 0.78)"
-      stroke-width="4"
-    />
-
-    <circle
-      cx="${cx}"
-      cy="${cy}"
-      r="5"
-      fill="var(--classic-modern-text)"
-    />
-  `;
+      <circle
+        cx="${cx}"
+        cy="${cy}"
+        r="5"
+        fill="var(--classic-modern-text)"
+      />
+    `;
+  
 })();
 
 
