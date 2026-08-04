@@ -258,8 +258,8 @@ return renderWeatherIcon(item.key, {
         <text 
           x="${labelPoint.x}" 
           y="${labelPoint.y}" 
-          class="classic-modern-scale-label">$
-          {display}
+          class="classic-modern-scale-label">
+          ${display}
         </text>`;
     });
 
