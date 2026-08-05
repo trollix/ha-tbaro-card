@@ -378,65 +378,75 @@ return renderWeatherIcon(item.key, {
       `
     : nothing;
 
-const weatherLabel = show_weather_text
-  ? isHalfGauge
-    ? svg`
-        <text
-          x="${cx}"
-          y="${labelY}"
-          font-size="14"
-          class="label"
-        >
-          ${label}
-        </text>
-      `
-    : svg`
-        <rect
-          x="${cx - 58}"
-          y="${labelY - 21}"
-          width="116"
-          height="34"
-          rx="17"
-          fill="var(--classic-modern-status-bg)"
-        />
 
-        <text
-          x="${cx}"
-          y="${labelY + 1}"
-          class="classic-modern-weather"
-        >
-          ${label}
-        </text>
-      `
-    : nothing;
+    //-------------------------------------------------
+    // Création du texte météo ${weatherLabel}
+    //-------------------------------------------------
 
-  // Sécurise la précision entre 0 et 2 décimales
+    const weatherLabel = show_weather_text
+    
+      ? isHalfGauge
+        ? svg`
+          <text
+            x="${cx}"
+            y="${labelY}"
+            font-size="14"
+            class="label"
+          >
+            ${label}
+          </text>
+        `
+      : svg`
+          <rect
+            x="${cx - 58}"
+            y="${labelY - 21}"
+            width="116"
+            height="34"
+            rx="17"
+            fill="var(--classic-modern-status-bg)"
+          />
 
-const pressureValueY = isHalfGauge ? 156 : cy + 74;
-const pressureUnitY = isHalfGauge ? 171 : pressureValueY + 17;
+          <text
+            x="${cx}"
+            y="${labelY + 1}"
+            class="classic-modern-weather"
+          >
+            ${label}
+          </text>
+        `
+      : nothing;
 
-const pressureDecimals = Math.min(2, Math.max(0, decimals));
-const pressureUnit = this.pressureUnit;
 
-const svgPressText = show_pressure
-  ? svg`
-      <text
-        x="${cx}"
-        y="${pressureValueY}"
-        class="classic-modern-pressure-value"
-      >
-        ${pressure.toFixed(pressureDecimals)}
-      </text>
 
-      <text
-        x="${cx}"
-        y="${pressureUnitY}"
-        class="classic-modern-pressure-unit"
-      >
-        ${pressureUnit}
-      </text>
-    `
-  : nothing;
+    //----------------------------------------
+    // Création de l'aiguille  (ou curseur)
+    //----------------------------------------
+
+    const pressureValueY = isHalfGauge ? 156 : cy + 74;
+    const pressureUnitY = isHalfGauge ? 171 : pressureValueY + 17;
+
+    const pressureDecimals = Math.min(2, Math.max(0, decimals));  // Sécurise la précision entre 0 et 2 décimales
+    const pressureUnit = this.pressureUnit;
+
+    const svgPressureText = show_pressure
+      ? svg`
+          <text
+            x="${cx}"
+            y="${pressureValueY}"
+            class="classic-modern-pressure-value"
+          >
+            ${pressure.toFixed(pressureDecimals)}
+          </text>
+
+          <text
+            x="${cx}"
+            y="${pressureUnitY}"
+            class="classic-modern-pressure-unit"
+          >
+            ${pressureUnit}
+          </text>
+        `
+      : nothing;
 
 
   // Hauteur utile : ±180 px au lieu de 300 px
@@ -507,7 +517,7 @@ return html`
 
         ${weatherIcons}
         ${weatherLabel}
-        ${svgPressText}
+        ${svgPressureText}
       </svg>
     `}
   </ha-card>

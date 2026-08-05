@@ -37,7 +37,7 @@ export default css`
   .classic-modern-card .classic-modern-pressure {
     fill: var(--classic-modern-text);
     font-size: 34px;
-    font-weight: 300;
+    font-weight: 600;
     text-anchor: middle;
   }
 
