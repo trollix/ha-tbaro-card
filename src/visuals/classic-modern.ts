@@ -513,6 +513,8 @@ return html`
           ${colorSeparators}
           ${pressureLabels}
           ${needle}
+          ${svgPressureText}
+          
         </g>
 
         ${weatherIcons}
