@@ -516,8 +516,9 @@ return html`
         </g>
 
         ${weatherIcons}
-        ${!isHalfGauge ? weatherLabel : nothing}
         ${svgPressureText}
+        ${!isHalfGauge ? weatherLabel : nothing}
+
       </svg>
     `}
   </ha-card>
