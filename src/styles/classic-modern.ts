@@ -51,7 +51,7 @@ export default css`
 
 .classic-modern-pressure-value {
   fill: var(--classic-modern-text, var(--primary-text-color));
-  font-size: 24px;
+  font-size: 21px;
   font-weight: 500;
   text-anchor: middle;
   letter-spacing: 0.2px;
