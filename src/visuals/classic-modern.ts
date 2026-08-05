@@ -418,10 +418,10 @@ return renderWeatherIcon(item.key, {
 
 
     //----------------------------------------
-    // Création de l'aiguille  (ou curseur)
+    // Création du label pression
     //----------------------------------------
-    const pressureValueY = isHalfGauge ? 156 : cy + 74;
-    const pressureUnitY = isHalfGauge ? 151 : pressureValueY + 17; //171
+    const pressureValueY = isHalfGauge ? 136 : cy + 74;             // 156
+    const pressureUnitY = isHalfGauge ? 151 : pressureValueY + 17;  // 171
     const pressureDecimals = Math.min(2, Math.max(0, decimals));  // Sécurise la précision entre 0 et 2 décimales
     const pressureUnit = this.pressureUnit;
 
