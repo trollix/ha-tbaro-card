@@ -252,7 +252,7 @@ return renderWeatherIcon(item.key, {
               : pressureValue.toString();
 
       const labelAngle  = startAngle + ((pressureValue - minPressure) / pressureRange) * angleRange;
-      const labelPoint = this.polar(cx, cy, radius - 40, labelAngle); // le radius est la longueur du rayon sur lequel est placé l'objet
+      const labelPoint = this.polar(cx, cy, radius - 50, labelAngle); // le radius est la longueur du rayon sur lequel est placé l'objet
       
       return svg`
         <text 
@@ -420,8 +420,8 @@ return renderWeatherIcon(item.key, {
     //----------------------------------------
     // Création du label pression
     //----------------------------------------
-    const pressureValueY = isHalfGauge ? 136 : cy + 74;             // 156
-    const pressureUnitY = isHalfGauge ? 151 : pressureValueY + 17;  // 171
+    const pressureValueY = isHalfGauge ? 126 : cy + 74;             // 156
+    const pressureUnitY = isHalfGauge ? 141 : pressureValueY + 17;  // 171
     const pressureDecimals = Math.min(2, Math.max(0, decimals));  // Sécurise la précision entre 0 et 2 décimales
     const pressureUnit = this.pressureUnit;
 
