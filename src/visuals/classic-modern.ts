@@ -382,7 +382,6 @@ return renderWeatherIcon(item.key, {
     //-------------------------------------------------
     // Création du texte météo ${weatherLabel}
     //-------------------------------------------------
-
     const weatherLabel = show_weather_text
     
       ? isHalfGauge
@@ -421,10 +420,8 @@ return renderWeatherIcon(item.key, {
     //----------------------------------------
     // Création de l'aiguille  (ou curseur)
     //----------------------------------------
-
     const pressureValueY = isHalfGauge ? 156 : cy + 74;
     const pressureUnitY = isHalfGauge ? 171 : pressureValueY + 17;
-
     const pressureDecimals = Math.min(2, Math.max(0, decimals));  // Sécurise la précision entre 0 et 2 décimales
     const pressureUnit = this.pressureUnit;
 
@@ -449,13 +446,16 @@ return renderWeatherIcon(item.key, {
       : nothing;
 
 
-  // Hauteur utile : ±180 px au lieu de 300 px
-  const viewHeight = isHalfGauge ? 180 : 300;
-  //const clipHeight = isHalfGauge ? (size! / 300) * 180 : 'auto';
+      // Hauteur utile : ±180 px au lieu de 300 px
+      const viewHeight = isHalfGauge ? 180 : 300;
+      //const clipHeight = isHalfGauge ? (size! / 300) * 180 : 'auto';
 
-  // before building the template
-  const hasTitle = !!title;
-  const svgTop = hasTitle ? '-16px' : '0';   // tighten title→gauge gap
+      // before building the template
+      const hasTitle = !!title;
+      const svgTop = hasTitle ? '-16px' : '0';   // tighten title→gauge gap
+
+
+
 
 return html`
   <ha-card
@@ -516,7 +516,7 @@ return html`
         </g>
 
         ${weatherIcons}
-        ${weatherLabel}
+        ${!isHalfGauge ? weatherLabel : nothing}
         ${svgPressureText}
       </svg>
     `}
