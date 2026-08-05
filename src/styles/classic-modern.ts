@@ -34,12 +34,6 @@ export default css`
     text-anchor: middle;
   }
 
-  .classic-modern-card .classic-modern-pressure {
-    fill: var(--classic-modern-text);
-    font-size: 34px;
-    font-weight: 600;
-    text-anchor: middle;
-  }
 
   .classic-modern-card .classic-modern-unit {
     fill: var(--classic-modern-muted);
@@ -57,8 +51,8 @@ export default css`
 
 .classic-modern-pressure-value {
   fill: var(--classic-modern-text, var(--primary-text-color));
-  font-size: 17px;
-  font-weight: 300;
+  font-size: 20px;
+  font-weight: 600;
   text-anchor: middle;
   letter-spacing: 0.2px;
   font-family: var(--paper-font-body1_-_font-family, sans-serif);
