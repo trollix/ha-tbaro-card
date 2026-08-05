@@ -240,6 +240,7 @@ return renderWeatherIcon(item.key, {
     
     // on étiquette un repère sur deux pour garder de l’espace
     const labelPressures = [960, 980, 1000, 1020, 1040];
+    const labelRadius = radius - 42; // le radius est la longueur du rayon sur lequel est placé l'objet
 
     // Labels convertis
     const pressureLabels = labelPressures.map((pressureValue: number) => {
@@ -252,7 +253,7 @@ return renderWeatherIcon(item.key, {
               : pressureValue.toString();
 
       const labelAngle  = startAngle + ((pressureValue - minPressure) / pressureRange) * angleRange;
-      const labelPoint = this.polar(cx, cy, radius - 50, labelAngle); // le radius est la longueur du rayon sur lequel est placé l'objet
+      const labelPoint = this.polar(cx, cy, labelRadius, labelAngle); 
       
       return svg`
         <text 
