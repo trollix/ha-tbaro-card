@@ -157,7 +157,7 @@ const trendDirectionCssClass =
               x2="100%"
               y2="0%"
             >
-              <!-- Seuil haute pression à 1013 hPa sur l'échelle 950–1050 -->
+              <!-- Seuil haute pression à 1013 hPa sur l'échelle 950–1050  -->
               <stop offset="0%" stop-color="#3a73f4" />
               <stop offset="20%" stop-color="#43b7df" />
 

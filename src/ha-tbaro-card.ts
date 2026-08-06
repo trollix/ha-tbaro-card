@@ -315,7 +315,22 @@ private historicalStateToHpa(stateValue: string): number | null {
 }
 
 
-
+  /**
+   * Recharge la tendance de pression à partir de l’historique Home Assistant.
+   *
+   * La variation est calculée entre la pression actuelle et la plus ancienne
+   * valeur valide trouvée sur la période définie par `trend_hours`.
+   *
+   * Le résultat est conservé en hPa dans `_historyTrend`.
+   * La conversion et le formatage pour l’affichage sont ensuite réalisés
+   * par `getTrendInfo()`.
+   *
+   * Afin de limiter les appels à l’API :
+   * - la tendance n’est chargée que pour les visuels qui l’utilisent ;
+   * - une même entité et une même période ne sont interrogées qu’une fois
+   *   par tranche de cinq minutes ;
+   * - une nouvelle requête n’est pas lancée si une autre est déjà en cours.
+   */
   private async _refreshPressureTrend() {
 
     if (

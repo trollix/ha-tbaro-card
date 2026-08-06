@@ -50,52 +50,14 @@ export function renderModernSummary(this: any) {
   const chartPadding = 5;
   const chartViewWidth = chartWidth + chartAxisLeft;
 
-  const trendHours = this.config.trend_hours ?? 24;
+  const trendInfo = this.getTrendInfo();
 
-  const trendHpa = this._historyTrend;
-
-  const trend =
-    trendHpa == null
-      ? null
-      : this.config.unit === 'mm'
-        ? trendHpa * this.constructor.HPA_TO_MM
-        : this.config.unit === 'in'
-          ? trendHpa * this.constructor.HPA_TO_IN
-          : this.config.unit === 'pa'
-            ? trendHpa * this.constructor.HPA_TO_PA
-            : trendHpa;
-
-
-
-  const trendArrow =
-    trend == null
-      ? '→'
-      : trend > 0
-        ? '↑'
-        : trend < 0
-          ? '↓'
-          : '→';
-
-  const trendDecimals =
-    this.config.unit === 'in'
-      ? 2
-      : this.config.unit === 'pa'
-        ? 0
-        : 1;
-
-  const trendNumber =
-    trend == null
-      ? ''
-      : `${trend > 0 ? '+' : ''}${trend.toFixed(trendDecimals)} ${this.pressureUnit}`;
-
-  const trendClass =
-    trend == null || trend === 0
-      ? ''
-      : trend > 0
-        ? 'modern-summary-trend-up'
-        : 'modern-summary-trend-down';
-
-
+  const trendDirectionCssClass =
+    trendInfo.direction === 'up'
+      ? 'modern-summary-trend-up'
+      : trendInfo.direction === 'down'
+        ? 'modern-summary-trend-down'
+        : '';
 
   const chartValues =
     this._sampleSummaryHistoryValues(
@@ -177,15 +139,15 @@ const chartAxisValues =
   const chartTimeLabels = [
     {
       x: chartAxisLeft,
-      label: formatChartTime(trendHours),
+      label: formatChartTime(trendInfo.hours),
     },
     {
       x: chartAxisLeft + chartWidth / 3,
-      label: formatChartTime(trendHours * 2 / 3),
+      label: formatChartTime(trendInfo.hours * 2 / 3),
     },
     {
       x: chartAxisLeft + chartWidth * 2 / 3,
-      label: formatChartTime(trendHours / 3),
+      label: formatChartTime(trendInfo.hours / 3),
     },
     {
       x: chartViewWidth,
@@ -250,18 +212,18 @@ const chartAxisValues =
   </div>
 
   <div class="modern-summary-header-right">
-    ${trend == null
+    ${trendInfo.value == null
       ? html`
           <div class="modern-summary-trend">
             Tendance indisponible
           </div>
         `
       : html`
-          <div class="modern-summary-trend ${trendClass}">
-            ${trendArrow} ${trendNumber}
+          <div class="modern-summary-trend ${trendDirectionCssClass}">
+            ${trendInfo.arrow} ${trendInfo.text}
           </div>
           <div class="modern-summary-trend-period">
-            ${trendHours} h
+            ${trendInfo.hours} h
           </div>
         `}
 

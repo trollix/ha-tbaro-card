@@ -33,51 +33,15 @@ export function renderModernCursor(this: any) {
   const theme = this.config.theme ?? 'auto';
   const title = this.config.title || 'Pression';
 
-  const trendHours = Math.max(
-  1,
-  this.config.trend_hours ?? 3,
-);
+  const trendInfo = this.getTrendInfo();
 
-const trendHpa = this._historyTrend;
-
-const trend =
-  trendHpa == null
-    ? null
-    : this.config.unit === 'mm'
-      ? trendHpa * this.constructor.HPA_TO_MM
-      : this.config.unit === 'in'
-        ? trendHpa * this.constructor.HPA_TO_IN
-        : this.config.unit === 'pa'
-          ? trendHpa * this.constructor.HPA_TO_PA
-          : trendHpa;
-
-const trendArrow =
-  trend == null
-    ? '→'
-    : trend > 0
-      ? '↑'
-      : trend < 0
-        ? '↓'
-        : '→';
-
-const trendDecimals =
-  this.config.unit === 'in'
-    ? 2
-    : this.config.unit === 'pa'
-      ? 0
-      : 1;
-
-const trendNumber =
-  trend == null
-    ? ''
-    : `${trend > 0 ? '+' : ''}${trend.toFixed(trendDecimals)} ${this.pressureUnit}`;
-
-const trendClass =
-  trend == null || trend === 0
-    ? ''
-    : trend > 0
+  const trendDirectionCssClass =
+    trendInfo.direction === 'up'
       ? 'modern-svg-trend-up'
-      : 'modern-svg-trend-down';
+      : trendInfo.direction === 'down'
+        ? 'modern-svg-trend-down'
+        : '';
+
 
 
   const minP = 950;
@@ -101,6 +65,10 @@ const trendClass =
   const markerX =
     barLeft +
     progress * barWidth;
+
+
+
+
 
   return html`
     <ha-card
@@ -237,7 +205,7 @@ const trendClass =
             : nothing}
 
           <!-- Tendance -->
-          ${trend == null
+          ${trendInfo.value == null
            ? svg`
                 <text
                   x="150"
@@ -251,9 +219,9 @@ const trendClass =
                 <text
                   x="150"
                   y="300"
-                  class="modern-svg-trend ${trendClass}"
+                  class="modern-svg-trend ${trendDirectionCssClass}"
                 >
-                  ${trendArrow} ${trendNumber}
+                  ${trendInfo.arrow} ${trendInfo.text}
                 </text>
 
                 <text
@@ -261,7 +229,7 @@ const trendClass =
                   y="322"
                   class="modern-svg-trend-period"
                 >
-                  ${trendHours} h
+                  ${trendInfo.hours} h
                 </text>
               `}
 

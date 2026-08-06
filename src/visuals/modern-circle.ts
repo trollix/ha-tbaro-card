@@ -26,7 +26,6 @@ export function renderModernCircle(this: any) {
   const decimals = Math.min(2, Math.max(0, this.config.decimals ?? 0));
   const theme = this.config.theme ?? 'auto';
   const title = this.config.title || 'Pression';
-  const trendHours = Math.max(1, this.config.trend_hours ?? 3);
   const weatherLabel = this.translatedWeatherLabel;
 
   const minP = 950;
@@ -35,20 +34,16 @@ export function renderModernCircle(this: any) {
   const progress = (hpa - minP) / (maxP - minP);
 
   // Traduction du trend en unité déclarée dans la configuration
-  const trendHpa = this._historyTrend;
-  const trend =
-    trendHpa == null
-      ? null
-      : this.config.unit === 'mm'
-        ? trendHpa * this.constructor.HPA_TO_MM
-        : this.config.unit === 'in'
-          ? trendHpa * this.constructor.HPA_TO_IN
-          : this.config.unit === 'pa'
-            ? trendHpa * this.constructor.HPA_TO_PA
-            : trendHpa;
+  const trendInfo = this.getTrendInfo();
+
+  const trendDirectionCssClass =
+    trendInfo.direction === 'up'
+      ? 'modern-svg-trend-up'
+      : trendInfo.direction === 'down'
+        ? 'modern-svg-trend-down'
+        : '';
 
 
-   
 
   const lowLabel = this._translateText('low');
   const highLabel = this._translateText('high');
@@ -101,28 +96,6 @@ const markerAngle =
   progress * (endAngle - startAngle);
 
 const marker = pointOnCircle(markerAngle);
-  const trendArrow =
-    trend == null ? '→' : trend > 0 ? '↑' : trend < 0 ? '↓' : '→';
-
-  const trendDecimals =
-    this.config.unit === 'in'
-      ? 2
-      : this.config.unit === 'pa'
-        ? 0
-        : 1;
-
-  const trendNumber =
-    trend == null
-      ? ''
-      : `${trend > 0 ? '+' : ''}${trend.toFixed(trendDecimals)} ${this.pressureUnit}`;
-
-
-  const trendClass =
-    trend == null || trend === 0
-      ? ''
-      : trend > 0
-        ? 'modern-svg-trend-up'
-        : 'modern-svg-trend-down';
 
   return html`
     <ha-card
@@ -242,7 +215,7 @@ const marker = pointOnCircle(markerAngle);
         <text x="233" y="261" class="modern-svg-scale-value">1050</text>
         <text x="233" y="278" class="modern-svg-scale-label">${highLabel}</text>
 
-          ${trend == null
+          ${trendInfo.value == null
             ? svg`
                 <text x="150" y="247" class="modern-svg-trend">
                   Tendance indisponible
@@ -252,16 +225,16 @@ const marker = pointOnCircle(markerAngle);
                 <text
                   x="150"
                   y="239"
-                  class="modern-svg-trend ${trendClass}"
+                  class="modern-svg-trend ${trendDirectionCssClass}"
                 >
-                  ${trendArrow} ${trendNumber}
+                  ${trendInfo.arrow} ${trendInfo.text}
                 </text>
                 <text
                   x="150"
                   y="260"
                   class="modern-svg-trend-period"
                 >
-                  ${trendHours} h
+                  ${trendInfo.hours} h
                 </text>
               `}
 
