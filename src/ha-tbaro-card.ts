@@ -314,73 +314,131 @@ private historicalStateToHpa(stateValue: string): number | null {
   return value * factor;
 }
 
-private async _refreshPressureTrend() {
-  if (
-    !this.hass ||
-    !this.config?.entity ||
-    this.config.design !== 'modern-arc' && 
-    this.config.design !== 'modern-circle' &&
-    this.config.design !== 'modern-summary'&&
-    this.config.design !== 'modern-cursor'
-  ) {
-    return;
+
+
+  private async _refreshPressureTrend() {
+
+    if (
+      !this.hass ||
+      !this.config?.entity ||
+      this.config.design !== 'modern-arc' &&
+      this.config.design !== 'modern-circle' &&
+      this.config.design !== 'modern-summary' &&
+      this.config.design !== 'modern-cursor' &&
+      this.config.design !== 'classic-modern'
+    ) {
+      return;
+    }
+
+    const hours = Math.max(1, this.config.trend_hours ?? 3);
+    const fiveMinuteBucket = Math.floor(Date.now() / (5 * 60 * 1000));  // Une requête maximum toutes les cinq minutes pour cette entité/période.
+    const requestKey = `${this.config.entity}|${hours}|${fiveMinuteBucket}`;
+
+    if (
+      requestKey === this._trendRequestKey ||
+      this._trendRequestInFlight
+    ) {
+      return;
+    }
+
+    this._trendRequestKey = requestKey;
+    this._trendRequestInFlight = true;
+
+    const end = new Date();
+    const start = new Date(end.getTime() - hours * 60 * 60 * 1000);
+
+    const path =
+      `history/period/${encodeURIComponent(start.toISOString())}` +
+      `?filter_entity_id=${encodeURIComponent(this.config.entity)}` +
+      `&end_time=${encodeURIComponent(end.toISOString())}` +
+      `&minimal_response&no_attributes`;
+
+    try {
+      const response = await this.hass.callApi('GET', path);
+      const history = Array.isArray(response?.[0]) ? response[0] : [];
+
+      const oldestValidState = history.find(
+        (item: any) =>
+          this.historicalStateToHpa(String(item?.state)) !== null,
+      );
+
+      const previousHpa = oldestValidState
+        ? this.historicalStateToHpa(String(oldestValidState.state))
+        : null;
+
+      this._historyTrend =
+        previousHpa === null
+          ? null
+          : this.rawHpa - previousHpa;
+        } catch (error) {
+          console.warn(
+            '[ha-tbaro-card] Unable to load pressure history:',
+            error,
+          );
+
+          this._historyTrend = null;
+          this._trendRequestKey = '';
+        } finally {
+          this._trendRequestInFlight = false;
+        }
   }
 
-  const hours = Math.max(1, this.config.trend_hours ?? 3);
 
-  // Une requête maximum toutes les cinq minutes pour cette entité/période.
-  const fiveMinuteBucket = Math.floor(Date.now() / (5 * 60 * 1000));
-  const requestKey =
-    `${this.config.entity}|${hours}|${fiveMinuteBucket}`;
 
-  if (
-    requestKey === this._trendRequestKey ||
-    this._trendRequestInFlight
-  ) {
-    return;
-  }
+public getTrendInfo() {
+  const hours = Math.max(
+    1,
+    this.config.trend_hours ?? 24,
+  );
 
-  this._trendRequestKey = requestKey;
-  this._trendRequestInFlight = true;
+  const trendHpa = this._historyTrend;
 
-  const end = new Date();
-  const start = new Date(end.getTime() - hours * 60 * 60 * 1000);
+  const value =
+    trendHpa == null
+      ? null
+      : this.config.unit === 'mm'
+        ? trendHpa * HaTbaroCard.HPA_TO_MM
+        : this.config.unit === 'in'
+          ? trendHpa * HaTbaroCard.HPA_TO_IN
+          : this.config.unit === 'pa'
+            ? trendHpa * HaTbaroCard.HPA_TO_PA
+            : trendHpa;
 
-  const path =
-    `history/period/${encodeURIComponent(start.toISOString())}` +
-    `?filter_entity_id=${encodeURIComponent(this.config.entity)}` +
-    `&end_time=${encodeURIComponent(end.toISOString())}` +
-    `&minimal_response&no_attributes`;
+  const direction =
+    value == null || value === 0
+      ? 'stable'
+      : value > 0
+        ? 'up'
+        : 'down';
 
-  try {
-    const response = await this.hass.callApi('GET', path);
-    const history = Array.isArray(response?.[0]) ? response[0] : [];
+  const arrow =
+    direction === 'up'
+      ? '↑'
+      : direction === 'down'
+        ? '↓'
+        : '→';
 
-    const oldestValidState = history.find(
-      (item: any) =>
-        this.historicalStateToHpa(String(item?.state)) !== null,
-    );
+  const decimals =
+    this.config.unit === 'in'
+      ? 2
+      : this.config.unit === 'pa'
+        ? 0
+        : 1;
 
-    const previousHpa = oldestValidState
-      ? this.historicalStateToHpa(String(oldestValidState.state))
-      : null;
+  const text =
+    value == null
+      ? ''
+      : `${value > 0 ? '+' : ''}${value.toFixed(decimals)} ${this.pressureUnit}`;
 
-    this._historyTrend =
-      previousHpa === null
-        ? null
-        : this.rawHpa - previousHpa;
-      } catch (error) {
-        console.warn(
-          '[ha-tbaro-card] Unable to load pressure history:',
-          error,
-        );
-
-        this._historyTrend = null;
-        this._trendRequestKey = '';
-      } finally {
-        this._trendRequestInFlight = false;
-      }
+  return {
+    hours,
+    value,
+    direction,
+    arrow,
+    text,
+  };
 }
+
 
 public getCardSize(): number {
   const design = this.config?.design ?? 'classic';

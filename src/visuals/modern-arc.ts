@@ -26,7 +26,7 @@ export function renderModernArc(this: any) {
   const decimals = Math.min(2, Math.max(0, this.config.decimals ?? 0));
   const theme = this.config.theme ?? 'auto';
   const title = this.config.title || 'Pression';
-  const trendHours = Math.max(1, this.config.trend_hours ?? 3);
+  //TR-const trendHours = Math.max(1, this.config.trend_hours ?? 3);
   const weatherLabel = this.translatedWeatherLabel;
 
   const minP = 950;
@@ -35,7 +35,7 @@ export function renderModernArc(this: any) {
   const progress = (hpa - minP) / (maxP - minP);
 
   // Traduction du trend en unité déclarée dans la configuration
-  const trendHpa = this._historyTrend;
+  /*TR-const trendHpa = this._historyTrend;
   const trend =
     trendHpa == null
       ? null
@@ -48,7 +48,7 @@ export function renderModernArc(this: any) {
             : trendHpa;
 
 
-   
+   */
 
   const lowLabel = this._translateText('low');
   const highLabel = this._translateText('high');
@@ -96,7 +96,7 @@ export function renderModernArc(this: any) {
     x: markerX,
     y: parabolaY(markerX) + 2,
   };
-
+/*
   const trendArrow =
     trend == null ? '→' : trend > 0 ? '↑' : trend < 0 ? '↓' : '→';
 
@@ -112,13 +112,26 @@ export function renderModernArc(this: any) {
       ? ''
       : `${trend > 0 ? '+' : ''}${trend.toFixed(trendDecimals)} ${this.pressureUnit}`;
 
+*/
 
+  const trendInfo = this.getTrendInfo(); // Contruction de trend
+/*
   const trendClass =
     trend == null || trend === 0
       ? ''
       : trend > 0
         ? 'modern-svg-trend-up'
         : 'modern-svg-trend-down';
+*/
+
+const trendDirectionCssClass =
+  trendInfo.direction === 'up'
+    ? 'modern-svg-trend-up'
+    : trendInfo.direction === 'down'
+      ? 'modern-svg-trend-down'
+      : '';
+
+
 
   return html`
     <ha-card
@@ -197,7 +210,7 @@ export function renderModernArc(this: any) {
         <text x="262" y="239" class="modern-svg-scale-value">1050</text>
         <text x="262" y="255" class="modern-svg-scale-label">${highLabel}</text>
 
-          ${trend == null
+          ${trendInfo.value == null
             ? svg`
                 <text x="150" y="246" class="modern-svg-trend">
                   Tendance indisponible
@@ -207,16 +220,16 @@ export function renderModernArc(this: any) {
                 <text
                   x="150"
                   y="242"
-                  class="modern-svg-trend ${trendClass}"
+                  class="modern-svg-trend ${trendDirectionCssClass}"
                 >
-                  ${trendArrow} ${trendNumber}
+                  ${trendInfo.arrow} ${trendInfo.text}
                 </text>
                 <text
                   x="150"
                   y="262"
                   class="modern-svg-trend-period"
                 >
-                  ${trendHours} h
+                  ${trendInfo.hours} h
                 </text>
               `}
 
